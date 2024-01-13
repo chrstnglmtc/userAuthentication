@@ -8,4 +8,5 @@ public interface UserService {
 
     String addUser(UserDto userDto);
     LoginMessage loginUser(LoginDto loginDto);
+    UserDto getUserByUsername(String username);
 }

@@ -17,13 +17,16 @@ import com.authentication.userAuthentication.Service.UserService;
 
 
 @Service
-public class UserIMPL implements UserService{
+public class UserIMPL implements UserService {
+
+    private final UserRepo userRepo;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    private UserRepo userRepo;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    public UserIMPL(UserRepo userRepo, PasswordEncoder passwordEncoder) {
+        this.userRepo = userRepo;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public String addUser(UserDto userDto) {
@@ -59,11 +62,10 @@ public class UserIMPL implements UserService{
         return Base64.getEncoder().encodeToString(tokenBytes);
     }
 
-    UserDto userDto;
     @Override
     public LoginMessage loginUser(LoginDto loginDto) {
         Optional<User> user = userRepo.findByEmail(loginDto.getEmail());
-        
+
         if (user.isPresent()) {
             // Compare the provided password with the hashed password in the database
             if (passwordEncoder.matches(loginDto.getPassword(), user.get().getPassword())) {
@@ -75,4 +77,21 @@ public class UserIMPL implements UserService{
             return new LoginMessage("Email does not exist", false);
         }
     }
+
+    @Override
+    public UserDto getUserByUsername(String username) {
+        // Implement logic to retrieve a user by username from your repository
+        // For example:
+        User user = userRepo.findByUserName(username).orElse(null);
+
+        // Convert the User entity to UserDto or return null if not found
+        if (user != null) {
+            return new UserDto(user.getUserId(), user.getFirstName(), user.getLastName(),
+                    user.getUserName(), user.getEmail(), user.getPassword(),
+                    user.getRole(), user.getVerifyEmailToken(), user.getImage());
+        } else {
+            return null;
+        }
+    }
 }
+
