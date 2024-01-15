@@ -14,5 +14,4 @@ import com.authentication.userAuthentication.Entity.User;
 public interface UserRepo extends JpaRepository<User, Long>{
     Optional<User> findOneByEmailAndPassword(String email, String password);
     Optional<User> findByEmail(String email);
-    Optional<User> findByUserName(String username);
 }
