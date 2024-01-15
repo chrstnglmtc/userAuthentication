@@ -1,7 +1,9 @@
 package com.authentication.userAuthentication.Service.impl;
 
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,8 @@ public class UserIMPL implements UserService{
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+// METHOD FOR ADDING USER
+
     @Override
     public String addUser(UserDto userDto) {
         // Hash the password before saving it
@@ -33,12 +37,11 @@ public class UserIMPL implements UserService{
         String verificationToken = generateVerificationToken();
         // Create a new User instance with the provided fields
         User user = new User();
-        user.setUserId(userDto.getUserId());
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setUserName(userDto.getUserName());
         user.setEmail(userDto.getEmail());
-        user.setPassword(hashedPassword);  // Set the hashed password
+        user.setPassword(hashedPassword); // Set the hashed password
         user.setRole(userDto.getRole());
         user.setVerifyEmailToken(verificationToken);
         user.setImage(userDto.getImage());
@@ -50,6 +53,55 @@ public class UserIMPL implements UserService{
         return user.getUserName();
     }
 
+// METHOD FOR FINDING USER BY ID
+
+    @Override
+    public UserDto findUserById(Long userId) {
+        Optional<User> userOptional = userRepo.findById(userId);
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            // Convert User entity to UserDto and return
+            return new UserDto(
+                    user.getUserId(),
+                    user.getFirstName(),
+                    user.getLastName(),
+                    user.getUserName(),
+                    user.getEmail(),
+                    null, // Exclude password in UserDto
+                    user.getRole(),
+                    user.getVerifyEmailToken(),
+                    user.getImage()
+            );
+        }
+        // Return null or handle the case where the user is not found
+        return null;
+    }
+
+//METHOD FOR GETTING THE LIST OF USERS
+    
+    @Override
+    public List<UserDto> getAllUsers() {
+        List<User> userList = userRepo.findAll();
+        List<UserDto> userDtoList = new ArrayList<>();
+
+        for (User user : userList) {
+            userDtoList.add(new UserDto(
+                    user.getUserId(),
+                    user.getFirstName(),
+                    user.getLastName(),
+                    user.getUserName(),
+                    user.getEmail(),
+                    null, // Exclude password in UserDto
+                    user.getRole(),
+                    user.getVerifyEmailToken(),
+                    user.getImage()
+            ));
+        }
+
+        return userDtoList;
+    }
+
     private String generateVerificationToken() {
         SecureRandom secureRandom = new SecureRandom();
         byte[] tokenBytes = new byte[32];
@@ -59,11 +111,12 @@ public class UserIMPL implements UserService{
         return Base64.getEncoder().encodeToString(tokenBytes);
     }
 
-    UserDto userDto;
+//METHOD FOR LOGGING IN A USER
+
     @Override
     public LoginMessage loginUser(LoginDto loginDto) {
         Optional<User> user = userRepo.findByEmail(loginDto.getEmail());
-        
+
         if (user.isPresent()) {
             // Compare the provided password with the hashed password in the database
             if (passwordEncoder.matches(loginDto.getPassword(), user.get().getPassword())) {
@@ -75,4 +128,54 @@ public class UserIMPL implements UserService{
             return new LoginMessage("Email does not exist", false);
         }
     }
+
+//METHOD FOR FINDING A USER BY EMAIL 
+    
+    @Override
+    public UserDto findUserByEmail(String email) {
+        Optional<User> userOptional = userRepo.findByEmail(email);
+    
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            // Convert User entity to UserDto and return
+            return new UserDto(
+                    user.getUserId(),
+                    user.getFirstName(),
+                    user.getLastName(),
+                    user.getUserName(),
+                    user.getEmail(),
+                    null, // Exclude password in UserDto
+                    user.getRole(),
+                    user.getVerifyEmailToken(),
+                    user.getImage()
+            );
+        }
+        // Return null or handle the case where the user is not found
+        return null;
+    }
+
+//METHOD FOR UPDATING A USER
+
+    @Override
+    public void updateUser(UserDto updatedUserDto) {
+        Optional<User> userOptional = userRepo.findByEmail(updatedUserDto.getEmail());
+
+        if (userOptional.isPresent()) {
+            User existingUser = userOptional.get();
+            existingUser.setFirstName(updatedUserDto.getFirstName());
+            existingUser.setLastName(updatedUserDto.getLastName());
+            existingUser.setUserName(updatedUserDto.getUserName());
+
+            // Don't update the password during user update
+
+            userRepo.save(existingUser);
+
+            // Add logging statements
+            System.out.println("User updated: " + existingUser);
+        } else {
+            // Handle user not found
+            System.out.println("User not found for email: " + updatedUserDto.getEmail());
+        }
+    }
+
 }

@@ -1,94 +1,111 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import '../Account.css';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
-const Profile = () => {
-    const navigate = useNavigate();
+function Profile() {
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
 
-    const handleLogout = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/logout', {
-          method: 'POST', // You can adjust the method based on your server implementation
-          headers: {
-            'Content-Type': 'application/json',
-            // Include any additional headers needed for authentication, e.g., authorization token
-          },
-          // You may include a body if needed, e.g., for sending additional logout information
-        });
-    
-        if (response.ok) {
-          // Logout successful, redirect to the home page
-          console.log('Logout successful');
-          navigate('/'); // Redirect to the home page after logout
-        } else {
-          // Logout failed, handle errors
-          console.error('Logout failed');
-          // Handle errors or provide a user-friendly message
-        }
-      } catch (error) {
-        console.error('Error during logout:', error);
-        // Handle unexpected errors or provide a user-friendly message
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch('http://localhost:8085/api/v1/logout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        console.log('Logout successful');
+        navigate('/');
+      } else {
+        console.error('Logout failed');
       }
-    };
-    
-    return (
-      <div className="profile-container">
-        <div className="home-header">
-          <div className="left-container">
-            <div className="logo-container">
-              <img
-                src="/assets/images/companyLogo.png"
-                alt="Logo"
-                className="logo"
-              />
-            </div>
-            <nav>
-              <ul>
-                <li>
-                  <Link to="/">
-                    <h3>Catalog</h3>
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/">
-                    <h3>Activities</h3>
-                  </Link>
-                </li>
-              </ul>
-            </nav>
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch(`http://localhost:8085/api/v1/update/${email}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          username,
+          firstName,
+          lastName,
+        }),
+      });
+
+      if (response.ok) {
+        console.log('Profile updated successfully');
+      } else {
+        console.error('Profile update failed');
+      }
+    } catch (error) {
+      console.error('Error during profile update:', error);
+    }
+  };
+
+  return (
+    <div className="profile-container">
+      <div className="home-header">
+        <div className="left-container">
+          <div className="logo-container">
+            <img src="/assets/images/companyLogo.png" alt="Logo" className="logo" />
           </div>
-          <div className="right-container">
-            <button onClick={handleLogout}>Logout</button>
-          </div>
+          <nav>
+            <ul>
+              <li>
+                <Link to="/">
+                  <h3>Catalog</h3>
+                </Link>
+              </li>
+              <li>
+                <Link to="/">
+                  <h3>Activities</h3>
+                </Link>
+              </li>
+            </ul>
+          </nav>
         </div>
-        <div className="account-details-container">
-    <form>
-      <div className="form-label">Account Details</div>
-      <label>
-        Username/Email:
-        <input type="text" required />
-      </label>
-      <label>
-        Full Name:
-        <input type="text" required />
-      </label>
-      <label>
-        Old Password:
-        <input type="password" required />
-      </label>
-      <label>
-        New Password:
-        <input type="password" required />
-      </label>
-      <label>
-        Confirm Password:
-        <input type="password" required />
-      </label>
-      <button type="submit">Update</button>
-    </form>
-  </div>
+        <div className="right-container">
+          <button onClick={handleLogout}>Logout</button>
+        </div>
       </div>
-    );
+      <div className="account-details-container">
+        <form onSubmit={handleSubmit}>
+          <div className="form-label">Account Details</div>
+          <label>
+            Email:
+            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          </label>
+          <label>
+            Username:
+            <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
+          </label>
+          <label>
+            First Name:
+            <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
+          </label>
+          <label>
+            Last Name:
+            <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} required />
+          </label>
+          <button type="submit">Update</button>
+        </form>
+      </div>
+    </div>
+  );
 }
 
 export default Profile;

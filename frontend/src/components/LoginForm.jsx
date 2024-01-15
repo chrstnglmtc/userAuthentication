@@ -12,7 +12,7 @@ function LoginForm({ onForgotPassword }) {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:8085/login', {
+      const response = await fetch('http://localhost:8085/api/v1/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -23,7 +23,7 @@ function LoginForm({ onForgotPassword }) {
       if (response.ok) {
         // Login successful, redirect to the dashboard or home page
         console.log('Login successful');
-        navigate('/dashboard'); // Adjust the path based on your application
+        navigate('/'); // Adjust the path based on your application
       } else {
         // Login failed, handle errors
         console.error('Login failed');

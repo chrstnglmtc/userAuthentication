@@ -8,6 +8,7 @@ import Verify from './components/Verification';
 import Dashboard from './components/Dashboard';
 import Profile from './components/Profile';
 import { Route, Routes } from 'react-router-dom';
+import Navigation from './components/Navigation';
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path="/forgot" element={<Forgot />} />
         <Route path="/verify" element={<Verify />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/navigation" element={<Navigation />} />
       </Routes>
     </>
   )
