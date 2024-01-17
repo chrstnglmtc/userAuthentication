@@ -1,10 +1,10 @@
-package com.authentication.userAuthentication.Dto;
+package com.authentication.userAuthentication.Dto.Request;
 
 public class LoginDto {
     private String email;
     private String password;
     
-public String getEmail() {
+    public String getEmail() {
         return email;
     }
 
@@ -19,7 +19,8 @@ public String getEmail() {
     public void setPassword(String password) {
         this.password = password;
     }
-public LoginDto(String email, String password) {
+
+    public LoginDto(String email, String password) {
     this.email = email;
     this.password = password;
     }

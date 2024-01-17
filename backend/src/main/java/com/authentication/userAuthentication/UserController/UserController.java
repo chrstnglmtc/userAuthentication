@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,10 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.authentication.userAuthentication.Dto.LoginDto;
 import com.authentication.userAuthentication.Dto.UserDto;
+import com.authentication.userAuthentication.Dto.Request.LoginDto;
+import com.authentication.userAuthentication.Dto.Request.RegisterDto;
+import com.authentication.userAuthentication.Dto.Response.LoginMessage;
 import com.authentication.userAuthentication.Repo.UserRepo;
-import com.authentication.userAuthentication.Response.LoginMessage;
 import com.authentication.userAuthentication.Service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,12 +36,16 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
+
 // <-----------WORKING REGISTRATION ENDPOINT----------->
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody UserDto userDto) {
-        String userId = userService.addUser(userDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully with ID: " + userId);
+    public ResponseEntity<?> registerUser(@RequestBody RegisterDto registerDto) {
+        userService.registerUser(registerDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
     }
 
 // <-----------WORKING LIST USERS ENDPOINT----------->
@@ -62,11 +68,16 @@ public class UserController {
 
 // <-----------WORKING LOGIN ENDPOINT, NO SESSION----------->
 
-    @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody LoginDto loginDto) {
-        LoginMessage loginMessage = userService.loginUser(loginDto);
+@PostMapping("/login")
+public ResponseEntity<?> loginUser(@RequestBody LoginDto loginDto) {
+    LoginMessage loginMessage = userService.loginUser(loginDto);
+
+    if (loginMessage.isSuccess()) {
         return ResponseEntity.ok(loginMessage);
+    } else {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(loginMessage);
     }
+}
 
 // <-----------WORKING LOGOUT ENDPOINT, NO SESSION----------->
 
@@ -110,7 +121,13 @@ public class UserController {
             existingUser.setLastName(updateUserDto.getLastName());
             existingUser.setUserName(updateUserDto.getUserName());
             existingUser.setEmail(updateUserDto.getEmail());
-            existingUser.setPassword(updateUserDto.getPassword()); // You might want to handle password updates more securely
+
+            // Hash the new password before updating
+            String newPassword = updateUserDto.getPassword();
+            if (newPassword != null && !newPassword.isEmpty()) {
+                String hashedPassword = passwordEncoder.encode(newPassword);
+                existingUser.setPassword(hashedPassword);
+            }
 
             // Call the service to update the user in the database
             userService.updateUser(existingUser);
@@ -121,7 +138,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
+}
 // // <-----------UPDATE USER BY ID----------->  
 
 //     @PutMapping("/update")
@@ -151,4 +168,3 @@ public class UserController {
 //         return ResponseEntity.ok("User information updated successfully");
 //     }
 
-}

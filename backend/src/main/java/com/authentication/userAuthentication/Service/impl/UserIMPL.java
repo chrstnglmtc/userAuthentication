@@ -10,11 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.authentication.userAuthentication.Dto.LoginDto;
 import com.authentication.userAuthentication.Dto.UserDto;
+import com.authentication.userAuthentication.Dto.Request.LoginDto;
+import com.authentication.userAuthentication.Dto.Request.RegisterDto;
+import com.authentication.userAuthentication.Dto.Response.LoginMessage;
 import com.authentication.userAuthentication.Entity.User;
+import com.authentication.userAuthentication.Entity.Enums.Role;
 import com.authentication.userAuthentication.Repo.UserRepo;
-import com.authentication.userAuthentication.Response.LoginMessage;
 import com.authentication.userAuthentication.Service.UserService;
 
 
@@ -30,21 +32,27 @@ public class UserIMPL implements UserService{
 // METHOD FOR ADDING USER
 
     @Override
-    public String addUser(UserDto userDto) {
+    public String registerUser(RegisterDto registerDto) {
+        // Additional validation logic if needed
+
         // Hash the password before saving it
-        String hashedPassword = passwordEncoder.encode(userDto.getPassword());
+        String hashedPassword = passwordEncoder.encode(registerDto.getPassword());
+
         // Generate a verification token (you can use your own logic for this)
         String verificationToken = generateVerificationToken();
+
+        // Default role = student
+        Role defaultRole = Role.STUDENT;
+
         // Create a new User instance with the provided fields
         User user = new User();
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
-        user.setUserName(userDto.getUserName());
-        user.setEmail(userDto.getEmail());
+        user.setFirstName(registerDto.getFirstName());
+        user.setLastName(registerDto.getLastName());
+        user.setUserName(registerDto.getUserName());
+        user.setEmail(registerDto.getEmail());
         user.setPassword(hashedPassword); // Set the hashed password
-        user.setRole(userDto.getRole());
+        user.setRole(defaultRole.name()); // Set the default role
         user.setVerifyEmailToken(verificationToken);
-        user.setImage(userDto.getImage());
 
         // Save the user
         userRepo.save(user);
@@ -118,8 +126,14 @@ public class UserIMPL implements UserService{
         Optional<User> user = userRepo.findByEmail(loginDto.getEmail());
 
         if (user.isPresent()) {
-            // Compare the provided password with the hashed password in the database
-            if (passwordEncoder.matches(loginDto.getPassword(), user.get().getPassword())) {
+            String storedPassword = user.get().getPassword();
+            String enteredPassword = loginDto.getPassword();
+
+            // Log the stored and entered passwords for debugging
+            System.out.println("Stored Password: " + storedPassword);
+            System.out.println("Entered Password: " + enteredPassword);
+
+            if (passwordEncoder.matches(enteredPassword, storedPassword)) {
                 return new LoginMessage("Login Success", true);
             } else {
                 return new LoginMessage("Login Failed: Incorrect password", false);
@@ -128,6 +142,7 @@ public class UserIMPL implements UserService{
             return new LoginMessage("Email does not exist", false);
         }
     }
+
 
 //METHOD FOR FINDING A USER BY EMAIL 
     
