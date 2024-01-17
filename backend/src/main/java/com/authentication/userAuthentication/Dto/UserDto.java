@@ -20,7 +20,6 @@ public class UserDto {
             ", lastName='" + getLastName() + "'" +
             ", userName='" + getUserName() + "'" +
             ", email='" + getEmail() + "'" +
-            ", password='" + getPassword() + "'" +
             ", role='" + getRole() + "'" +
             ", verifyEmailToken='" + getVerifyEmailToken() + "'" +
             ", image='" + getImage() + "'" +
