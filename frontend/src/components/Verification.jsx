@@ -1,34 +1,28 @@
 import React from 'react';
-import VerificationForm from './VerificationForm';
-import { Link } from "react-router-dom";
+import VerificationForm from './VerificationForm'; // Correct import statement
+import { Link } from 'react-router-dom';
 import '../Auth.css';
 
-function Verify() {
-
+function Verification({ onVerification }) { // Corrected function name
   return (
-    <div className="auth-container">
-      <div className="auth-header">
-        <img src="/assets/images/companyLogo.png" alt="Logo" className="logo" />
+    <div className="verification-container">
+      <div className="verification-header">
+        <img src="/assets/images/companyLogo.png" alt="Logo" className="verification-logo" />
       </div>
-      <div className="auth-navi">
+      <div className="verification-navi">
         <div className="home-button">
-            <Link to="/">
-                <button>Home</button>
-            </Link> 
+          <Link to="/">
+            <button>Home</button>
+          </Link>
         </div>
       </div>
-      <div className="label-container">
-        <div className="auth-label">
-          <h1>SIGN IN</h1>
-        </div>
-      </div>
-      <div className="auth-content">
-        <div className="auth-sign">
-            <VerificationForm />
+      <div className="content">
+        <div className="verification-sign">
+          <VerificationForm onVerification={onVerification} /> {/* Corrected component name */}
         </div>
       </div>
     </div>
   );
 }
 
-export default Verify;
+export default Verification;

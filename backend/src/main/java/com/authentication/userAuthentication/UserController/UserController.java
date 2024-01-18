@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.authentication.userAuthentication.Dto.UserDto;
@@ -104,6 +105,25 @@ public ResponseEntity<?> loginUser(@RequestBody LoginDto loginDto) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+// FIND USER BY EMAIL
+
+@GetMapping("/users/{email}")
+public ResponseEntity<UserDto> getUserByEmail(@RequestParam String email) {
+    try {
+        UserDto userDto = userService.findUserByEmail(email);
+
+        if (userDto != null) {
+            return ResponseEntity.ok(userDto);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    } catch (Exception e) {
+        // Handle exceptions appropriately
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+}
+
 
 // <-----------WORKING EMAIL ENDPOINT----------->  
 

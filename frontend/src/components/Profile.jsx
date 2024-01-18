@@ -1,110 +1,90 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import '../Auth.css';
+import Navigation from './Navigation';
+import { useAuth } from "./AuthContext";
+
 
 function Profile() {
-  const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
 
-  const navigate = useNavigate();
+  const { isLoggedIn, handleLogout } = useAuth();
+  const [userData, setUserData] = useState({});
 
-  const handleLogout = async () => {
-    try {
-      const response = await fetch('http://localhost:8085/api/v1/logout', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+  useEffect(() => {
+    // Fetch user data from your API endpoint
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch('http://localhost:8085/users/{email}', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`, // Include the authentication token if needed
+          },
+        });
 
-      if (response.ok) {
-        console.log('Logout successful');
-        navigate('/');
-      } else {
-        console.error('Logout failed');
+        if (response.ok) {
+          const data = await response.json();
+          setUserData(data);
+        } else {
+          console.error('Failed to fetch user data');
+        }
+      } catch (error) {
+        console.error('Error during user data fetch:', error);
       }
-    } catch (error) {
-      console.error('Error during logout:', error);
-    }
-  };
+    };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+    fetchUserData();
+  }, []); // Run the effect only once when the component mounts
 
-    try {
-      const response = await fetch(`http://localhost:8085/api/v1/update/${email}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email,
-          username,
-          firstName,
-          lastName,
-        }),
-      });
-
-      if (response.ok) {
-        console.log('Profile updated successfully');
-      } else {
-        console.error('Profile update failed');
-      }
-    } catch (error) {
-      console.error('Error during profile update:', error);
-    }
-  };
 
   return (
-    <div className="profile-container">
-      <div className="home-header">
-        <div className="left-container">
-          <div className="logo-container">
-            <img src="/assets/images/companyLogo.png" alt="Logo" className="logo" />
+    <>
+      <Navigation isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
+      <div className="Prof1-wrapper">
+        <Link to="/">
+        <button className="Backbutton">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-left" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+        </svg>
+        </button>
+        </Link>
+        <div className="Prof1-left">
+          <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" className="bi bi-person-lines-fill" viewBox="0 0 16 16">
+            <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5m.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1z" />
+          </svg>
+          <h4>Name</h4>
+          <p>Position name</p>
+        </div>
+        <div className="Prof1-right">
+          <div className="Prof1-info">
+            <h3>Profile Information</h3>
+            <div className="Prof1-info_data">
+              <div className="data">
+                <h4>Email</h4>
+                <p>{userData.email}</p>
+              </div>
+              <div className="Prof1-data">
+                <h4>Username</h4>
+                <p>{userData.userName}</p>
+              </div>
+            </div>
           </div>
-          <nav>
-            <ul>
-              <li>
-                <Link to="/">
-                  <h3>Catalog</h3>
-                </Link>
-              </li>
-              <li>
-                <Link to="/">
-                  <h3>Activities</h3>
-                </Link>
-              </li>
-            </ul>
-          </nav>
-        </div>
-        <div className="right-container">
-          <button onClick={handleLogout}>Logout</button>
+          <div className="Prof1-projects">
+            <h3>Earned badges</h3>
+            <div className="Pro1-data">
+              {/* Add content for earned badges */}
+            </div>
+          </div>
+          <div className="Prof1-buttons">
+            <Link to="/update">
+              <button className="Prof1-Editbuttons">Edit</button>
+            </Link>
+            <Link to="/change">
+              <button className="Prof1-ChangeButton">Change Password</button>
+            </Link>
+          </div>
         </div>
       </div>
-      <div className="account-details-container">
-        <form onSubmit={handleSubmit}>
-          <div className="form-label">Account Details</div>
-          <label>
-            Email:
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-          </label>
-          <label>
-            Username:
-            <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
-          </label>
-          <label>
-            First Name:
-            <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
-          </label>
-          <label>
-            Last Name:
-            <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} required />
-          </label>
-          <button type="submit">Update</button>
-        </form>
-      </div>
-    </div>
+    </>
   );
 }
 

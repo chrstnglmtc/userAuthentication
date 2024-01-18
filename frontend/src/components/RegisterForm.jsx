@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function RegisterForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [userName, setUserName] = useState('');
   const [error, setError] = useState('');
+
+  const navigate = useNavigate();
 
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -38,12 +43,13 @@ function RegisterForm() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password, firstName, lastName, userName }),
       });
 
       if (response.ok) {
         // Registration successful, you can redirect or perform other actions
         console.log('Registration successful');
+        navigate('/dashboard');
       } else {
         // Registration failed, handle errors
         console.error('Registration failed');
@@ -54,11 +60,31 @@ function RegisterForm() {
       setError('Registration failed. Please try again.');
     }
   };
-
   return (
     <form onSubmit={handleRegister} className="template-form">
       <h2>Sign up an account.</h2>
       <h2>Be part of the success.</h2>
+      <input
+        type="text"
+        id="firstName"
+        value={firstName}
+        onChange={(e) => setFirstName(e.target.value)}
+        placeholder="First Name"
+      />
+      <input
+        type="text"
+        id="lastName"
+        value={lastName}
+        onChange={(e) => setLastName(e.target.value)}
+        placeholder="Last Name"
+      />
+      <input
+        type="text"
+        id="userName"
+        value={userName}
+        onChange={(e) => setUserName(e.target.value)}
+        placeholder="Username"
+      />
       <input
         type="email"
         id="email"

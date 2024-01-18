@@ -39,6 +39,11 @@ public class RegisterDto {
         this.password = password;
     }
 
+    public RegisterDto() {
+        // Default constructor
+    }
+
+
     public RegisterDto(String firstName, String lastName, String userName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;

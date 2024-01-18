@@ -9,6 +9,7 @@ import Dashboard from './components/Dashboard';
 import Profile from './components/Profile';
 import { Route, Routes } from 'react-router-dom';
 import Navigation from './components/Navigation';
+import ProfileEdit from './components/ProfileEdit';
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
         <Route path="/forgot" element={<Forgot />} />
         <Route path="/verify" element={<Verify />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/update" element={<ProfileEdit />} />
         <Route path="/navigation" element={<Navigation />} />
       </Routes>
     </>

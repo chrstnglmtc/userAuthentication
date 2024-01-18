@@ -1,44 +1,55 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-function VerificationForm() {
-  const [email, setEmail] = useState('');
+function VerificationForm({ onVerificationForm }) {
+  // Corrected function name
+  const [verification, setVerification] = useState(''); // Corrected state variable name
 
-  const handleForgot = (e) => {
+  const handleFormSubmit = (e) => {
     e.preventDefault();
-    // Call the onForgotPassword prop with the email value
-    onForgotPassword(email);
-    console.log('Resetting password for email:', email);
+    onVerificationForm(verification);
+    console.log('Verification code submitted:', verification);
+    // You can add further logic or redirection if needed
   };
 
   return (
-    <div class="container">
-        <div class="forms-container">
-            <form action="index.html" class="sign-in-form">
-                <h2 class="title">Email Verification</h2>
-                <p>Please enter the verification code sent to your email address.</p>
-                <div class="input-field">
-                    <i class="fas fa-key"></i>
-                    <input type="text" placeholder="Verification Code" />
-                </div>
-                <input type="submit" class="btn" value="Verify Email" />
-            </form>
-            
-        </div>
-
-        <div class="panels-container">
-            <div class="panel left-panel">
-                <div class="content">
-                    <h3 class="center-text">Remember your password?</h3>
-                    <p class="center-text">
-                        <a href="index.html" class="back-to-login-link">Back to Login</a>
-                    </p>
-                </div>
-                <img src="your-image.png" class="image" alt="" />
-            </div>
-        </div>
-    </div>
+    <div className="verification-forms-container" style={{ fontFamily: 'sans-serif' }}>
+      <form className="verification-sign-in-form" onSubmit={handleFormSubmit}>
+        <h1  className="verification-title">Email Verification</h1>
+        <Link to="/email">
+        <button className="Verification-Backbutton">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+          </svg>
+        </button>
+        </Link>
+        <p>Please enter Email</p>
+        <label htmlFor="verification">
        
+        </label>
+        <div className="verification-input-field">
+          <input
+            type="email" 
+            placeholder="Email"
+            id="verification"
+            name="verification"
+            value={verification}
+            onChange={(e) => setVerification(e.target.value)} 
+            required
+          />
+        </div>
+        <input type="submit" className="verification-button" value="Send" />
+      </form>
+
+      <div className="verification-panels-container">
+        <div className="verification-panel verification-left-panel">
+          <div className="content">
+            {/* Your content goes here */}
+          </div>
+          <img src="your-image.png" className="verification-image" alt="" />
+        </div>
+      </div>
+    </div>
   );
 }
 
