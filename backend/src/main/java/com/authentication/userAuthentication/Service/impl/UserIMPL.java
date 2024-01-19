@@ -52,7 +52,6 @@ public class UserIMPL implements UserService{
         user.setEmail(registerDto.getEmail());
         user.setPassword(hashedPassword); // Set the hashed password
         user.setRole(defaultRole.name()); // Set the default role
-        user.setVerifyEmailToken(verificationToken);
 
         // Save the user
         userRepo.save(user);
@@ -77,9 +76,7 @@ public class UserIMPL implements UserService{
                     user.getUserName(),
                     user.getEmail(),
                     null, // Exclude password in UserDto
-                    user.getRole(),
-                    user.getVerifyEmailToken(),
-                    user.getImage()
+                    user.getRole()
             );
         }
         // Return null or handle the case where the user is not found
@@ -101,9 +98,7 @@ public class UserIMPL implements UserService{
                     user.getUserName(),
                     user.getEmail(),
                     null, // Exclude password in UserDto
-                    user.getRole(),
-                    user.getVerifyEmailToken(),
-                    user.getImage()
+                    user.getRole()
             ));
         }
 
@@ -160,9 +155,7 @@ public class UserIMPL implements UserService{
                     user.getUserName(),
                     user.getEmail(),
                     null, // Exclude password in UserDto
-                    user.getRole(),
-                    user.getVerifyEmailToken(),
-                    user.getImage()
+                    user.getRole()
             );
         }
         // Return null or handle the case where the user is not found

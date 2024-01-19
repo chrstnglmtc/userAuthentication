@@ -1,4 +1,4 @@
-package com.authentication.userAuthentication.UserController;
+package com.authentication.userAuthentication.Controller;
 
 import java.util.List;
 
