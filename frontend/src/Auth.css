@@ -1,0 +1,1292 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
+
+body {
+  display: block;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+  background-color:#EBFFE5 ;
+  font-family: sans-serif;
+}
+
+
+.home-container {
+  text-align: center;
+}
+
+.home-header {
+  background-color: #BCE8B1;
+  padding: 10px;
+  height: 70px;
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0;
+}
+
+.left-container {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+}
+
+
+.right-container {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  width: 170px;
+  height: auto;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  margin-right: 20px; /* Adjusted margin */
+}
+
+nav li {
+  margin-right: 20px;
+}
+
+nav h3 {
+  margin: 0; /* Remove default margin for h3 elements */
+  font-weight: normal;
+  font-size:18px;
+}
+
+.home-header nav a {
+  text-decoration: none;
+}
+
+.home-header nav a {
+  text-decoration: none;
+  color: #000; /* Default link color */
+}
+
+.home-header nav a:visited {
+  color: #000; /* Color for visited links */
+}
+
+.home-header nav a:hover {
+  color: rgb(26, 87, 42); /* Color for links on hover */
+}
+
+.home-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.japanese-message h1 {
+  color: #F6F6F6;
+  font-family: Inter;
+  font-size: 64px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  margin-bottom: 20px;
+}
+
+.japanese-message {
+  text-shadow:
+    -2px -2px 2px #009545, 
+    2px -2px 2px #009545, 
+    -2px 2px 2px #009545, 
+    2px 2px 2px #009545;
+}
+
+.english-message h1 {
+  color: #587354;
+  font-family: Inter;
+  font-size: 64px;
+  font-style: italic;
+  font-weight: 700;
+  margin-top: 0px;
+}
+
+.english-message {
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.courses {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px; /* Adjust the margin as needed */
+}
+
+.square {
+  width: 300px; /* Adjust the width of each square as needed */
+  height: 400px; /* Adjust the height of each square as needed */
+  background-color: #BCE8B1; /* Set the background color of each square */
+  margin-right: 40px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  border-radius: 15px;
+}
+
+.auth-container {
+  text-align: center;
+}
+
+.auth-header {
+  background-color: #BCE8B1;
+  padding: 10px;
+  text-align: center;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+.logo {
+  width: 170px; 
+  height: auto;
+}
+
+.auth-content {
+  text-align: center;
+  margin-top: 0px;
+}
+
+.label-container {
+  display: flex;
+  padding-right:240px;
+}
+
+.auth-label {
+  height: 60px;
+  width: 400px;
+  border-radius: 5px 5px 0px 0px;
+  background-color: #126912;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth-navi {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  height: 50px;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  color: white;
+  margin: 0;
+}
+
+.auth-content h2 {
+  font-size: 20px;
+}
+
+.auth-label h1 {
+  font-size: 24px;
+  font-weight: 400; 
+  color: #ffff;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  margin: 0;
+}
+
+.home-button {
+  position: absolute;
+  right: 60px;
+}
+
+.template-form{
+  width: 600px;
+  margin: 0 auto;
+  background-color: #BCE8B1;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.template-form input {
+  width: 400px;
+  height: 30px;
+  padding: 12px;
+  margin-bottom: 15px;
+  font-size: 16px;
+  border: 1px solid #ccc; /* Input border color */
+  border-radius: 5px;  
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.05);
+}
+
+.template-form h2 {
+  color: #4D4141;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.template-form h3 {
+  font-size: 12px;
+  font-weight: 400px;
+  color: #4D4141;
+}
+
+
+
+.template-form .forgot-password {
+  color: #4D4141;
+  font-weight: 700px;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: underline;
+}
+
+.template-form .existing-account {
+  color: #4D4141;
+  font-weight: 700px;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: underline;
+}
+
+.template-form .forgot-password:hover {
+  color: #0056b3;
+}
+
+div {
+  align-items: center;
+  justify-content: center;
+}
+/* ... existing styles ... */
+
+/* New styles for Forgot.jsx form */
+.forgot-container {
+text-align: center;
+}
+
+.forgot-header  {
+background-color: #BCE8B1;
+padding: 10px;
+text-align: center;
+height: 70px;
+display: flex;
+justify-content: center;
+align-items: center;
+margin: 0;
+}
+
+.forgot-logo .Email-logo{
+width: 170px;
+height: auto;
+}
+
+.forgot-content {
+text-align: center;
+margin-top: 0px;
+}
+
+.forgot-label {
+height: 60px;
+width: 400px;
+border-radius: 5px 5px 0px 0px;
+background-color: #126912;
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.forgot-navi {
+padding-top: 20px;
+padding-bottom: 20px;
+height: 50px;
+justify-content: center;
+text-align: center;
+align-items: center;
+color: white;
+margin: 0;
+}
+
+.forgot-content h2 {
+font-size: 20px;
+}
+
+.forgot-label h1 {
+font-size: 24px;
+font-weight: 400;
+color: #ffff;
+text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+margin: 0;
+}
+
+.forgot-home-button {
+position: absolute;
+right: 60px;
+}
+
+
+.forgot-form {
+width: 600px;
+margin: 0 auto;
+background-color: #BCE8B1;
+padding: 100px;
+border-radius: 5px;
+}
+
+.forgot-form input {
+width: 400px;
+height: 30px;
+padding: 12px;
+margin-bottom: 15px;
+font-size: 16px;
+border: 1px solid #ccc;
+border-radius: 5px;
+box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.05);
+}
+
+.forgot-form h2 {
+color: #4D4141;
+text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.forgot-form h3 {
+font-size: 12px;
+font-weight: 400px;
+color: #4D4141;
+}
+
+.forgot-form button {
+margin: 20px;
+}
+
+.forgot-form .forgot-password {
+color: #4D4141;
+font-weight: 700px;
+cursor: pointer;
+font-size: 14px;
+text-decoration: underline;
+}
+
+.forgot-form .existing-account {
+color: #4D4141;
+font-weight: 700px;
+cursor: pointer;
+font-size: 14px;
+text-decoration: underline;
+}
+
+.forgot-form .forgot-password:hover {
+color: #0056b3;
+}
+
+.forgot-form .existing-account:hover {
+  color: #0056b3;
+  }
+
+.forgot-div {
+align-items: center;
+justify-content: center;
+}
+
+
+.group_input {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.group_input input {
+  width: 300px;
+}
+
+.group_input select {
+  width: 100px;
+  height: 57px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+}
+
+/* Email and Code Verifictaion */
+
+/* Updated styles for the EmailForm Component */
+
+.email-forms-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; /* Center align items vertically */
+  margin-top: 50px;
+  
+}
+
+.email-sign-in-form {
+  width: 600px;
+  margin: 0 auto;
+  background-color: #BCE8B1;
+  padding: 100px;
+  border-radius: 15px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  font-style: bold;
+}
+
+.email-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color:black;
+  text-align: center;
+}
+
+.email-sign-in-form p {
+  margin: 10px 0;
+  align-items: center;
+}
+
+.email-input-field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.email-input-field input {
+  width: 300px;
+  margin-left:10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.email-button {
+  padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    color: #ffffff;
+    border-radius: 100px;
+    background-color: #126912;
+    border: 1px solid #126912;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.5);
+    width: 110px;
+    margin-left: 250px;
+    
+    
+}
+.email-button:hover {
+  background-color: #126912;
+}
+
+.email-panels-container {
+  display: flex;
+  position: relative;
+  width: 100%;
+  flex-direction: column; /* Stack the panels vertically */
+  align-items: center; /* Center align panels */
+}
+
+.email-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  color: #fff;
+  margin-top: 20px; /* Add space between panels */
+}
+
+
+
+.email-image {
+  width: 100%;
+  max-width: 400px; /* Adjust the image max-width as needed */
+  height: auto;
+}
+
+.email-center-text {
+  text-align: center;
+  margin-top: 10px; /* Add space between text and link */
+}
+
+.email-resend-code,
+.email-not-received-code {
+  color: #126912; /* Dark Green */
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.email-resend-code:hover,
+.email-not-received-code:hover {
+  color: #ccc;
+  text-decoration: underline;
+  background-color: transparent; /* Remove the background color */
+}
+
+.verification-forms-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; /* Center align items vertically */
+  margin-top: 50px;
+  
+}
+
+.verification-sign-in-form {
+  width: 600px;
+  margin: 0 auto;
+  background-color: #BCE8B1;
+  padding: 100px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.verification-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color:black;
+  text-align: center;
+}
+
+.verification-sign-in-form p {
+  margin: 10px 0;
+  text-align: center;
+}
+
+.verification-input-field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.verification-input-field input {
+  width: 300px;
+  margin-left:10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.verification-button {
+  padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    color: #ffffff;
+    border-radius: 100px;
+    background-color: #126912;
+    border: 1px solid #126912;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.5);
+    width: 110px;
+    margin-left: 250px;
+    
+}
+.verification-button:hover {
+  background-color: #999
+
+}
+
+.verification-panels-container {
+  display: flex;
+  position: relative;
+  width: 100%;
+  flex-direction: column; /* Stack the panels vertically */
+  align-items: center; /* Center align panels */
+}
+
+.verification-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  color: #fff;
+  margin-top: 20px; /* Add space between panels */
+}
+
+
+
+.verification-image {
+  width: 100%;
+  max-width: 400px; /* Adjust the image max-width as needed */
+  height: auto;
+}
+
+.verification-center-text {
+  text-align: center;
+  margin-top: 10px; /* Add space between text and link */
+}
+
+.verification-resend-code,
+.verification-not-received-code {
+  color: #126912; /* Dark Green */
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.verification-resend-code:hover,
+.verification-not-received-code:hover {
+  color: #ccc;
+  text-decoration: underline;
+  background-color: transparent; /* Remove the background color */
+}
+
+
+/*Profile1*/
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Josefin Sans', sans-serif;
+  background-color: #EBFFE5;
+}
+
+/* SharedStyles.css */
+
+.Prof1-navbar {
+  background-color: #D9FFCF;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Prof1-nav-logo {
+  color: #0e3b03;
+  font-size: 20px;
+}
+
+.Prof1-nav-links {
+  flex-grow: 1;
+}
+
+.Prof1-nav-list {
+  list-style: none;
+  display: flex;
+  justify-content: flex-start; /* Align items to the left */
+}
+
+.Prof1-nav-list li {
+  margin-right: 20px;
+}
+
+.Prof1-nav-list a {
+  text-decoration: none;
+  color: #0e3b03;
+  font-size: 16px;
+}
+
+.Prof1-wrapper {
+  display: flex;
+  background-color: #BCE8B1;
+  box-shadow: 0 1px 20px 0 rgba(14, 59, 3, 0.1);
+  margin: 20px;
+  border-radius: 10px;
+  position: relative;
+}
+
+.Prof1-left {
+  width: 35%;
+  padding: 30px 25px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+ align-items: center; /* Center-align content horizontally */
+  justify-content: center; /* Center-align content vertically */
+}
+
+.Prof1-left img {
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.Prof1-left h4 {
+  margin-bottom: 10px;
+}
+
+.Prof1-left p {
+  font-size: 12px;
+}
+
+.Prof1-editButton {
+    background-color: #0e3b03;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    transition: background-color 0.3s ease;
+  }
+
+.Prof1-editButton:hover {
+  background-color: #999
+}
+
+.Prof1-right {
+  width: 65%;
+  padding: 30px 25px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.Prof1-info h3,
+.Prof1-projects h3 {
+  margin-bottom: 15px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #0e3b03;
+  color: #0e3b03;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+}
+
+.Prof1-info_data,
+.Prof1-projects_data {
+  display: flex;
+  justify-content: space-between;
+}
+
+.Prof1-data {
+  width: 45%;
+}
+
+.Prof1-data h4 {
+  color: #0e3b03;
+  margin-bottom: 5px;
+}
+
+.Prof1-data p {
+  font-size: 13px;
+  margin-bottom: 10px;
+  color: #919aa3;
+}
+.Prof1-right {
+  width: 65%;
+  padding: 30px 25px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.Prof1-projects {
+  margin-bottom: 40px; /* Add more space under the "Earned badges" heading */
+}
+
+.Prof1-projects_data {
+  margin-top: 20px; /* Add space above the projects data */
+}
+
+
+
+
+/*Profile2*/
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Josefin Sans', sans-serif;
+  background-color: #EBFFE5;
+}
+
+.Prof2-navbar {
+  background-color: #D9FFCF;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Prof2-nav-logo {
+  color: #0e3b03;
+  font-size: 20px;
+}
+
+.Prof2-nav-links {
+  flex-grow: 1;
+}
+
+.Prof2-nav-list {
+  list-style: none;
+  display: flex;
+  justify-content: flex-start; /* Align items to the left */
+}
+
+.Prof2-nav-list li {
+  margin-right: 20px;
+}
+
+.Prof2-nav-list a {
+  text-decoration: none;
+  color: #0e3b03;
+  font-size: 16px;
+}
+
+.Prof2-wrapper {
+  display: flex;
+  background-color: #BCE8B1;
+  box-shadow: 0 11px 20px 0 rgba(14, 59, 3, 0.1);
+  margin: 20px;
+  border-radius: 10px;
+  padding-bottom: 45px;
+}
+
+.Prof2-left {
+  width: 35%;
+  padding: 30px 25px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.Prof2-left img {
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.Prof2-left h4 {
+  margin-bottom: 10px;
+}
+
+.Prof2-left p {
+  font-size: 12px;
+}
+
+.Prof2-editButton {
+  background-color: #0e3b03;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.Prof2-editButton:hover {
+  background-color: #145304;
+}
+
+.Prof2-right {
+  width: 65%;
+  padding: 30px 25px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.Prof2-info h3,
+.Prof2-projects h3 {
+  margin-bottom: 15px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #0e3b03;
+  color: #0e3b03;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+}
+
+.Prof2-info_data {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.Prof2-data {
+  width: 45%;
+  margin-bottom: 15px;
+}
+
+.Prof2-data label {
+  color: #0e3b03;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.Prof2-data input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #0e3b03;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.Prof2-data input::placeholder {
+  color: #919aa3;
+}
+
+.Prof2-data h4 {
+  color: #0e3b03;
+  margin-bottom: 5px;
+}
+
+.Prof2-data p {
+  font-size: 13px;
+  margin-bottom: 10px;
+  color: #919aa3;
+}
+/*remember me button*/
+.remember-me {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 90px;
+  gap: 10px;
+}
+
+#password {
+  margin: 0;
+}
+
+
+.remember-me .rememberMe_input {
+  width: 15px; /* Adjust the size of the checkbox */
+  height: 15px; /* Adjust the size of the checkbox */
+  margin: 0;
+}
+
+/*Prof2 cancel and update buttons*/
+.Prof2-buttons {
+  display: flex;
+  justify-content: flex-end; /* Align buttons to the right */
+  margin-top: 10px; /* Adjust the top margin as needed */
+  margin-right: 10px; /* Adjust the right margin as needed */
+  margin-bottom: 10px; /* Add margin at the bottom */
+}
+
+.cancel-button {
+  background-color: #4caf50; /* Set background color for Cancel button */
+  color: #fff; /* Set text color for Cancel button */
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-right: 10px; /* Adjust the margin as needed */
+  transition: background-color 0.3s ease;
+}
+
+.submit-button{
+  background-color: #4caf50; /* Set background color for Update button */
+  color: #fff; /* Set text color for Update button */
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+  
+}
+
+.submit-button:hover {
+  background-color:#999; /* Change background color on hover */
+}
+
+/*Prof1 edit and change password buttons */
+
+.Prof1-buttons {
+  display: flex;
+  justify-content: flex-end; /* Align buttons to the right */
+  margin-top: 10px; /* Adjust the top margin as needed */
+  margin-right: 10px; /* Adjust the right margin as needed */
+  margin-bottom: 10px
+}
+
+.Prof1-ChangeButton,
+.Prof1-Editbuttons {
+  background-color:#4caf50;
+  color:#fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-right: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.Prof1-Editbuttons {
+  margin-right: 0; /* Remove the right margin for the Edit button */
+}
+
+.Prof1-ChangeButton:hover,
+.Prof1-Editbuttons:hover {
+  background-color: #999;
+}
+
+/*Change Password*/
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Josefin Sans', sans-serif;
+  background-color: #EBFFE5;
+}
+
+.Change-navbar {
+  background-color: #D9FFCF;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Change-nav-logo {
+  color: #0e3b03;
+  font-size: 20px;
+}
+
+.Change-nav-links {
+  flex-grow: 1;
+}
+
+.Change-nav-list {
+  list-style: none;
+  display: flex;
+  justify-content: flex-start; /* Align items to the left */
+}
+
+.Change-nav-list li {
+  margin-right: 20px;
+}
+
+.Change-nav-list a {
+  text-decoration: none;
+  color: #0e3b03;
+  font-size: 16px;
+}
+
+.Change-wrapper {
+  display: flex;
+  background-color: #BCE8B1;
+  box-shadow: 0 11px 20px 0 rgba(14, 59, 3, 0.1);
+  margin: 20px;
+  border-radius: 10px;
+  padding-bottom: 85px;
+}
+
+.Change-left {
+  width: 35%;
+  padding: 30px 25px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.Change-left img {
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.Change-left h4 {
+  margin-bottom: 10px;
+}
+
+.Change-left p {
+  font-size: 12px;
+}
+
+.Change-editButton {
+  background-color: #0e3b03;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.Change-editButton:hover {
+  background-color: #999;
+}
+
+.Change-right {
+  width: 65%;
+  padding: 30px 25px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.Change-info h3,
+.Change-projects h3 {
+  margin-bottom: 15px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #0e3b03;
+  color: #0e3b03;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+}
+
+.Change-info_data {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.Change-data {
+  width: 45%;
+  margin-bottom: 15px;
+}
+
+.Change-data label {
+  color: #0e3b03;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.Change-data input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #0e3b03;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.Change-data input::placeholder {
+  color: #919aa3;
+}
+
+.Change-data h4 {
+  color: #0e3b03;
+  margin-bottom: 5px;
+}
+
+.Change-data p {
+  font-size: 13px;
+  margin-bottom: 10px;
+  color: #919aa3;
+}
+
+.Change-buttons {
+  display: flex;
+  justify-content: flex-end; /* Align buttons to the right */
+  margin-top: 10px; /* Adjust the top margin as needed */
+  margin-right: 10px; /* Adjust the right margin as needed */
+  margin-bottom: 10px
+}
+
+.save-button,
+.cancel-button{
+  background-color:#4caf50;
+  color:#fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-right: 10px;
+  transition: background-color 0.3s ease;
+}
+/* Change Password */
+.save-button:hover,
+.cancel-button:hover
+{
+  background-color: #999; /* Change background color on hover */
+}
+/* Add this style to position the Backbutton */
+.Backbutton {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  border-radius: 100px;
+  background-color: #4caf50;
+}
+.Prof2-Backbutton {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: rgb(76, 175, 80);
+  border-radius: 100px;
+  margin-top: 140px;
+  margin-left: 30px;
+}
+.Change-Backbutton {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: rgb(76, 175, 80);
+  border-radius: 100px;
+  margin-top: 140px;
+  margin-left: 30px;
+}
+
+.Forgot-Backbutton {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: rgb(76, 175, 80);
+  border-radius: 100px;
+  margin-top: 200px;
+  margin-left: 220px;
+}
+.Email-Backbutton {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: rgb(76, 175, 80);
+  border-radius: 100px;
+  margin-top: 200px;
+  margin-left: 220px;
+}
+
+.Verification-Backbutton {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: rgb(76, 175, 80);
+  border-radius: 100px;
+  margin-top: 15px;
+  margin-left: 220px;
+}
+
+.Log-Backbutton {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: rgb(76, 175, 80);
+  border-radius: 100px;
+  margin-top: 240px;
+  margin-left: 290px;
+}
+
+.Register-Backbutton {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: rgb(76, 175, 80);
+  border-radius: 100px;
+  margin-top: 240px;
+  margin-left: 290px;
+}
+
+
+
+
+
+
