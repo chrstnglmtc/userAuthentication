@@ -40,7 +40,7 @@ function VerificationForm({ onVerificationForm }) {
       </form>
 
       <div className="verification-panels-container">
-        {/* Add content for the verification panels if needed */}
+        {/* Any additional content you want to include */}
       </div>
     </div>
   );

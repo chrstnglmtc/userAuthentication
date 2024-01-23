@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-function ForgotForm({ onForgotPassword }) {
+function NewForm({ onNewForm }) {
   const [email, setEmail] = useState('');
 
   const navigate = useNavigate();
 
 const handleForgot = (e) => {
   e.preventDefault();
-  // Call the onForgotPassword prop with the email value
-  onForgotPassword(email);
+  // Call the onNewForm prop with the email value
+  onNewForm(email);
   console.log('Resetting password for email:', email);
 
   // Redirect to EmailVerification page after handling the forgot password logic
@@ -60,4 +60,4 @@ const handleForgot = (e) => {
   );
 }
 
-export default ForgotForm;
+export default NewForm;

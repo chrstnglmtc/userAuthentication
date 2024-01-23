@@ -215,7 +215,7 @@ nav h3 {
 
 .template-form input {
   width: 400px;
-  height: 30px;
+  margin-top: 20px;
   padding: 12px;
   margin-bottom: 15px;
   font-size: 16px;
@@ -398,6 +398,7 @@ justify-content: center;
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 67px;
 }
 
 .group_input input {
@@ -407,7 +408,7 @@ justify-content: center;
 .group_input select {
   width: 100px;
   height: 57px;
-  margin-bottom: 15px;
+  margin-bottom: px;
   border-radius: 5px;
 }
 
@@ -457,6 +458,8 @@ justify-content: center;
   align-items: center;
   margin-bottom: 20px;
   align-items: center;
+  width: 400px;
+  height: 30px;
 }
 
 .email-input-field input {
@@ -1335,7 +1338,7 @@ body {
 }
 
 .qBackbutton:hover {
-  background-color: #145304;
+  background-color: gray;
 }
 
 /* Responsive styles for smaller screens */
@@ -1350,14 +1353,16 @@ body {
 /* styles.css */
 
 .wBackbutton {
- 
-  color: white;
-  border: none;
-  
   cursor: pointer;
-  border-radius: 15px;
-  margin-top: 10px;
-  margin-right: 550px; /* Add margin to the right to create space */
+  display: inline-block;
+  padding: 10px;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  position: absolute;
+  top: 10px;
+  left: 10px;
 }
 
 
@@ -1388,19 +1393,20 @@ body {
 /*landing page*/
 
 body {
-  font-family:sans-serif ;
+  font-family: sans-serif;
   margin: 0;
   padding: 0;
   background-color: #EBFFE5;
 }
 
 nav {
-  background-color:#BCE8B1;
+  background-color: #BCE8B1;
   padding: 1em 2em;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 
 nav img {
   height: 50px;
@@ -1432,6 +1438,11 @@ nav a {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+
+#register:hover, #login:hover {
+  background-color: gray;
+
 }
 
 .content-container {
@@ -1466,15 +1477,15 @@ nav a {
 }
 
 .footer {
-  position: fixed;
   display: flex;
   justify-content: space-between;
   align-items: center;
- 
+  position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 10px; /* Adjust the padding as needed */
+  
+  background-color: #BCE8B1; /* Add a background color for better visibility */
 }
 
 .social-icons {
@@ -1488,12 +1499,13 @@ nav a {
 }
 
 .terms-conditions {
-  margin-left: auto; /* Move terms and conditions to the right */
+  margin-left: auto;
 }
 
 .contact-number {
-  margin-right: 10px; /* Adjust the margin as needed */
+  margin-right: 10px;
 }
+
 
 
 .card-container {
@@ -1506,7 +1518,7 @@ nav a {
 }
 
 .card {
-  flex: 1; /* Distribute available space equally among cards */
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1514,11 +1526,9 @@ nav a {
   background-color: #bce8b1;
   padding: 20px;
   border-radius: 25px;
-  max-width: 300px; /* Set a maximum width for the cards */
+  max-width: 300px;
   overflow: hidden;
   text-align: center;
-  
-  
 }
 .card-title {
   font-size: small;
@@ -1556,3 +1566,14 @@ nav a {
   height: auto;
   margin-bottom: 10px; /* Adjust as needed */
 }
+
+/*about container*/
+
+.about-container {
+  text-align: center;
+  font-family: 'Times New Roman', Times, serif;
+  width: fit-content;
+  font-size:medium;
+
+}
+

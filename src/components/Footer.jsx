@@ -21,7 +21,7 @@ const Footer = () => {
                   xmlns="http://www.w3.org/2000/svg"
                   width="25"
                   height="25"
-                  fill="currentcolor"
+                  fill="blue"
                   className="bi bi-facebook"
                   viewBox="0 0 16 16"
                 >
@@ -41,7 +41,7 @@ const Footer = () => {
                   xmlns="http://www.w3.org/2000/svg"
                   width="25"
                   height="25"
-                  fill="currentColor"
+                  fill="pink"
                   className="bi bi-instagram"
                   viewBox="0 0 16 16"
                 >
@@ -62,7 +62,7 @@ const Footer = () => {
                   xmlns="http://www.w3.org/2000/svg"
                   width="25"
                   height="25"
-                  fill="currentcolor"
+                  fill="blue"
                   className="bi bi-twitter"
                   viewBox="0 0 16 16"
                 >
