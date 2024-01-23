@@ -33,9 +33,11 @@ const Navigation = () => {
         <Link to="/">
           <button>Home</button>
         </Link>
-        <Link to="/register">
-          <button>Register</button>
-        </Link>
+        {!isLoggedIn && ( // Only render the "Register" button if not logged in
+          <Link to="/register">
+            <button>Register</button>
+          </Link>
+        )}
         {isLoggedIn ? (
           <button onClick={handleLogout}>Logout</button>
         ) : (

@@ -1,44 +1,37 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-
+import { useAuth } from "./AuthContext";
 
 function LoginForm({ onForgotPassword }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
 
+  // Use the useAuth hook to get the handleLogin and setLoggedIn functions
+  const { handleLogin, setLoggedIn } = useAuth(); 
+
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch('http://localhost:8085/api/v1/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
 
-      if (response.ok) {
-        // Login successful, redirect to the dashboard or home page
-        console.log('Login successful');
-        navigate('/dashboard'); // Adjust the path based on your application
-      } else {
-        // Login failed, handle errors
-        console.error('Login failed');
-        setError('Invalid email or password. Please try again.'); // Provide a more user-friendly error message
-      }
+    try {
+      // Use the handleLogin function from useAuth
+      await handleLogin({ email, password });
+      // Set the login state using setLoggedIn
+      setLoggedIn(true);
+      // Redirect upon successful login
+      navigate('/');
     } catch (error) {
-      console.error('Error during login:', error);
-      setError('An unexpected error occurred. Please try again later.');
+      setError('Invalid email or password. Please try again.');
+      console.error('Login failed:', error);
     }
   };
 
   return (
-    <form onSubmit={handleLogin} className="template-form">
-    <h2>Sign in on your account.</h2>
-    <h2>Be part of the success.</h2>
+    <form onSubmit={handleSubmit} className="template-form">
+      <h2>Sign in on your account.</h2>
+      <h2>Be part of the success.</h2>
       <input
         type="email"
         id="email"
@@ -59,11 +52,10 @@ function LoginForm({ onForgotPassword }) {
         <h3>By clicking "Sign in," you agree to our Terms of Use and our Privacy Policy.</h3>
       </div>
       <Link to="/forgot">
-        <div className="forgot-password">
-          Forgot your password?
-        </div>
+        <div className="forgot-password">Forgot your password?</div>
       </Link>
       <button type="submit">Sign in</button>
+      {error && <div className="error-message">{error}</div>}
     </form>
   );
 }
