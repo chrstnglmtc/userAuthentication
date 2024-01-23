@@ -65,15 +65,17 @@ function RegisterForm() {
 
   return (
     <form onSubmit={handleRegister} className="template-form">
+       <Link to="/">
+  <div className="qBackbutton">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-left" viewBox="0 0 16 16">
+      <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+    </svg>
+  </div>
+</Link>
       <h2>Sign up an account.</h2>
       <h2>Be part of the success.</h2>
-      <Link to="/">
-        <button className="Register-Backbutton">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-left" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
-          </svg>
-        </button>
-        </Link>
+    
+
       <div className="group_input">
         <input
           type="text"
@@ -133,7 +135,9 @@ function RegisterForm() {
       Already have an account?
         </div>
       </Link>
+      <Link to='/Dashboard'>
       <button type="submit">Sign up</button>
+      </Link> 
     </form>
   );
 }

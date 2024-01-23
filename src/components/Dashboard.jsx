@@ -42,23 +42,12 @@ const Dashboard = () => {
               className="logo"
             />
           </div>
-          <nav>
-            <ul>
-              <li>
-                <Link to="/">
-                  <h3>Catalog</h3>
-                </Link>
-              </li>
-              <li>
-                <Link to="/">
-                  <h3>Activities</h3>
-                </Link>
-              </li>
-            </ul>
-          </nav>
+          
         </div>
         <div className="right-container">
+          <Link to='/'>
           <button onClick={handleLogout}>Logout</button>
+          </Link>
         </div>
       </div>
       <div className="home-content">

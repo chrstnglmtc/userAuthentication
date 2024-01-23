@@ -26,17 +26,6 @@ const Home = () => {
                     </ul>
                 </nav>
             </div>
-            <div className="right-container">
-                <Link to="/profile">
-                    <button>Profile</button>
-                </Link>
-                <Link to="/register">
-                    <button>Register</button>
-                </Link>
-                <Link to="/login">
-                    <button>Login</button>
-                </Link>
-            </div>
         </div>
         <div className="home-content">
             <div className="japanese-message">

@@ -6,8 +6,8 @@ import '../Auth.css';
 function Verification({ onVerification }) { // Corrected function name
   return (
     <div className="verification-container">
-      <div className="verification-header">
-        <img src="/assets/images/companyLogo.png" alt="Logo" className="verification-logo" />
+      <div className="auth-header">
+        <img src="/assets/images/companyLogo.png" alt="Logo" className="logo" />
       </div>
       <div className="verification-navi">
         <div className="home-button">

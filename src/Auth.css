@@ -209,6 +209,7 @@ nav h3 {
   background-color: #BCE8B1;
   padding: 20px;
   border-radius: 5px;
+  position: relative;
 }
 
 .template-form input {
@@ -243,7 +244,7 @@ nav h3 {
   text-decoration: underline;
 }
 
-.template-form .existing-account {
+.template-form .existing-account  {
   color: #4D4141;
   font-weight: 700px;
   cursor: pointer;
@@ -258,6 +259,7 @@ nav h3 {
 div {
   align-items: center;
   justify-content: center;
+  
 }
 /* ... existing styles ... */
 
@@ -330,8 +332,8 @@ right: 60px;
 width: 600px;
 margin: 0 auto;
 background-color: #BCE8B1;
-padding: 100px;
-border-radius: 5px;
+padding: 50px;
+border-radius: 15px;
 }
 
 .forgot-form input {
@@ -591,7 +593,8 @@ justify-content: center;
     border: 1px solid #126912;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.5);
     width: 110px;
-    margin-left: 250px;
+    margin-left: 20px;
+  text-align: center;
     
 }
 .verification-button:hover {
@@ -764,6 +767,7 @@ body {
 .Prof1-projects_data {
   display: flex;
   justify-content: space-between;
+
 }
 
 .Prof1-data {
@@ -910,6 +914,15 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  
+}
+.Prof2-data input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #0e3b03;
+  border-radius: 5px;
+  box-sizing: border-box;
+  margin-bottom: 10px; /* Add margin to the bottom */
 }
 
 .Prof2-data {
@@ -1251,7 +1264,7 @@ body {
   left: 10px;
   background-color: rgb(76, 175, 80);
   border-radius: 100px;
-  margin-top: 200px;
+  margin-top: 9px;
   margin-left: 220px;
 }
 
@@ -1275,18 +1288,101 @@ body {
   margin-left: 290px;
 }
 
-.Register-Backbutton {
-  position: absolute;
-  top: 10px;
-  left: 10px;
+.Registerarrow {
+  position:absolute;
+  top: 18%; /* Adjust this value for vertical positioning */
+  left: 5%; /* Adjust this value for horizontal positioning */
   background-color: rgb(76, 175, 80);
-  border-radius: 100px;
-  margin-top: 240px;
-  margin-left: 290px;
+  border-radius: 55%;
+  padding: 1vw; /* Adjust this value for the size of padding */
+  color: #000;
+  cursor: pointer;
+}
+
+/* Add media query for smaller screens if needed */
+@media (max-width: 768px) {
+  .Registerarrow {
+    top: 15%;
+    left: 10%;
+    padding: 1.5vw;
+    
+  }
 }
 
 
+.resend {
+  color: #4D4141;
+  font-weight: 700px;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: underline;
+}
 
+/* Default styles for the back button */
+.qBackbutton {
+  cursor: pointer;
+  display: inline-block;
+  padding: 10px;
+  background-color: #0e3b03;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
 
+.qBackbutton:hover {
+  background-color: #145304;
+}
+
+/* Responsive styles for smaller screens */
+@media (max-width: 600px) {
+  .qBackbutton {
+    padding: 8px;
+    font-size: 12px;
+    border-radius: 50px;
+  }
+}
+
+/* styles.css */
+
+.wBackbutton {
+ 
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-top: 10px;
+  margin-right: 550px; /* Add margin to the right to create space */
+}
+
+.wBackbutton:hover {
+  background-color: #145304; /* Add your desired hover color */
+}
+
+/* Responsive styles */
+@media only screen and (max-width: 600px) {
+  .wBackbutton {
+    width: auto; /* Reset width to auto for smaller screens */
+    margin-bottom: 10px; /* Adjust spacing for smaller screens */
+  }
+}
+.center-text {
+  text-align: center;
+}
+
+.template-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* EmailForm.css */
+.center-button {
+  text-align: center;
+}
 
 

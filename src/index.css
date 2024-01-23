@@ -25,6 +25,7 @@ button {
   border: 1px solid #126912;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.5);
   margin-top: 10px;
+
   
 }
 button:hover{
@@ -38,3 +39,19 @@ body {
   font-style:italic
 }
 
+@media screen and (max-width: 600px) {
+  /* Adjustments for smaller screens */
+  button.Backbutton,
+  button.Prof2-Backbutton,
+  button.Change-Backbutton,
+  button.Forgot-Backbutton,
+  button.Email-Backbutton,
+  button.Verification-Backbutton,
+  button.Log-Backbutton,
+  button.Register-Backbutton {
+    position: relative;
+    top: 0;
+    left: 0;
+    margin: 10px auto; /* Adjust as needed */
+  }
+}

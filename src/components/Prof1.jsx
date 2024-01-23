@@ -37,7 +37,7 @@ function Prof1({ onProf1 }) {
           <div className="Prof1-info">
             <h3>Profile Information</h3>
             <div className="Prof1-info_data">
-              <div className="data">
+              <div className="Prof1-data">
                 <h4>Email</h4>
                 <p>@tspi.com.ph</p>
               </div>
@@ -58,7 +58,7 @@ function Prof1({ onProf1 }) {
               <button className="Prof1-Editbuttons">Edit</button>
             </Link>
             <Link to="/change">
-              <button className="Prof1-ChangeButton">Change Password</button>
+              <button className="Prof1-ChangeButton">Password</button>
             </Link>
           </div>
         </div>

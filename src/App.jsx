@@ -12,12 +12,14 @@ import Prof1 from './components/Prof1';
 import Prof2 from './components/Prof2';
 import Person from './components/PersonForm';
 import Change from './components/Change';
+import LandingPage from './components/LandingPage';
+import About from './components/About';
 function App() {
 
   return (
     <>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
@@ -28,6 +30,7 @@ function App() {
         <Route path="/info" element={<Prof2/>}/>
         <Route path="/Person" element={<Person/>}/>
         <Route path="/change" element={<Change/>}/>
+        <Route path="/about" element={<About/>}/>
       </Routes>
     </>
   )
