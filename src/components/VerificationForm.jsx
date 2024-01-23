@@ -35,13 +35,12 @@ function VerificationForm({ onVerificationForm }) {
             onChange={(e) => setVerification(e.target.value)}
             required
           />
+          <button type="submit" className="verification-button">Send</button>
         </div>
-        <input type="submit" className="verification-button" value="Send" />
       </form>
 
       <div className="verification-panels-container">
-       
-      
+        {/* Add content for the verification panels if needed */}
       </div>
     </div>
   );

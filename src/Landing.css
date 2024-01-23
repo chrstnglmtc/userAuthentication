@@ -77,16 +77,19 @@ nav a {
 }
 
 .footer {
-    display:flex;
-    justify-content: space-between;
-    align-items: flex-start;
+    display: flex;
+    
     margin-top: 2em;
     background-color:#D9FFCF;
+ 
+    
 }
 
 .social-icons {
     display: flex;
-    margin-left: 10px;
+   
+    flex-direction: column;
+    
 }
 
 .social-icons img {
@@ -100,19 +103,20 @@ nav a {
 }
 
 .contact-number {
-    font-weight: bold;
-    margin-right: 20px;
+ align-items: center;
+ justify-content: center;
 }
 
 .card-container {
     display: flex;
-    align-items: center;
+    align-items: stretch; /* Make sure all cards have the same height */
     justify-content: center;
     width: 100%;
     gap: 20px;
 }
 
 .card {
+    flex: 1; /* Distribute available space equally among cards */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -121,6 +125,8 @@ nav a {
     gap: 25px;
     padding: 15px;
     border-radius: 25px;
-    
-   
+    height: 100%; /* or use min-height for flexibility */
+    max-width: 300px; /* Set a maximum width for the cards */
 }
+
+
