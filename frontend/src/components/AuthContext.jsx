@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${authToken}`, // Include the authentication token
+          'Authorization': `Bearer ${authToken}`, // 'Authorization' is the key
         },
       });
   
