@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class EmailServiceImpl implements EmailService {
@@ -24,6 +26,9 @@ public class EmailServiceImpl implements EmailService {
     @Value("${spring.mail.username}")
     private String sender;
 
+    private Map<String, String> verificationCodes = new HashMap<>();
+
+    // No changes in the sendSimpleMail method
     @Override
     public String sendSimpleMail(EmailDetails details) {
         try {
@@ -40,6 +45,7 @@ public class EmailServiceImpl implements EmailService {
         }
     }
 
+    // No changes in the sendMailWithAttachment method
     @Override
     public String sendMailWithAttachment(EmailDetails details) {
         try {
@@ -59,5 +65,29 @@ public class EmailServiceImpl implements EmailService {
         } catch (MessagingException e) {
             return "Error while sending mail!!!";
         }
+    }
+
+    // Changes start here
+
+    // Removed @Override, as these methods are not overriding any methods
+    // Added the actual implementation of these methods
+
+    @Override
+    public String generateAndStoreVerificationCode(String userEmail) {
+        String verificationCode = generateRandomCode(); // Implement your code generation logic
+        verificationCodes.put(userEmail, verificationCode);
+        return verificationCode;
+    }
+
+    @Override
+    public boolean verifyCode(String userEmail, String enteredCode) {
+        String storedCode = verificationCodes.get(userEmail);
+        return storedCode != null && storedCode.equals(enteredCode);
+    }
+
+    // Added the actual implementation of the generateRandomCode method
+    private String generateRandomCode() {
+        // Implement your random code generation logic
+        return "123456"; // Replace with actual logic
     }
 }

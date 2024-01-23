@@ -1,6 +1,7 @@
 // SendCode.jsx
 
 import React, { useState } from 'react';
+import VerificationForm from './VerificationForm';
 import SendCodeForm from './SendCodeForm';
 import { Link } from 'react-router-dom';
 import '../Auth.css';
@@ -10,6 +11,10 @@ function SendCode() {
 
   const handleVerificationSuccess = () => {
     setVerificationSuccess(true);
+  };
+  const handleVerificationForm = (email) => {
+    // Implement any logic you need with the email
+    console.log('Email received in SendCode:', email);
   };
 
   return (

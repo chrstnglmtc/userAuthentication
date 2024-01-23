@@ -1,25 +1,24 @@
-// SendCodeForm.jsx
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-function SendCodeForm({ email, onVerifySuccess }) {
+function SendCodeForm({ onVerifySuccess, email, otpCode }) {
   const [verificationCode, setVerificationCode] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleVerify = async (e) => {
     e.preventDefault();
 
-    // Use the email value when making the verification request
+    console.log('Entered Verification Code:', verificationCode);
+
+    // Use the entered verification code
     const verificationData = {
       recipient: email,
-      msgBody: `Your verification code is: ${verificationCode}`, // Use the entered verification code
-      subject: 'Verification Code',
+      verificationCode: verificationCode,
     };
 
     try {
-      // Make the verification request using the email value
-      const response = await fetch('/sendMail', {
+      // Make the verification request using the entered verification code
+      const response = await fetch('http://localhost:5173/verifyCode', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -28,15 +27,15 @@ function SendCodeForm({ email, onVerifySuccess }) {
       });
 
       if (response.ok) {
-        console.log('Verification email sent successfully');
+        console.log('Verification successful');
         onVerifySuccess(); // Notify the parent component of the successful verification
       } else {
-        console.error('Failed to send verification email');
-        setErrorMessage('Failed to send verification email');
+        console.error('Verification failed');
+        setErrorMessage('Verification failed');
       }
     } catch (error) {
-      console.error('Error sending verification email:', error);
-      setErrorMessage('Error sending verification email');
+      console.error('Error verifying code:', error);
+      setErrorMessage('Error verifying code');
     }
   };
 
@@ -56,7 +55,7 @@ function SendCodeForm({ email, onVerifySuccess }) {
             <i className="fas fa-key"></i>
             <input
               type="text"
-              placeholder="Verification Code"
+              placeholder="Enter Verification Code"
               value={verificationCode}
               onChange={(e) => setVerificationCode(e.target.value)}
             />

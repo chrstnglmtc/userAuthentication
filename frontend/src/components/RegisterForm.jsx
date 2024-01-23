@@ -112,7 +112,9 @@ function RegisterForm() {
           Already have an account?
         </div>
       </Link>
+      <Link to="/verify">
       <button type="submit">Sign up</button>
+      </Link>
     </form>
   );
 }

@@ -22,4 +22,15 @@ public class EmailController {
     public String sendMailWithAttachment(@RequestBody EmailDetails details) {
         return emailService.sendMailWithAttachment(details);
     }
+    // New endpoint for generating and storing verification codes
+    @PostMapping("/generateVerificationCode")
+    public String generateVerificationCode(@RequestBody EmailDetails details) {
+        return emailService.generateAndStoreVerificationCode(details.getRecipient());
+    }
+
+    // New endpoint for verifying the entered code
+    @PostMapping("/verifyCode")
+    public boolean verifyCode(@RequestBody EmailDetails details) {
+        return emailService.verifyCode(details.getRecipient(), details.getVerificationCode());
+    }
 }

@@ -1,21 +1,31 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-function VerificationForm({ onVerificationForm, onVerificationSuccess }) {
+
+function VerificationForm({
+  onVerificationForm = () => {}, // Default to an empty function
+  onVerificationSuccess = () => {} // Default to an empty function
+}) {
   const [email, setEmail] = useState('');
+  const navigate = useNavigate();
+
+  const generateOTP = () => {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+  };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
+    const otpCode = generateOTP();
+
     // Use the email value when making the verification request
     const verificationData = {
       recipient: email,
-      msgBody: 'Your verification code is: 202422', // Replace with actual verification code
+      msgBody: `Your verification code is: ${otpCode}`,
       subject: 'Verification Code',
     };
 
     try {
-      // Make the verification request using the email value
       const response = await fetch('http://localhost:8085/sendMail', {
         method: 'POST',
         headers: {
@@ -25,8 +35,9 @@ function VerificationForm({ onVerificationForm, onVerificationSuccess }) {
       });
 
       if (response.ok) {
+        navigate('/send');
         console.log('Verification email sent successfully');
-        onVerificationForm(email); // Pass the email to the parent component
+        onVerificationForm(email, otpCode); // Pass the email and OTP to the parent component
         onVerificationSuccess(); // Notify the parent component of the successful verification
       } else {
         console.error('Failed to send verification email');
@@ -43,11 +54,11 @@ function VerificationForm({ onVerificationForm, onVerificationSuccess }) {
       <form className="verification-sign-in-form" onSubmit={handleFormSubmit}>
         <h1 className="verification-title">Email Verification</h1>
         <Link to="/email">
-          <button className="Verification-Backbutton">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-left" viewBox="0 0 16 16">
-              <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
-            </svg>
-          </button>
+        <button className="Verification-Backbutton">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-left" viewBox="0 0 16 16">
+            <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+          </svg>
+        </button>
         </Link>
         <p>Please enter Email</p>
         <div className="verification-input-field">
