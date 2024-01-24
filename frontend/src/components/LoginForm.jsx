@@ -21,7 +21,7 @@ function LoginForm({ onForgotPassword }) {
       // Set the login state using setLoggedIn
       setLoggedIn(true);
       // Redirect upon successful login
-      navigate('/');
+      navigate('/dashboard');
     } catch (error) {
       setError('Invalid email or password. Please try again.');
       console.error('Login failed:', error);
@@ -29,7 +29,7 @@ function LoginForm({ onForgotPassword }) {
   };
 
   return (
-    <form onSubmit={handleLogin} className="template-form">
+    <form onSubmit={handleSubmit} className="template-form">
       <Link to="/">
         <button className="qBackbutton">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-left" viewBox="0 0 16 16">
@@ -66,9 +66,8 @@ function LoginForm({ onForgotPassword }) {
           Forgot your password?
         </div>
       </Link>
-      <Link to='/login'>
       <button type="submit">Sign in</button>
-      </Link>
+      {error && <div className="error-message">{error}</div>}
     </form>
   );
 }

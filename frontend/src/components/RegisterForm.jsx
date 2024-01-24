@@ -26,15 +26,14 @@ function RegisterForm() {
     return isValid;
   };
 
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-    validatePassword(e.target.value);
-  };
-  
   const handleUserTypeChange = (e) => {
     setUserType(e.target.value);
   };
 
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+    validatePassword(e.target.value);
+  };
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -138,9 +137,7 @@ function RegisterForm() {
       Already have an account?
         </div>
       </Link>
-      <Link to='/Dashboard'>
       <button type="submit">Sign up</button>
-      </Link> 
     </form>
   );
 }
