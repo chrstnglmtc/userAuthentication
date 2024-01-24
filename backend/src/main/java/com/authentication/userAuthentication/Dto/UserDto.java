@@ -28,7 +28,7 @@ public class UserDto {
     @NotEmpty(message = "Password should not be empty")
     private String password;
     
-    private String username; // New field for username
+    private String username;
     
     private String role = "STUDENT";
 

@@ -72,16 +72,12 @@ public class AuthController {
   public ResponseEntity<String> logout(HttpServletRequest request) {
       // Extract the token from the request
       String token = tokenService.extractTokenFromRequest(request);
-      System.out.println("Received token: " + token);
-
       // Check if the token is valid before invalidating
       if (token != null) {
           // Invalidate the token (add it to a blacklist or revocation list)
           tokenService.invalidateToken(token);
-          System.out.println("Logout successful");
           return ResponseEntity.status(HttpStatus.OK).body("Logout successful");
       } else {
-          System.out.println("Invalid token");
           return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid token");
       }
   }

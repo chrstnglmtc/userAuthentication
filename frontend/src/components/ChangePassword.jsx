@@ -1,10 +1,11 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unknown-property */
 import React from 'react';
 import ChangePasswordForm from './ChangePasswordForm'; // Correct import statement
 import { Link } from 'react-router-dom';
 import '../Auth.css';
 
-function ChangePassword({ onChangePasswordForm }) { // Corrected function name
+function ChangePassword() { // Corrected function name
   return (
     <div>
       
@@ -30,7 +31,7 @@ function ChangePassword({ onChangePasswordForm }) { // Corrected function name
       <div className="Change-content">
         <div className="Change-sign">
           
-        <ChangePasswordForm onChangePassword={onChangePasswordForm} />
+        <ChangePasswordForm/>
 
         </div>
       </div>

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unknown-property */
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../Auth.css';
@@ -9,32 +10,44 @@ function Profile() {
 
   const { isLoggedIn, handleLogout } = useAuth();
   const [userData, setUserData] = useState({});
+  const [email, setEmail] = useState('');
+  const [userName, setUserName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
 
   useEffect(() => {
-    // Fetch user data from your API endpoint
     const fetchUserData = async () => {
       try {
-        const response = await fetch('http://localhost:8085/users/{email}', {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('authToken')}`, // Include the authentication token if needed
-          },
-        });
+        // Introduce a delay to ensure asynchronous operations have completed
+        setTimeout(async () => {
+          const authToken = localStorage.getItem('yourAuthTokenKey');
 
-        if (response.ok) {
-          const data = await response.json();
-          setUserData(data);
-        } else {
-          console.error('Failed to fetch user data');
-        }
+          if (!authToken) {
+            console.error('Authentication token not found');
+            return;
+          }
+
+          const response = await fetch('http://localhost:8085/api/v1/auth/user', {
+            method: 'GET',
+            headers: {
+              'Authorization': `Bearer ${authToken}`,
+            },
+          });
+
+          if (response.ok) {
+            const userData = await response.json();
+            setUserData(userData);
+          } else {
+            console.error('Failed to fetch user data');
+          }
+        }, 100); // Adjust the delay as needed
       } catch (error) {
         console.error('Error during user data fetch:', error);
       }
     };
 
     fetchUserData();
-  }, []); // Run the effect only once when the component mounts
-
+  }, []);
 
   return (
     <>
