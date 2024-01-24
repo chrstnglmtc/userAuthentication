@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable react/no-unknown-property */
 import React from "react";
 import '../Auth.css';
 import { Link } from "react-router-dom";
