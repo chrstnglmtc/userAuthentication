@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import '../Auth.css';
 
-function ProfileEditForm() {
+function TeamA_ProfileEditForm() {
   const [email, setEmail] = useState('');
   const [username, setUserName] = useState('');
   const [firstName, setFirstName] = useState('');
@@ -114,5 +114,5 @@ function ProfileEditForm() {
     );
   }
   
-  export default ProfileEditForm;
+  export default TeamA_ProfileEditForm;
   

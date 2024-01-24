@@ -4,7 +4,7 @@
 import React from "react";
 import '../Auth.css';
 import { Link } from "react-router-dom";
-import Footer from "./Footer";
+import Footer from "./TeamA_Footer";
 
 // New component for the photo section
 const PhotoSection = () => {
@@ -34,7 +34,7 @@ for the welfare of our COMMUNITY & SOCIETY.</p>
   );
 };
 
-const About = () => {
+const TeamA_About = () => {
   return (
     <>
       {/* Header Section */}
@@ -79,4 +79,4 @@ Tsukiden Global Solutions Inc. is one of the pioneers in IT Outsourcing for the 
   );
 }
 
-export default About;
+export default TeamA_About;

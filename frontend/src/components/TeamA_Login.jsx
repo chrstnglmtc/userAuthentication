@@ -1,39 +1,34 @@
 import React from 'react';
-import RegisterForm from './RegisterForm';
+import LoginForm from './TeamA_LoginForm';
 import { Link } from "react-router-dom";
 import '../Auth.css';
 
-function Register({ onNavigateHome }) {
-  const handleRegister = () => {
-    alert('Register button clicked');
-    // You can add register logic here
-  };
+function TeamA_Login({ onNavigateHome, onForgotPassword }) {
 
   return (
-    <div>
+    <div className="auth-container">
       <div className="auth-header">
         <img src="/assets/images/companyLogo.png" alt="Logo" className="logo" />
       </div>
       <div className="auth-navi">
         <div className="home-button">
-          <Link to="/">
-            <button>Home</button>
-          </Link> 
+            <Link to="/">
+                <button>Home</button>
+            </Link> 
         </div>
       </div>
       <div className="label-container">
         <div className="auth-label">
-          <h1>SIGN UP</h1>
+          <h1>SIGN IN</h1>
         </div>
       </div>
       <div className="auth-content">
         <div className="auth-sign">
-            <RegisterForm/>
+            <LoginForm/>
         </div>
       </div>
     </div>
   );
 }
 
-export default Register;
- 
+export default TeamA_Login;

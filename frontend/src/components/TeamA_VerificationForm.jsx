@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../Auth.css'; // Import a CSS file for styling
 
-function VerificationForm({ onVerificationForm }) {
+function TeamA_VerificationForm({ onVerificationForm }) {
   const [verification, setVerification] = useState('');
 
   const handleFormSubmit = (e) => {
@@ -46,4 +46,4 @@ function VerificationForm({ onVerificationForm }) {
   );
 }
 
-export default VerificationForm;
+export default TeamA_VerificationForm;

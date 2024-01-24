@@ -50,7 +50,7 @@ function TeamA_NewPassForm() {
         <button type="button" onClick={handleTogglePassword}>
           {showPassword ? 'Hide Password' : 'Show Password'}
         </button>
-        <Link to="/dashboard">
+        <Link to="/login">
           <button>Confirm</button>
         </Link>
       </form>

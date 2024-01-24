@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "./AuthContext"; // Adjust the path accordingly
+import { useAuth } from "./TeamA_AuthContext"; // Adjust the path accordingly
 import '../Auth.css';
 
-const Navigation = () => {
+const TeamA_Navigation = () => {
   const { isLoggedIn, handleLogout } = useAuth();
 
   return (
@@ -51,4 +51,4 @@ const Navigation = () => {
   );
 };
 
-export default Navigation;
+export default TeamA_Navigation;

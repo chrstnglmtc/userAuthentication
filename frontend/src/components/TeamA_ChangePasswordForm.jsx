@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-function ChangePasswordForm() {
+function TeamA_ChangePasswordForm() {
     const [email, setEmail] = useState('');
     const [oldPassword, setOldPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
@@ -56,6 +56,8 @@ function ChangePasswordForm() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter Email"
+        required
+
                   />
                 </div>
                 <div className="Change-data">
@@ -66,6 +68,8 @@ function ChangePasswordForm() {
                     value={oldPassword}
                     onChange={(e) => setOldPassword(e.target.value)}
                     placeholder="Enter Old Password"
+        required
+
                   />
                 </div>
                 <div className="Change-data">
@@ -76,6 +80,8 @@ function ChangePasswordForm() {
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
                     placeholder="Enter New Password"
+        required
+
                   />
                 </div>
                 <div className="Change-data">
@@ -86,6 +92,8 @@ function ChangePasswordForm() {
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     placeholder="Confirm Password"
+        required
+
                   />
                 </div>
               </div>
@@ -104,4 +112,4 @@ function ChangePasswordForm() {
       );
     }
     
-    export default ChangePasswordForm;
+    export default TeamA_ChangePasswordForm;
