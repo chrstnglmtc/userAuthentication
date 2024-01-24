@@ -42,6 +42,7 @@ body {
 .logo-container {
   display: flex;
   align-items: center;
+  
 }
 
 .logo {
@@ -209,17 +210,19 @@ nav h3 {
   background-color: #BCE8B1;
   padding: 20px;
   border-radius: 5px;
+  position: relative;
 }
 
 .template-form input {
   width: 400px;
-  height: 30px;
+  margin-top: 20px;
   padding: 12px;
   margin-bottom: 15px;
   font-size: 16px;
   border: 1px solid #ccc; /* Input border color */
   border-radius: 5px;  
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.05);
+  text-align: center;
 }
 
 .template-form h2 {
@@ -243,7 +246,7 @@ nav h3 {
   text-decoration: underline;
 }
 
-.template-form .existing-account {
+.template-form .existing-account  {
   color: #4D4141;
   font-weight: 700px;
   cursor: pointer;
@@ -258,6 +261,7 @@ nav h3 {
 div {
   align-items: center;
   justify-content: center;
+  
 }
 /* ... existing styles ... */
 
@@ -330,8 +334,8 @@ right: 60px;
 width: 600px;
 margin: 0 auto;
 background-color: #BCE8B1;
-padding: 100px;
-border-radius: 5px;
+padding: 50px;
+border-radius: 15px;
 }
 
 .forgot-form input {
@@ -394,6 +398,7 @@ justify-content: center;
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 67px;
 }
 
 .group_input input {
@@ -403,7 +408,7 @@ justify-content: center;
 .group_input select {
   width: 100px;
   height: 57px;
-  margin-bottom: 15px;
+  margin-bottom: px;
   border-radius: 5px;
 }
 
@@ -453,6 +458,8 @@ justify-content: center;
   align-items: center;
   margin-bottom: 20px;
   align-items: center;
+  width: 400px;
+  height: 30px;
 }
 
 .email-input-field input {
@@ -582,7 +589,6 @@ justify-content: center;
 }
 
 .verification-button {
-  padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
     color: #ffffff;
@@ -591,7 +597,8 @@ justify-content: center;
     border: 1px solid #126912;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.5);
     width: 110px;
-    margin-left: 250px;
+    margin-left: 20px;
+  text-align: center;
     
 }
 .verification-button:hover {
@@ -764,6 +771,7 @@ body {
 .Prof1-projects_data {
   display: flex;
   justify-content: space-between;
+
 }
 
 .Prof1-data {
@@ -910,6 +918,15 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  
+}
+.Prof2-data input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #0e3b03;
+  border-radius: 5px;
+  box-sizing: border-box;
+  margin-bottom: 10px; /* Add margin to the bottom */
 }
 
 .Prof2-data {
@@ -1251,7 +1268,7 @@ body {
   left: 10px;
   background-color: rgb(76, 175, 80);
   border-radius: 100px;
-  margin-top: 200px;
+  margin-top: 9px;
   margin-left: 220px;
 }
 
@@ -1275,18 +1292,287 @@ body {
   margin-left: 290px;
 }
 
-.Register-Backbutton {
+.Registerarrow {
+  position:absolute;
+  top: 18%; /* Adjust this value for vertical positioning */
+  left: 5%; /* Adjust this value for horizontal positioning */
+  background-color: rgb(76, 175, 80);
+  border-radius: 55%;
+  padding: 1vw; /* Adjust this value for the size of padding */
+  color: #000;
+  cursor: pointer;
+}
+
+/* Add media query for smaller screens if needed */
+@media (max-width: 768px) {
+  .Registerarrow {
+    top: 15%;
+    left: 10%;
+    padding: 1.5vw;
+    
+  }
+}
+
+
+.resend {
+  color: #4D4141;
+  font-weight: 700px;
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: underline;
+}
+
+/* Default styles for the back button */
+.qBackbutton {
+  cursor: pointer;
+  display: inline-block;
+  padding: 10px;
+  background-color: #0e3b03;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
   position: absolute;
   top: 10px;
   left: 10px;
-  background-color: rgb(76, 175, 80);
-  border-radius: 100px;
-  margin-top: 240px;
-  margin-left: 290px;
+}
+
+.qBackbutton:hover {
+  background-color: gray;
+}
+
+/* Responsive styles for smaller screens */
+@media (max-width: 600px) {
+  .qBackbutton {
+    padding: 8px;
+    font-size: 12px;
+    border-radius: 50px;
+  }
+}
+
+/* styles.css */
+
+.wBackbutton {
+  cursor: pointer;
+  display: inline-block;
+  padding: 10px;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  position: absolute;
+  top: 10px;
+  left: 10px;
 }
 
 
 
+/* Responsive styles */
+@media only screen and (max-width: 600px) {
+  .wBackbutton {
+    width: auto; /* Reset width to auto for smaller screens */
+    margin-bottom: 10px; /* Adjust spacing for smaller screens */
+  }
+}
+.center-text {
+  text-align: center;
+}
+
+.template-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* EmailForm.css */
+.center-button {
+  text-align: center;
+}
+
+
+/*landing page*/
+
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #EBFFE5;
+}
+
+nav {
+  background-color: #BCE8B1;
+  padding: 1em 2em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+nav img {
+  height: 50px;
+  width: auto;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li {
+  margin-right: 95px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+
+#register, #login {
+  background-color: #126912;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#register:hover, #login:hover {
+  background-color: gray;
+
+}
+
+.content-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1em;
+}
+
+.text-container {
+  text-align: left;
+  max-width: 50%;
+  margin-bottom:120px ;
+  margin-left: 100px;
+
+}
+
+.text-container h1 {
+  font-size: 2em;
+  margin-bottom: 1em;
+}
+
+.image-container {
+  flex: 1;
+  text-align: right;
+}
+
+.image-container img {
+  width: 400px;
+  border-radius: 8px;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  
+  background-color: #BCE8B1; /* Add a background color for better visibility */
+}
+
+.social-icons {
+  display: flex;
+}
+
+.social-icons img {
+  width: 30px;
+  height: auto;
+  margin-right: 10px;
+}
+
+.terms-conditions {
+  margin-left: auto;
+}
+
+.contact-number {
+  margin-right: 10px;
+}
 
 
 
+.card-container {
+  display: flex;
+  align-items: stretch; /* Make sure all cards have the same height */
+  justify-content: center;
+  width: 100%;
+  gap: 20px;
+  
+}
+
+.card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #bce8b1;
+  padding: 20px;
+  border-radius: 25px;
+  max-width: 300px;
+  overflow: hidden;
+  text-align: center;
+}
+.card-title {
+  font-size: small;
+  margin-bottom: 10px; /* Add margin to separate title from content */
+  overflow: hidden;
+  text-overflow: ellipsis; /* Add ellipsis (...) for overflow */
+  white-space: nowrap; /* Prevent text from wrapping to the next line */
+  text-align: center;
+  justify-content: center;
+}
+
+.All {
+  align-items:center;
+  margin-left: 325px;
+}
+.photo-section {
+  flex:1;
+  display: flex;
+  justify-content: space-around; /* Adjust as needed */
+  margin-top: 20px; /* Adjust as needed */
+  gap: 50px;
+  width:auto;
+  text-align: center;
+  font-size: medium;
+}
+
+.photo-box {
+  flex:1;
+  text-align: center;
+  
+}
+
+.photo-box img {
+  width: 100%; /* Adjust as needed */
+  height: auto;
+  margin-bottom: 10px; /* Adjust as needed */
+}
+
+/*about container*/
+
+.about-container {
+  text-align: center;
+  font-family: 'Times New Roman', Times, serif;
+  width: fit-content;
+  font-size:medium;
+
+}
