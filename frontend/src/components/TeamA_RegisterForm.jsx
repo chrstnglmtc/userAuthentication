@@ -55,7 +55,7 @@ function TeamA_RegisterForm() {
       if (response.ok) {
         // Registration successful, you can redirect or perform other actions
         console.log('Registration successful');
-        navigate('/dashboard');
+        navigate('/login');
       } else {
         // Registration failed, handle errors
         console.error('Registration failed');

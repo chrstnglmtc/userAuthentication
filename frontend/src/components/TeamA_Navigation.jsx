@@ -31,8 +31,11 @@ const TeamA_Navigation = () => {
         )}
       </div>
       <div className="right-container">
-        <Link to="/">
+        <Link to="/dashboard">
           <button className="TeamA-button" >Home</button>
+        </Link>
+        <Link to="/profile">
+          <button className="TeamA-button" >Profile</button>
         </Link>
         {!isLoggedIn && ( // Only render the "Register" button if not logged in
           <Link to="/register">
