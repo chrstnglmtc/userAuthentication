@@ -2,11 +2,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../Auth.css';
-import Navigation from './Navigation';
-import { useAuth } from "./AuthContext";
+import Navigation from './TeamA_Navigation';
+import { useAuth } from "./TeamA_AuthContext";
 
 
-function Profile() {
+function TeamA_Profile() {
 
   const { isLoggedIn, handleLogout } = useAuth();
   const [userData, setUserData] = useState({});
@@ -101,4 +101,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default TeamA_Profile;

@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unknown-property */
 import React from 'react';
-import ChangePasswordForm from './ChangePasswordForm'; // Correct import statement
+import ChangePasswordForm from './TeamA_ChangePasswordForm'; // Correct import statement
 import { Link } from 'react-router-dom';
 import '../Auth.css';
 
-function ChangePassword() { // Corrected function name
+function TeamA_ChangePassword() { // Corrected function name
   return (
     <div>
       
@@ -16,7 +16,7 @@ function ChangePassword() { // Corrected function name
         <ul className="Change-nav-list">
           <li>
             <Link to="/">
-              <button>Home</button>
+              <button className="TeamA-button" >Home</button>
             </Link>
           </li>
         </ul>
@@ -39,4 +39,4 @@ function ChangePassword() { // Corrected function name
   );
 }
 
-export default ChangePassword;
+export default TeamA_ChangePassword;

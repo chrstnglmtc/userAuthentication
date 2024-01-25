@@ -1,10 +1,9 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
-import EmailForm from './EmailForm';
+import NewPassForm from './TeamA_NewPassForm';
 import { Link } from 'react-router-dom';
 import '../Auth.css'; // Assuming you want to include Auth.css
 
-function Email() {
+function TeamA_NewPass({ onNewPassForm }) {
   return (
     <div className="email-container">
       <div className="auth-header">
@@ -12,19 +11,19 @@ function Email() {
       </div>
       <div className="email-navi">
         <div className="home-button">
-          <Link to="/verify">
-            <button>Home</button>
+          <Link to="/">
+            <button className="TeamA-button" >Home</button>
           </Link>
         </div>
       </div>
       
       <div className="content">
         <div className="email-sign">
-          <EmailForm/>
+          <NewPassForm onNewPassForm={onNewPassForm} />
         </div>
       </div>
     </div>
   );
 }
 
-export default Email;
+export default TeamA_NewPass;

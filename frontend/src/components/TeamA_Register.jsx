@@ -1,9 +1,9 @@
 import React from 'react';
-import RegisterForm from './RegisterForm';
+import RegisterForm from './TeamA_RegisterForm';
 import { Link } from "react-router-dom";
 import '../Auth.css';
 
-function Register({ onNavigateHome }) {
+function TeamA_Register({ onNavigateHome }) {
   const handleRegister = () => {
     alert('Register button clicked');
     // You can add register logic here
@@ -17,7 +17,7 @@ function Register({ onNavigateHome }) {
       <div className="auth-navi">
         <div className="home-button">
           <Link to="/">
-            <button>Home</button>
+            <button className="TeamA-button" >Home</button>
           </Link> 
         </div>
       </div>
@@ -35,5 +35,5 @@ function Register({ onNavigateHome }) {
   );
 }
 
-export default Register;
+export default TeamA_Register;
  

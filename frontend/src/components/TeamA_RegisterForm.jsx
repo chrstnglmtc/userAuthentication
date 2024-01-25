@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-function RegisterForm() {
+function TeamA_RegisterForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
@@ -86,7 +86,10 @@ function RegisterForm() {
           value={userName}
           onChange={(e) => setUserName(e.target.value)}
           placeholder={`Username (${userType === 'Admin' ? 'Admin' : userType})`}
+        required
+
         />
+
         <select
           id="userType"
           value={userType}
@@ -103,6 +106,8 @@ function RegisterForm() {
         value={firstName}
         onChange={(e) => setFirstName(e.target.value)}
         placeholder="First Name"
+        required
+
       />
       <input
         type="text"
@@ -110,6 +115,8 @@ function RegisterForm() {
         value={lastName}
         onChange={(e) => setLastName(e.target.value)}
         placeholder="Last Name"
+        required
+
       />
       <input
         type="email"
@@ -117,6 +124,7 @@ function RegisterForm() {
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder="Email Address"
+        required
       />
       <input
         type="password"
@@ -124,10 +132,11 @@ function RegisterForm() {
         value={password}
         onChange={handlePasswordChange}
         placeholder="Password"
+        required
       />
       <div className="data-validation">
-        <label style={{ color: error ? 'red' : 'green', fontSize: '20px', fontWeight: '700', transition: 'color 0.3s' }}>
-          {error || 'Password must be at least 8 characters long with one uppercase character, number, and symbol.'}
+        <label style={{ color: error ? 'red' : 'green', fontSize: '15px', fontWeight: '700', transition: 'color 0.3s' }}>
+          { error || 'Password must be at least 8 characters long with one uppercase character, number, and symbol.'}
         </label>
       </div>
       <div>
@@ -138,9 +147,9 @@ function RegisterForm() {
       Already have an account?
         </div>
       </Link>
-      <button type="submit">Sign up</button>
+      <button type="submit" className="TeamA-button" >Sign up</button>
     </form>
   );
 }
 
-export default RegisterForm;
+export default TeamA_RegisterForm;

@@ -1,9 +1,9 @@
 import React from 'react';
-import LoginForm from './LoginForm';
+import LoginForm from './TeamA_LoginForm';
 import { Link } from "react-router-dom";
 import '../Auth.css';
 
-function Login({ onNavigateHome, onForgotPassword }) {
+function TeamA_Login({ onNavigateHome, onForgotPassword }) {
 
   return (
     <div className="auth-container">
@@ -13,7 +13,7 @@ function Login({ onNavigateHome, onForgotPassword }) {
       <div className="auth-navi">
         <div className="home-button">
             <Link to="/">
-                <button>Home</button>
+                <button className="TeamA-button" >Home</button>
             </Link> 
         </div>
       </div>
@@ -31,4 +31,4 @@ function Login({ onNavigateHome, onForgotPassword }) {
   );
 }
 
-export default Login;
+export default TeamA_Login;

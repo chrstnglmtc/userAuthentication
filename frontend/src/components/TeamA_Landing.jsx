@@ -2,9 +2,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../Auth.css";
-import Footer from "./Footer";
+import Footer from "./TeamA_Footer";
 
-const Landing = () => {
+const TeamA_Landing = () => {
   return (
     <div>
       <nav>
@@ -39,12 +39,12 @@ const Landing = () => {
 
               <div className="card-body">
                 <Link to='/'>
-                  <button>View </button>
+                  <button className="TeamA-button">View </button>
                 </Link>
               </div>
 
               <div className="card-button">
-                <button>Enroll </button>
+                <button className="TeamA-button">Enroll </button>
               </div>
             </div>
             <div className="card">
@@ -54,12 +54,12 @@ const Landing = () => {
 
               <div className="card-body">
               <Link to='/'>
-                  <button>View </button>
+                  <button className="TeamA-button">View </button>
                 </Link>
               </div>
 
               <div className="card-button">
-                <button>Enroll </button>
+                <button className="TeamA-button">Enroll </button>
               </div>
             </div>
             <div className="card">
@@ -69,12 +69,12 @@ const Landing = () => {
 
               <div className="card-body">
               <Link to='/'>
-                  <button>View </button>
+                  <button className="TeamA-button">View </button>
                 </Link>
               </div>
 
               <div className="card-button">
-                <button>Enroll</button>
+                <button className="TeamA-button">Enroll</button>
               </div>
             </div>
           </div>
@@ -91,4 +91,4 @@ const Landing = () => {
   );
 };
 
-export default Landing;
+export default TeamA_Landing;

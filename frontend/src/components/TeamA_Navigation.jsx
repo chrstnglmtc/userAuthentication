@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "./AuthContext"; // Adjust the path accordingly
+import { useAuth } from "./TeamA_AuthContext"; // Adjust the path accordingly
 import '../Auth.css';
 
-const Navigation = () => {
+const TeamA_Navigation = () => {
   const { isLoggedIn, handleLogout } = useAuth();
 
   return (
@@ -32,18 +32,18 @@ const Navigation = () => {
       </div>
       <div className="right-container">
         <Link to="/">
-          <button>Home</button>
+          <button className="TeamA-button" >Home</button>
         </Link>
         {!isLoggedIn && ( // Only render the "Register" button if not logged in
           <Link to="/register">
-            <button>Register</button>
+            <button className="TeamA-button" >Register</button>
           </Link>
         )}
         {isLoggedIn ? (
           <button onClick={handleLogout}>Logout</button>
         ) : (
           <Link to="/login">
-            <button>Login</button>
+            <button className="TeamA-button" >Login</button>
           </Link>
         )}
       </div>
@@ -51,4 +51,4 @@ const Navigation = () => {
   );
 };
 
-export default Navigation;
+export default TeamA_Navigation;

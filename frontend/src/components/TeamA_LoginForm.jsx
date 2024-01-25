@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from "./AuthContext";
+import { useAuth } from "./TeamA_AuthContext";
 
-function LoginForm() {
+function TeamA_LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
@@ -67,10 +67,10 @@ function LoginForm() {
           Forgot your password?
         </div>
       </Link>
-      <button type="submit">Sign in</button>
+      <button type="submit" className="TeamA-button" >Sign in</button>
       {error && <div className="error-message">{error}</div>}
     </form>
   );
 }
 
-export default LoginForm;
+export default TeamA_LoginForm;

@@ -1,11 +1,8 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
-import LoginForm from './ForgotForm';
+import LoginForm from './TeamA_ForgotForm';
 import { Link } from "react-router-dom";
-import ForgotForm from './ForgotForm';
-import Home from './Home';
 import '../Auth.css';
-function Forgot() {
+function TeamA_Forgot({ onNavigateHome, onForgotPassword }) {
 
   return (
     <div className="forgot-container">
@@ -14,16 +11,18 @@ function Forgot() {
       </div>
       <div className="forgot-navi">
         <div className="home-button">
-            <Home />
+            <Link to="/">
+                <button className="TeamA-button" >Home</button>
+            </Link> 
         </div>
       </div>
       <div className="forgot-content">
         <div className="forgot-sign">
-            <ForgotForm />
+            <LoginForm onForgotPassword={onForgotPassword} />
         </div>
       </div>
     </div>
   );
 }
 
-export default Forgot;
+export default TeamA_Forgot;
