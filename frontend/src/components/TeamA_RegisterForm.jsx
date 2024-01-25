@@ -147,7 +147,7 @@ function TeamA_RegisterForm() {
       Already have an account?
         </div>
       </Link>
-      <button type="submit">Sign up</button>
+      <button type="submit" className="TeamA-button" >Sign up</button>
     </form>
   );
 }

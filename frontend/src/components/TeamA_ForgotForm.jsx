@@ -48,7 +48,7 @@ const handleForgot = (e) => {
           </div>
           </Link>
           <Link to="/Email">
-          <button>Send to Email</button>
+          <button className="TeamA-button" >Send to Email</button>
           </Link>
         </form>
       </div>

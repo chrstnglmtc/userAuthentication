@@ -12,7 +12,7 @@ function TeamA_Forgot({ onNavigateHome, onForgotPassword }) {
       <div className="forgot-navi">
         <div className="home-button">
             <Link to="/">
-                <button>Home</button>
+                <button className="TeamA-button" >Home</button>
             </Link> 
         </div>
       </div>

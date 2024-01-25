@@ -53,7 +53,7 @@ function TeamA_EmailForm({ onEmailForm }) {
           
        </p>
         <Link to="/new"> 
-          <button>Send to Email</button>
+          <button className="TeamA-button" >Send to Email</button>
           </Link>
         
       </form>

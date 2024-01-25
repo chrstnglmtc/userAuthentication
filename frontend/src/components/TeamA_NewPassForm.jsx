@@ -47,11 +47,11 @@ function TeamA_NewPassForm() {
             required
           />
         </div>
-        <button type="button" onClick={handleTogglePassword}>
+        <button type="button"className="TeamA-button"  onClick={handleTogglePassword}>
           {showPassword ? 'Hide Password' : 'Show Password'}
         </button>
         <Link to="/login">
-          <button>Confirm</button>
+          <button className="TeamA-button" >Confirm</button>
         </Link>
       </form>
 

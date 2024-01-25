@@ -32,18 +32,18 @@ const TeamA_Navigation = () => {
       </div>
       <div className="right-container">
         <Link to="/">
-          <button>Home</button>
+          <button className="TeamA-button" >Home</button>
         </Link>
         {!isLoggedIn && ( // Only render the "Register" button if not logged in
           <Link to="/register">
-            <button>Register</button>
+            <button className="TeamA-button" >Register</button>
           </Link>
         )}
         {isLoggedIn ? (
           <button onClick={handleLogout}>Logout</button>
         ) : (
           <Link to="/login">
-            <button>Login</button>
+            <button className="TeamA-button" >Login</button>
           </Link>
         )}
       </div>

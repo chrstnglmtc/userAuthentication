@@ -35,7 +35,7 @@ function TeamA_VerificationForm({ onVerificationForm }) {
             onChange={(e) => setVerification(e.target.value)}
             required
           />
-          <button type="submit" className="verification-button">Send</button>
+          <button type="submit" className="TeamA-button">Send</button>
         </div>
       </form>
 

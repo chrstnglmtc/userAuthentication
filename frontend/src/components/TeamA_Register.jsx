@@ -17,7 +17,7 @@ function TeamA_Register({ onNavigateHome }) {
       <div className="auth-navi">
         <div className="home-button">
           <Link to="/">
-            <button>Home</button>
+            <button className="TeamA-button" >Home</button>
           </Link> 
         </div>
       </div>

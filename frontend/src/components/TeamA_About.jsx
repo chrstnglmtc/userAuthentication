@@ -47,10 +47,11 @@ const TeamA_About = () => {
         <nav>
           <ul>
             <Link to='/dashboard'>
-              <button>Home</button>
+              <button className="TeamA-button">
+              Home</button>
             </Link>
             <Link to='/'>
-              <button>Logout</button>
+              <button className="TeamA-button">Logout</button>
             </Link>
             {/* Add more navigation links as needed */}
           </ul>

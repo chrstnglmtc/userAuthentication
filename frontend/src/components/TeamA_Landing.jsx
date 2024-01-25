@@ -39,12 +39,12 @@ const TeamA_Landing = () => {
 
               <div className="card-body">
                 <Link to='/'>
-                  <button>View </button>
+                  <button className="TeamA-button">View </button>
                 </Link>
               </div>
 
               <div className="card-button">
-                <button>Enroll </button>
+                <button className="TeamA-button">Enroll </button>
               </div>
             </div>
             <div className="card">
@@ -54,12 +54,12 @@ const TeamA_Landing = () => {
 
               <div className="card-body">
               <Link to='/'>
-                  <button>View </button>
+                  <button className="TeamA-button">View </button>
                 </Link>
               </div>
 
               <div className="card-button">
-                <button>Enroll </button>
+                <button className="TeamA-button">Enroll </button>
               </div>
             </div>
             <div className="card">
@@ -69,12 +69,12 @@ const TeamA_Landing = () => {
 
               <div className="card-body">
               <Link to='/'>
-                  <button>View </button>
+                  <button className="TeamA-button">View </button>
                 </Link>
               </div>
 
               <div className="card-button">
-                <button>Enroll</button>
+                <button className="TeamA-button">Enroll</button>
               </div>
             </div>
           </div>

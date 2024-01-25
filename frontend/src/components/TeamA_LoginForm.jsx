@@ -67,7 +67,7 @@ function TeamA_LoginForm() {
           Forgot your password?
         </div>
       </Link>
-      <button type="submit">Sign in</button>
+      <button type="submit" className="TeamA-button" >Sign in</button>
       {error && <div className="error-message">{error}</div>}
     </form>
   );

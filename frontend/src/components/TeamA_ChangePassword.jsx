@@ -16,7 +16,7 @@ function TeamA_ChangePassword() { // Corrected function name
         <ul className="Change-nav-list">
           <li>
             <Link to="/">
-              <button>Home</button>
+              <button className="TeamA-button" >Home</button>
             </Link>
           </li>
         </ul>
