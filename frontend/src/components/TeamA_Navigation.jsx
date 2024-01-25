@@ -40,7 +40,7 @@ const TeamA_Navigation = () => {
           </Link>
         )}
         {isLoggedIn ? (
-          <button onClick={handleLogout}>Logout</button>
+          <button className="TeamA-button" onClick={handleLogout}>Logout</button>
         ) : (
           <Link to="/login">
             <button className="TeamA-button" >Login</button>
