@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-vars */
+/* eslint-disable no-unused-vars */
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext();
 
@@ -8,11 +10,15 @@ export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate(); // Use useNavigate for version 6
 
   const handleLogout = async () => {
     try {
       // Retrieve authentication token from localStorage
       const authToken = localStorage.getItem('authToken');
+    
+      // Log the current authToken value
+      console.log('Current authToken:', authToken);
   
       // Perform logout API call with the authentication token
       const response = await fetch('http://localhost:8085/api/v1/auth/logout', {
@@ -26,12 +32,23 @@ export const AuthProvider = ({ children }) => {
       if (response.ok) {
         // Clear authentication token
         localStorage.removeItem('authToken');
-        // Clear other session-related items if needed
-        // localStorage.removeItem('otherSessionItem');
+        // Log a message indicating successful removal
+        console.log('authToken removed from localStorage');
+  
+        // Clear other session-related items
+        localStorage.removeItem('username');
+        localStorage.removeItem('email');
+        localStorage.removeItem('lastName');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('firstName');
+  
         // Update login state
         setLoggedIn(false);
-        // Redirect to another page (e.g., home page)
-        history.push('/');
+        // Log the current isLoggedIn state
+        console.log('isLoggedIn after logout:', isLoggedIn);
+  
+        // Redirect to another page (e.g., home page) using navigate('/')
+        navigate('/');
       } else {
         // Handle logout failure
         console.error('Logout failed', response.status, response.statusText);
@@ -45,6 +62,7 @@ export const AuthProvider = ({ children }) => {
       // setError('An unexpected error occurred. Please try again.');
     }
   };
+  
   
 
   const handleLogin = async (credentials, navigate) => {
