@@ -16,6 +16,7 @@ import jakarta.mail.internet.MimeMessage;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 @Service
 public class EmailServiceImpl implements EmailService {
@@ -26,8 +27,7 @@ public class EmailServiceImpl implements EmailService {
     @Value("${spring.mail.username}")
     private String sender;
 
-    private Map<String, String> verificationCodes = new HashMap<>();
-
+    private final Map<String, String> verificationCodeStorage = new HashMap<>();
     // No changes in the sendSimpleMail method
     @Override
     public String sendSimpleMail(EmailDetails details) {
@@ -39,7 +39,7 @@ public class EmailServiceImpl implements EmailService {
             mailMessage.setSubject(details.getSubject());
 
             javaMailSender.send(mailMessage);
-            return "Mail Sent Successfully...";
+            return "Mail Sent Successfully";
         } catch (Exception e) {
             return "Error while Sending Mail";
         }
@@ -75,19 +75,37 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public String generateAndStoreVerificationCode(String userEmail) {
         String verificationCode = generateRandomCode(); // Implement your code generation logic
-        verificationCodes.put(userEmail, verificationCode);
-        return verificationCode;
+        storeVerificationCodeForUser(userEmail, verificationCode);
+
+        return "Verification code generated and stored successfully";
     }
 
     @Override
     public boolean verifyCode(String userEmail, String enteredCode) {
-        String storedCode = verificationCodes.get(userEmail);
-        return storedCode != null && storedCode.equals(enteredCode);
+        String storedCode = getStoredCodeForUser(userEmail);
+
+        // Compare the entered code with the stored code
+        return enteredCode.equals(getStoredCodeForUser(userEmail));
     }
 
     // Added the actual implementation of the generateRandomCode method
+    private String getStoredCodeForUser(String userEmail) {
+        // Retrieve the stored code from your data storage (e.g., database)
+        // Replace this with your actual logic
+        return "123456"; // Placeholder, replace with actual logic
+    }
+
+    // Placeholder method, replace with actual logic to store verification code
+    private void storeVerificationCodeForUser(String userEmail, String verificationCode) {
+        // Store the verification code for the user in your data storage (e.g., database)
+        // Replace this with your actual logic
+    }
+
+    // Placeholder method, replace with actual logic to generate verification code
     private String generateRandomCode() {
-        // Implement your random code generation logic
-        return "123456"; // Replace with actual logic
+        // Generate a verification code (e.g., random 6-digit code)
+        // Replace this with your actual logic
+        Random random = new Random();
+        return String.format("%06d", random.nextInt(999999));
     }
 }

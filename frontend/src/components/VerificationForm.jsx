@@ -37,6 +37,7 @@ function VerificationForm({
       if (response.ok) {
         navigate('/send');
         console.log('Verification email sent successfully');
+        console.log('Generated Verification Code:', otpCode);
         onVerificationForm(email, otpCode); // Pass the email and OTP to the parent component
         onVerificationSuccess(); // Notify the parent component of the successful verification
       } else {

@@ -18,7 +18,7 @@ function SendCodeForm({ onVerifySuccess, email, otpCode }) {
 
     try {
       // Make the verification request using the entered verification code
-      const response = await fetch('http://localhost:5173/verifyCode', {
+      const response = await fetch('http://localhost:8085/verifyCode', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

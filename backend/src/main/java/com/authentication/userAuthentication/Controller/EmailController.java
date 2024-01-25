@@ -3,6 +3,8 @@ package com.authentication.userAuthentication.Controller;
 import com.authentication.userAuthentication.Entity.EmailDetails;
 import com.authentication.userAuthentication.Service.EmailService; // Adjusted import statement
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,7 +32,20 @@ public class EmailController {
 
     // New endpoint for verifying the entered code
     @PostMapping("/verifyCode")
-    public boolean verifyCode(@RequestBody EmailDetails details) {
-        return emailService.verifyCode(details.getRecipient(), details.getVerificationCode());
+    public ResponseEntity<String> verifyCode(@RequestBody EmailDetails details) {
+        String userEmail = details.getRecipient();
+        String enteredCode = details.getVerificationCode();
+
+        // Retrieve the stored code for the user
+        String storedCode = emailService.getStoredCodeForUser(userEmail);
+
+        // Compare the entered code with the stored code
+        if (enteredCode.equals(storedCode)) {
+            // Verification successful
+            return ResponseEntity.ok("Verification successful");
+        } else {
+            // Verification failed
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Verification failed");
+        }
     }
 }
