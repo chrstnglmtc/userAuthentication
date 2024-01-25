@@ -50,4 +50,8 @@ public class AuthService implements UserDetailsService {
         // Generate and return access token after successful sign-in
         return tokenProvider.generateAccessToken(user);
     }
+
+    public User getUserByEmail(String email) {
+        return userRepo.findByEmail(email);
+    }
 }

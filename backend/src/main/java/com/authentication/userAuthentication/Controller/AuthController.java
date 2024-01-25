@@ -52,15 +52,35 @@ public class AuthController {
         }
     }
 // <-----------WORKING LOGIN ENDPOINT W/ SESSION----------->
-    @PostMapping("/signin")
-    public ResponseEntity<JwtDto> signIn(@RequestBody @Valid SignInDto data) {
-        try {
-            String accessToken = service.signIn(data.email(), data.password());
-            return ResponseEntity.ok(new JwtDto(accessToken));
-        } catch (InvalidJwtException e) {
+@PostMapping("/signin")
+public ResponseEntity<JwtDto> signIn(@RequestBody @Valid SignInDto data) {
+    try {
+        String accessToken = service.signIn(data.email(), data.password());
+
+        // Retrieve the user directly from AuthService
+        User user = service.getUserByEmail(data.email());
+
+        if (user != null) {
+            JwtDto jwtDto = new JwtDto(
+                accessToken,
+                String.valueOf(user.getUser_id()), // Assuming user_id is a Long or any other numeric type
+                user.getUsername(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getEmail()
+            );
+
+            return ResponseEntity.ok(jwtDto);
+        } else {
+            // Handle the case where the user is not found
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+    } catch (InvalidJwtException e) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
+}
+
+
 // <-----------WORKING LIST USERS ENDPOINT----------->
     @GetMapping("/users")
     public ResponseEntity<List<User>> listUsers() {
