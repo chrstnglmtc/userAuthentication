@@ -89,7 +89,8 @@ public class EmailServiceImpl implements EmailService {
     }
 
     // Added the actual implementation of the generateRandomCode method
-    private String getStoredCodeForUser(String userEmail) {
+    @Override
+    public String getStoredCodeForUser(String userEmail) {
         // Retrieve the stored code from your data storage (e.g., database)
         // Replace this with your actual logic
         return "123456"; // Placeholder, replace with actual logic

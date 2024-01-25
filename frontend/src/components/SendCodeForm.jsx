@@ -12,7 +12,6 @@ function SendCodeForm({ onVerifySuccess, email, otpCode }) {
 
     // Use the entered verification code
     const verificationData = {
-      recipient: email,
       verificationCode: verificationCode,
     };
 
@@ -26,14 +25,18 @@ function SendCodeForm({ onVerifySuccess, email, otpCode }) {
         body: JSON.stringify(verificationData),
       });
 
+      // Check if the response is okay
       if (response.ok) {
+        // You can handle successful verification here
         console.log('Verification successful');
-        onVerifySuccess(); // Notify the parent component of the successful verification
+        onVerifySuccess();
       } else {
+        // Handle the case where verification fails
         console.error('Verification failed');
         setErrorMessage('Verification failed');
       }
     } catch (error) {
+      // Handle errors during the verification process
       console.error('Error verifying code:', error);
       setErrorMessage('Error verifying code');
     }

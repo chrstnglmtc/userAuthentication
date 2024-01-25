@@ -33,6 +33,7 @@ public class EmailController {
     // New endpoint for verifying the entered code
     @PostMapping("/verifyCode")
     public ResponseEntity<String> verifyCode(@RequestBody EmailDetails details) {
+        System.out.println("Received Verification Request: " + details.toString()); // Add this line
         String userEmail = details.getRecipient();
         String enteredCode = details.getVerificationCode();
 

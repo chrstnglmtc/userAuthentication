@@ -26,6 +26,7 @@ function VerificationForm({
     };
 
     try {
+      console.log('Verification Data:', verificationData);
       const response = await fetch('http://localhost:8085/sendMail', {
         method: 'POST',
         headers: {
