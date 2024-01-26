@@ -45,51 +45,49 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const handleLogin = async (credentials, navigate) => {
-    let response;
-
+  const handleLogin = async (credentials) => {
     try {
       setLoading(true);
-
-      response = await fetch('http://localhost:8085/api/v1/auth/signin', {
+  
+      const response = await fetch('http://localhost:8085/api/v1/auth/signin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(credentials),
       });
-
+  
       const data = await response.json();
-
+  
       if (response.ok) {
         console.log('Server Response:', data);
-
+  
         if (data.accessToken) {
           localStorage.setItem('authToken', data.accessToken);
-
+  
           updateLocalStorage('userId', data.userId);
           updateLocalStorage('username', data.username);
           updateLocalStorage('firstName', data.firstName);
           updateLocalStorage('lastName', data.lastName);
           updateLocalStorage('email', data.email);
-
+  
           setLoggedIn(true);
           setError(null);
-
+  
           clearTimeout(timeoutId);
           const newTimeoutId = setTimeout(() => {
             handleLogout();
           }, 3600000);
           setTimeoutId(newTimeoutId);
-
-          navigate('/dashboard');
+  
+          return { success: true, user: data }; // Return the success status and user data
         } else {
           console.error('Token missing in response:', data);
           setError('Invalid response from the server: Token missing');
         }
       } else {
         console.error('Login failed. Server response:', data);
-
+  
         if (response.status === 401) {
           setError('Invalid email or password. Please try again.');
         } else {
@@ -98,15 +96,18 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       console.error('Unexpected error during login', error);
-
+  
       console.log('Response status:', response?.status);
       console.log('Response statusText:', response?.statusText);
-
+  
       setError('An unexpected error occurred. Please try again later.');
     } finally {
       setLoading(false);
     }
+  
+    return { success: false, user: null }; // Return the failure status
   };
+  
 
   const updateLocalStorage = (key, value) => {
     if (value !== undefined) {

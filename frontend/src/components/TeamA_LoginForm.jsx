@@ -14,16 +14,28 @@ function TeamA_LoginForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
-      // Pass the navigate function as an argument to handleLogin
-      await handleLogin({ email, password }, navigate);
+      console.log('Form submitted'); // Add this line for debugging
+  
+      const result = await handleLogin({ email, password });
+      
+      if (result.success) {
+        console.log('Login successful'); // Add this line for debugging
+        navigate('/dashboard');
+      } else {
+        setError('Invalid email or password. Please try again.');
+      }
     } catch (error) {
-      setError('Invalid email or password. Please try again.');
+      setError('An unexpected error occurred. Please try again later.');
       console.error('Login failed:', error);
     }
   };
-  
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSubmit(e);
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit} className="template-form">
@@ -49,6 +61,7 @@ function TeamA_LoginForm() {
         id="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        onKeyPress={handleKeyPress}  // Add this line to capture Enter key
         placeholder="Password"
         required
       />
