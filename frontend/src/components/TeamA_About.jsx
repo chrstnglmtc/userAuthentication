@@ -60,7 +60,7 @@ const TeamA_About = () => {
 
       {/* Main Content Section */}
       <div className="home-content">
-        <div className="about-container">
+        <div className="TeamA-about-container">
           <h1>About Us</h1>
           <p>
             Tsukiden Global Solutions, Inc. YOUR RELIABLE IT PARTNER That's who WE are. For more than 30 years now, Team Tsukiden has always been the trusted reliable IT partner of its clients for various projects in Japan, Philippines, Malaysia, Hong Kong, Singapore, Taiwan, United Kingdom, and the United States of America.

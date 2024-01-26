@@ -8,7 +8,7 @@ const TeamA_Home = () => {
 
   return (
     <div className="home-container">
-      <Navigation isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
+      <Navigation isLoggedIn={isLoggedIn} handleLogout={handleLogout} /> 
       <div className="home-content">
         <div className="japanese-message">
           <h1>知識を得る。自分のやり方で学ぼう。ベストを尽くす。</h1>

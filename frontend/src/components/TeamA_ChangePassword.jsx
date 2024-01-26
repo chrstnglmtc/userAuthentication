@@ -4,23 +4,14 @@ import React from 'react';
 import ChangePasswordForm from './TeamA_ChangePasswordForm'; // Correct import statement
 import { Link } from 'react-router-dom';
 import '../Auth.css';
+import { useAuth } from './TeamA_AuthContext';
+import Navigation from './TeamA_Navigation';
 
 function TeamA_ChangePassword() { // Corrected function name
+  const { isLoggedIn, handleLogin, handleLogout } = useAuth();
   return (
     <div>
-      
-      <nav className="Change-navbar">
-        <div className="Change-nav-logo">
-          <img src="/assets/images/companyLogo.png" alt="Logo" className="logo" />
-        </div>
-        <ul className="Change-nav-list">
-          <li>
-            <Link to="/">
-              <button className="TeamA-button" >Home</button>
-            </Link>
-          </li>
-        </ul>
-      </nav>
+      <Navigation isLoggedIn={isLoggedIn} handleLogout={handleLogout} /> 
       <Link to="/profile">
         <button className="Change-Backbutton">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-left" viewBox="0 0 16 16">

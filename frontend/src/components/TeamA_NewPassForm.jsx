@@ -10,9 +10,26 @@ function TeamA_NewPassForm() {
     setShowPassword(!showPassword);
   };
 
+  const handleConfirmPasswordChange = (e) => {
+    const confirmedPassword = e.target.value.trim();
+    setConfirmPassword(confirmedPassword);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Perform your form submission here
+    if (newPassword === confirmPassword && newPassword.trim() !== '') {
+      console.log('Password match! Submitting...');
+      // Add your logic for form submission.
+    } else {
+      console.error('Password do not match or are empty. Please check.');
+    }
+  };
+
   return (
     <div className="email-forms-container" style={{ fontFamily: 'sans-serif' }}>
-      <form className="template-form">
+      <form className="template-form" onSubmit={handleSubmit}>
         <Link to="/forgot">
           <button className="wBackbutton">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-left" viewBox="0 0 16 16">
@@ -26,33 +43,44 @@ function TeamA_NewPassForm() {
           <i className="fas fa-envelope"></i>
         </label>
         <div className="email-input-field">
-          <input
-            type={showPassword ? 'text' : 'password'}
-            placeholder="Enter New Password here*"
-            id="newPassword"
-            name="newPassword"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            required
-          />
-        </div>
-        <div className="email-input-field">
-          <input
-            type={showPassword ? 'text' : 'password'}
-            placeholder="Confirm New Password*"
-            id="confirmPassword"
-            name="confirmPassword"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="button"className="TeamA-button"  onClick={handleTogglePassword}>
-          {showPassword ? 'Hide Password' : 'Show Password'}
-        </button>
-        <Link to="/login">
-          <button className="TeamA-button" >Confirm</button>
-        </Link>
+  <input
+    type={showPassword ? 'text' : 'password'}
+    placeholder="Enter New Password here*"
+    id="newPassword"
+    name="newPassword"
+    value={newPassword}
+    onChange={(e) => setNewPassword(e.target.value)}
+    required
+  />
+</div>
+<div className="email-input-field">
+  <input
+    type={showPassword ? 'text' : 'password'}
+    placeholder="Confirm New Password*"
+    id="confirmPassword"
+    name="confirmPassword"
+    value={confirmPassword}
+    onChange={handleConfirmPasswordChange}
+    required
+  />
+</div>
+
+{newPassword === confirmPassword && newPassword.trim() !== '' && (
+  <span style={{ color: 'green', fontSize: '14px', marginTop: '15px', display: 'block' }}>Password match</span>
+)}
+
+{newPassword !== confirmPassword && newPassword.trim() !== '' && (
+  <span style={{ color: 'red', fontSize: '14px', marginTop: '15px', display: 'block' }}>Password do not match</span>
+)}
+
+{newPassword.trim() === '' && confirmPassword.trim() === '' && (
+  <span style={{ color: 'red', fontSize: '14px', marginTop: '15px', display: 'block' }}>Please enter password</span>
+)}
+
+<button type="button" className="TeamA-button" onClick={handleTogglePassword}>
+  {showPassword ? 'Hide Password' : 'Show Password'}
+</button>
+<button type="submit" className="TeamA-button" style={{ marginTop: '10px' }}>Confirm</button>
       </form>
 
       <div className="email-panels-container">

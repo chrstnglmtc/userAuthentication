@@ -40,7 +40,6 @@ body {
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.5);
 }
 
-
 button:hover {
   background-color: gray;
 }
@@ -86,21 +85,7 @@ button:hover {
   height: auto;
 }
 
-nav ul {
-  list-style: none;
-  display: flex;
-  margin-right: 20px; /* Adjusted margin */
-}
 
-nav li {
-  margin-right: 20px;
-}
-
-nav h3 {
-  margin: 0; /* Remove default margin for h3 elements */
-  font-weight: normal;
-  font-size:18px;
-}
 
 .home-header nav a {
   text-decoration: none;
@@ -200,6 +185,9 @@ nav h3 {
 .label-container {
   display: flex;
   padding-right:240px;
+  align-items: center;
+  justify-content: center;
+
 }
 
 .auth-label {
@@ -288,17 +276,14 @@ nav h3 {
   cursor: pointer;
   font-size: 14px;
   text-decoration: underline;
+  margin-top: 10px;
 }
 
 .template-form .forgot-password:hover {
   color: #0056b3;
 }
 
-div {
-  align-items: center;
-  justify-content: center;
-  
-}
+
 /* ... existing styles ... */
 
 /* New styles for Forgot.jsx form */
@@ -448,7 +433,7 @@ justify-content: center;
   border-radius: 5px;
 }
 
-/* Email and Code Verifictaion */
+/* Email  */
 
 /* Updated styles for the EmailForm Component */
 
@@ -573,6 +558,7 @@ justify-content: center;
   background-color: transparent; /* Remove the background color */
 }
 
+/*verification*/
 .verification-forms-container {
   position: relative;
   width: 100%;
@@ -1082,38 +1068,6 @@ justify-content: center;
 
 
 
-.Change-navbar {
-  background-color: #D9FFCF;
-  padding: 15px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.Change-nav-logo {
-  color: #0e3b03;
-  font-size: 20px;
-}
-
-.Change-nav-links {
-  flex-grow: 1;
-}
-
-.Change-nav-list {
-  list-style: none;
-  display: flex;
-  justify-content: flex-start; /* Align items to the left */
-}
-
-.Change-nav-list li {
-  margin-right: 20px;
-}
-
-.Change-nav-list a {
-  text-decoration: none;
-  color: #0e3b03;
-  font-size: 16px;
-}
 
 .Change-wrapper {
   display: flex;
@@ -1421,7 +1375,7 @@ justify-content: center;
 
 
 
-nav {
+.my-navigation {
   background-color: #BCE8B1;
   padding: 1em 2em;
   display: flex;
@@ -1430,12 +1384,12 @@ nav {
 }
 
 
-nav img {
+.my-navigation img {
   height: 50px;
   width: auto;
 }
 
-nav ul {
+.my-navigation ul {
   list-style: none;
   display: flex;
   flex-direction: row;
@@ -1443,11 +1397,11 @@ nav ul {
   padding: 0;
 }
 
-nav ul li {
+.my-navigation ul li {
   margin-right: 95px;
 }
 
-nav a {
+.my-navigation a {
   text-decoration: none;
   color: #333;
   font-weight: bold;
@@ -1539,7 +1493,7 @@ nav a {
 
 
 
-.card-container {
+.TeamA-card-container {
   display: flex;
   align-items: stretch; /* Make sure all cards have the same height */
   justify-content: center;
@@ -1548,7 +1502,7 @@ nav a {
   
 }
 
-.card {
+.TeamA-card {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -1561,7 +1515,7 @@ nav a {
   overflow: hidden;
   text-align: center;
 }
-.card-title {
+.TeamA-card-title {
   font-size: small;
   margin-bottom: 10px; /* Add margin to separate title from content */
   overflow: hidden;
@@ -1600,10 +1554,11 @@ nav a {
 
 /*about container*/
 
-.about-container {
+.TeamA-about-container {
   text-align: center;
   font-family: 'Times New Roman', Times, serif;
   width: fit-content;
   font-size:medium;
 
 }
+

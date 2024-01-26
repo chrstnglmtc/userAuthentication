@@ -8,7 +8,9 @@ function TeamA_NewPass({ onNewPassForm }) {
     <div className="email-container">
       <div className="auth-header">
         <img src="/assets/images/companyLogo.png" alt="Logo" className="logo" />
+        
       </div>
+      
       <div className="email-navi">
         <div className="home-button">
           <Link to="/">

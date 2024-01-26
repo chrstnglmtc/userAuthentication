@@ -7,7 +7,7 @@ import Footer from "./TeamA_Footer";
 const TeamA_Landing = () => {
   return (
     <div>
-      <nav>
+      <nav className="my-navigation">
         <img src="/assets/images/companyLogo.png" alt="Logo" />
         <ul className="menu hide">
           <li>
@@ -31,49 +31,49 @@ const TeamA_Landing = () => {
         <div className="text-container">
           <h1 style={{ fontFamily: "Inter, sans-serif" }}>ONLINE LEARNING</h1>
           <h2>Gain knowledge. Learn your way. Be the best</h2>
-          <div className="card-container">
-            <div className="card">
-              <div className="card-title">
+          <div className="TeamA-card-container">
+            <div className="TeamA-card">
+              <div className="TeamA-card-title">
                 <h3>SQL QUERY</h3>
               </div>
 
-              <div className="card-body">
+              <div className="TeamA-card-body">
                 <Link to='/'>
                   <button className="TeamA-button">View </button>
                 </Link>
               </div>
 
-              <div className="card-button">
+              <div className="TeamA-card-button">
                 <button className="TeamA-button">Enroll </button>
               </div>
             </div>
-            <div className="card">
-              <div className="card-title">
+            <div className="TeamA-card">
+              <div className="TeamA-card-title">
                 <h3>Version Control: SVN</h3>
               </div>
 
-              <div className="card-body">
+              <div className="TeamA-card-body">
               <Link to='/'>
                   <button className="TeamA-button">View </button>
                 </Link>
               </div>
 
-              <div className="card-button">
+              <div className="TeamA-card-button">
                 <button className="TeamA-button">Enroll </button>
               </div>
             </div>
-            <div className="card">
-              <div className="card-title">
+            <div className="TeamA-card">
+              <div className="TeamA-card-title">
                 <h3>HTML Programming</h3>
               </div>
 
-              <div className="card-body">
+              <div className="TeamA-card-body">
               <Link to='/'>
                   <button className="TeamA-button">View </button>
                 </Link>
               </div>
 
-              <div className="card-button">
+              <div className="TeamA-card-button">
                 <button className="TeamA-button">Enroll</button>
               </div>
             </div>

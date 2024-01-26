@@ -55,7 +55,7 @@ function TeamA_RegisterForm() {
       if (response.ok) {
         // Registration successful, you can redirect or perform other actions
         console.log('Registration successful');
-        navigate('/login');
+        navigate('/dashboard');
       } else {
         // Registration failed, handle errors
         console.error('Registration failed');
@@ -85,7 +85,7 @@ function TeamA_RegisterForm() {
           id="username"
           value={userName}
           onChange={(e) => setUserName(e.target.value)}
-          placeholder={`Username (${userType === 'Admin' ? 'Admin' : userType})`}
+          placeholder={`Username (${userType === 'Student' ? 'S' : userType})`}
         required
 
         />
@@ -96,7 +96,6 @@ function TeamA_RegisterForm() {
           onChange={handleUserTypeChange}
         >
           <option value="Student">Student</option>
-          <option value="Admin">Admin</option>
           <option value="Instructor">Instructor</option>
         </select>
       </div>
