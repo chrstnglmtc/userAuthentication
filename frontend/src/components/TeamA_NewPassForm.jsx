@@ -5,6 +5,8 @@ function TeamA_NewPassForm() {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [newPasswordError, setNewPasswordError] = useState('');
+  const [confirmPasswordError, setConfirmPasswordError] = useState('');
 
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
@@ -13,6 +15,12 @@ function TeamA_NewPassForm() {
   const handleConfirmPasswordChange = (e) => {
     const confirmedPassword = e.target.value.trim();
     setConfirmPassword(confirmedPassword);
+
+    if (newPassword !== confirmedPassword) {
+      setConfirmPasswordError('Passwords do not match');
+    } else {
+      setConfirmPasswordError('');
+    }
   };
 
   const handleSubmit = (e) => {
@@ -23,7 +31,7 @@ function TeamA_NewPassForm() {
       console.log('Password match! Submitting...');
       // Add your logic for form submission.
     } else {
-      console.error('Password do not match or are empty. Please check.');
+      console.error('Passwords do not match or are empty. Please check.');
     }
   };
 
@@ -43,44 +51,46 @@ function TeamA_NewPassForm() {
           <i className="fas fa-envelope"></i>
         </label>
         <div className="email-input-field">
-  <input
-    type={showPassword ? 'text' : 'password'}
-    placeholder="Enter New Password here*"
-    id="newPassword"
-    name="newPassword"
-    value={newPassword}
-    onChange={(e) => setNewPassword(e.target.value)}
-    required
-  />
-</div>
-<div className="email-input-field">
-  <input
-    type={showPassword ? 'text' : 'password'}
-    placeholder="Confirm New Password*"
-    id="confirmPassword"
-    name="confirmPassword"
-    value={confirmPassword}
-    onChange={handleConfirmPasswordChange}
-    required
-  />
-</div>
+          <input
+            type={showPassword ? 'text' : 'password'}
+            placeholder="Enter New Password here*"
+            id="newPassword"
+            name="newPassword"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            onFocus={() => setNewPasswordError('')}
+            required
+          />
+          <button type="button" className="toggle-button" onClick={handleTogglePassword}>
+            {showPassword ? 'Hide' : 'Show'}
+          </button>
+        </div>
+        <div className="email-input-field">
+          <input
+            type={showPassword ? 'text' : 'password'}
+            placeholder="Confirm New Password*"
+            id="confirmPassword"
+            name="confirmPassword"
+            value={confirmPassword}
+            onChange={handleConfirmPasswordChange}
+            onFocus={() => setConfirmPasswordError('')}
+            required
+          />
+        </div>
 
-{newPassword === confirmPassword && newPassword.trim() !== '' && (
-  <span style={{ color: 'green', fontSize: '14px', marginTop: '15px', display: 'block' }}>Password match</span>
-)}
+        {newPassword === confirmPassword && newPassword.trim() !== '' && (
+          <span style={{ color: 'green', fontSize: '14px', marginTop: '15px', display: 'block' }}>Passwords match</span>
+        )}
 
-{newPassword !== confirmPassword && newPassword.trim() !== '' && (
-  <span style={{ color: 'red', fontSize: '14px', marginTop: '15px', display: 'block' }}>Password do not match</span>
-)}
+        {newPassword !== confirmPassword && newPassword.trim() !== '' && (
+          <span style={{ color: 'red', fontSize: '14px', marginTop: '15px', display: 'block' }}>{confirmPasswordError || 'Passwords do not match'}</span>
+        )}
 
-{newPassword.trim() === '' && confirmPassword.trim() === '' && (
-  <span style={{ color: 'red', fontSize: '14px', marginTop: '15px', display: 'block' }}>Please enter password</span>
-)}
+        {newPassword.trim() === '' && confirmPassword.trim() === '' && (
+          <span style={{ color: 'red', fontSize: '14px', marginTop: '15px', display: 'block' }}>{newPasswordError}</span>
+        )}
 
-<button type="button" className="TeamA-button" onClick={handleTogglePassword}>
-  {showPassword ? 'Hide Password' : 'Show Password'}
-</button>
-<button type="submit" className="TeamA-button" style={{ marginTop: '10px' }}>Confirm</button>
+        <button type="submit" className="TeamA-button" style={{ marginTop: '10px' }}>Confirm</button>
       </form>
 
       <div className="email-panels-container">
