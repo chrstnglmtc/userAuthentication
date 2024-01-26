@@ -13,9 +13,6 @@ const TeamA_Landing = () => {
           <li>
             <a href="About">About</a>
           </li>
-          <li>
-            <a href="profile">Profile</a>
-          </li>
         </ul>
         <div>
           <Link to="/register">
