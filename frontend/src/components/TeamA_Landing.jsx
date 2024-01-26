@@ -9,11 +9,11 @@ const TeamA_Landing = () => {
     <div>
       <nav className="my-navigation">
         <img src="/assets/images/companyLogo.png" alt="Logo" />
-        <ul className="menu hide">
+        {/* <ul className="menu hide">
           <li>
             <a href="About">About</a>
           </li>
-        </ul>
+        </ul> */}
         <div>
           <Link to="/register">
             <button id="register">Register</button>

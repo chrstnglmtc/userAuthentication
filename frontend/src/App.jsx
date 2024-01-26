@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './components/TeamA_AuthContext';
 
@@ -21,39 +20,40 @@ import './index.css';
 import PropTypes from 'prop-types';
 
 function PrivateRoute({ element, ...rest }) {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, isAuthReady } = useAuth();
+
+  if (!isAuthReady) {
+    // Loading state, you can render a loading spinner or some other indicator
+    return <div>Loading...</div>;
+  }
 
   return isLoggedIn ? element : <Navigate to="/login" />;
 }
 
 PrivateRoute.propTypes = {
   element: PropTypes.node.isRequired,
-  // ... (other props if needed)
 };
 
 function App() {
-
   return (
-    <>
-        <AuthProvider>
-        <Routes>
-          <Route path="/" element={<TeamA_Landing />} />
-            <Route path="/login" element={<TeamA_Login />} />
-            <Route path="/register" element={<TeamA_Register />} />
-            <Route path="/dashboard" element={<PrivateRoute element={<TeamA_Dashboard />} />} />
-            <Route path="/forgot" element={<TeamA_Forgot />} />
-            <Route path="/email" element={<TeamA_Email />}/>
-            <Route path="/verify" element={<TeamA_Verification />} />
-            <Route path="/profile" element={<PrivateRoute element={<TeamA_Profile />} />} />
-            <Route path="/update" element={<PrivateRoute element={<TeamA_ProfileEdit />} />} />
-            <Route path="/navigation" element={<TeamA_Navigation />} />
-            <Route path="/change" element={<TeamA_ChangePassword/>}/>
-            <Route path="/about" element={<PrivateRoute element={<TeamA_About />} />} />
-            <Route path="/new" element={<TeamA_NewPass/>}/>
-          </Routes>
-        </AuthProvider>
-    </>
-  )
+    <AuthProvider>
+      <Routes>
+        <Route path="/" element={<TeamA_Landing />} />
+        <Route path="/login" element={<TeamA_Login />} />
+        <Route path="/register" element={<TeamA_Register />} />
+        <Route path="/dashboard" element={<PrivateRoute element={<TeamA_Dashboard />} />} />
+        <Route path="/forgot" element={<TeamA_Forgot />} />
+        <Route path="/email" element={<TeamA_Email />} />
+        <Route path="/verify" element={<TeamA_Verification />} />
+        <Route path="/profile" element={<PrivateRoute element={<TeamA_Profile />} />} />
+        <Route path="/update" element={<PrivateRoute element={<TeamA_ProfileEdit />} />} />
+        <Route path="/navigation" element={<TeamA_Navigation />} />
+        <Route path="/change" element={<TeamA_ChangePassword />} />
+        <Route path="/about" element={<PrivateRoute element={<TeamA_About />} />} />
+        <Route path="/new" element={<TeamA_NewPass />} />
+      </Routes>
+    </AuthProvider>
+  );
 }
 
-export default App; 
+export default App;
