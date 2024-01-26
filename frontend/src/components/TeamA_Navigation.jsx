@@ -19,6 +19,9 @@ const TeamA_Navigation = () => {
         <Link to="/dashboard">
           <button className="TeamA-button" >Home</button>
         </Link>
+        <Link to="/about">
+          <button className="TeamA-button" >About</button>
+        </Link>
         <Link to="/profile">
           <button className="TeamA-button" >Profile</button>
         </Link>

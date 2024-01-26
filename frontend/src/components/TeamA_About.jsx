@@ -5,6 +5,8 @@ import React from "react";
 import '../Auth.css';
 import { Link } from "react-router-dom";
 import Footer from "./TeamA_Footer";
+import Navigation from './TeamA_Navigation';
+import { useAuth } from "./TeamA_AuthContext";
 
 // New component for the photo section
 const PhotoSection = () => {
@@ -35,29 +37,10 @@ for the welfare of our COMMUNITY & SOCIETY.</p>
 };
 
 const TeamA_About = () => {
+  const { isLoggedIn, handleLogout } = useAuth();
   return (
     <>
-      {/* Header Section */}
-      <div className="home-header">
-        <div className="logo-container">
-        <img src="/assets/images/companyLogo.png" alt="Logo" className="logo" />
-        
-       
-        </div>
-        <nav>
-          <ul>
-            <Link to='/dashboard'>
-              <button className="TeamA-button">
-              Home</button>
-            </Link>
-            <Link to='/'>
-              <button className="TeamA-button">Logout</button>
-            </Link>
-            {/* Add more navigation links as needed */}
-          </ul>
-        </nav>
-      </div>
-
+      <Navigation isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
       {/* Main Content Section */}
       <div className="home-content">
         <div className="TeamA-about-container">

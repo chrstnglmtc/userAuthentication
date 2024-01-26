@@ -48,7 +48,7 @@ function App() {
             <Route path="/update" element={<PrivateRoute element={<TeamA_ProfileEdit />} />} />
             <Route path="/navigation" element={<TeamA_Navigation />} />
             <Route path="/change" element={<TeamA_ChangePassword/>}/>
-            <Route path="/about" element={<TeamA_About/>}/>
+            <Route path="/about" element={<PrivateRoute element={<TeamA_About />} />} />
             <Route path="/new" element={<TeamA_NewPass/>}/>
           </Routes>
         </AuthProvider>
