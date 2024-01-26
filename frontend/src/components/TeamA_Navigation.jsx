@@ -13,22 +13,7 @@ const TeamA_Navigation = () => {
         <div className="logo-container">
           <img src="/assets/images/companyLogo.png" alt="Logo" className="logo" />
         </div>
-        {isLoggedIn && (
-          <nav>
-            <ul>
-              <li>
-                <Link to="/">
-                  <h3>Catalog</h3>
-                </Link>
-              </li>
-              <li>
-                <Link to="/">
-                  <h3>Activities</h3>
-                </Link>
-              </li>
-            </ul>
-          </nav>
-        )}
+        {isLoggedIn}
       </div>
       <div className="right-container">
         <Link to="/dashboard">
