@@ -10,6 +10,14 @@ function SendCodeForm({ onVerifySuccess, email, otpCode }) {
 
     console.log('Entered Verification Code:', verificationCode);
 
+    // Check if the entered code is a 6-digit number
+    const isSixDigitNumber = /^\d{6}$/.test(verificationCode);
+
+    if (!verificationCode || !isSixDigitNumber) {
+      setErrorMessage('Please input the 6-digit code.');
+      return;
+    }
+
     // Use the entered verification code
     const verificationData = {
       verificationCode: verificationCode,
@@ -61,6 +69,7 @@ function SendCodeForm({ onVerifySuccess, email, otpCode }) {
               placeholder="Enter Verification Code"
               value={verificationCode}
               onChange={(e) => setVerificationCode(e.target.value)}
+              maxLength={6} // Set max length to 6
             />
           </div>
           {errorMessage && (

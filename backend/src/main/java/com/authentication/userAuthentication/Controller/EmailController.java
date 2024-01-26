@@ -2,6 +2,8 @@ package com.authentication.userAuthentication.Controller;
 
 import com.authentication.userAuthentication.Entity.EmailDetails;
 import com.authentication.userAuthentication.Service.EmailService; // Adjusted import statement
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,26 +29,31 @@ public class EmailController {
     // New endpoint for generating and storing verification codes
     @PostMapping("/generateVerificationCode")
     public String generateVerificationCode(@RequestBody EmailDetails details) {
-        return emailService.generateAndStoreVerificationCode(details.getRecipient());
-    }
+    String generatedCode = emailService.generateAndStoreVerificationCode(details.getRecipient());
+    
+    // Set the generated code in the EmailDetails object
+    details.setGeneratedCode(generatedCode);
+    
+    return generatedCode;
+}
 
     // New endpoint for verifying the entered code
     @PostMapping("/verifyCode")
     public ResponseEntity<String> verifyCode(@RequestBody EmailDetails details) {
-        System.out.println("Received Verification Request: " + details.toString()); // Add this line
-        String userEmail = details.getRecipient();
-        String enteredCode = details.getVerificationCode();
+    System.out.println("Received Verification Request: " + details.toString());
 
-        // Retrieve the stored code for the user
-        String storedCode = emailService.getStoredCodeForUser(userEmail);
+    String verificationCode = details.getVerificationCode();
+    String enteredCode = emailService.getEnteredCodeForUser(verificationCode);
+    String storedCode = emailService.getStoredCodeForUser(details.getGeneratedCode());
+
 
         // Compare the entered code with the stored code
-        if (enteredCode.equals(storedCode)) {
-            // Verification successful
-            return ResponseEntity.ok("Verification successful");
-        } else {
-            // Verification failed
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Verification failed");
-        }
+    if (enteredCode.equals(storedCode)) {
+        // Verification successful
+        return ResponseEntity.ok("Verification successful");
+    } else {
+        // Verification failed
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Verification failed");
     }
+}
 }

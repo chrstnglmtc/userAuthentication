@@ -13,9 +13,19 @@ public class EmailDetails {
     private String subject;
     private String attachment;
     private String verificationCode;
+    private String generatedCode;
+
 
     public String getVerificationCode() {
         return verificationCode;
+    }
+
+    public String getGeneratedCode() {
+        return generatedCode;
+    }
+
+    public void setGeneratedCode(String generatedCode) {
+        this.generatedCode = generatedCode;
     }
 
     public void setVerificationCode(String verificationCode) {

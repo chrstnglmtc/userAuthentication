@@ -27,8 +27,9 @@ public class EmailServiceImpl implements EmailService {
     @Value("${spring.mail.username}")
     private String sender;
 
-    private final Map<String, String> verificationCodeStorage = new HashMap<>();
-    // No changes in the sendSimpleMail method
+    private final Map<String, String> generatedCodeStorage = new HashMap<>();
+    private final Map<String, String> enteredCodeStorage = new HashMap<>();
+
     @Override
     public String sendSimpleMail(EmailDetails details) {
         try {
@@ -45,7 +46,6 @@ public class EmailServiceImpl implements EmailService {
         }
     }
 
-    // No changes in the sendMailWithAttachment method
     @Override
     public String sendMailWithAttachment(EmailDetails details) {
         try {
@@ -67,46 +67,45 @@ public class EmailServiceImpl implements EmailService {
         }
     }
 
-    // Changes start here
-
-    // Removed @Override, as these methods are not overriding any methods
-    // Added the actual implementation of these methods
-
     @Override
     public String generateAndStoreVerificationCode(String userEmail) {
-        String verificationCode = generateRandomCode(); // Implement your code generation logic
-        storeVerificationCodeForUser(userEmail, verificationCode);
-
-        return "Verification code generated and stored successfully";
+        String generatedCode = generateRandomCode();
+        storeVerificationCodeForUser(userEmail, generatedCode);
+        generatedCodeStorage.put(userEmail, generatedCode);
+        return generatedCode;
     }
 
     @Override
-    public boolean verifyCode(String userEmail, String enteredCode) {
-        String storedCode = getStoredCodeForUser(userEmail);
-
-        // Compare the entered code with the stored code
-        return enteredCode.equals(getStoredCodeForUser(userEmail));
+    public boolean verifyCode(String generatedCode, String enteredCode) {
+        String storedCode = getStoredCode(generatedCode);
+        return enteredCode.equals(storedCode);
     }
 
-    // Added the actual implementation of the generateRandomCode method
     @Override
-    public String getStoredCodeForUser(String userEmail) {
-        // Retrieve the stored code from your data storage (e.g., database)
-        // Replace this with your actual logic
-        return "123456"; // Placeholder, replace with actual logic
+    public String getStoredCodeForUser(String generatedCode) {
+        return generatedCodeStorage.getOrDefault(generatedCode, "");
     }
 
-    // Placeholder method, replace with actual logic to store verification code
-    private void storeVerificationCodeForUser(String userEmail, String verificationCode) {
-        // Store the verification code for the user in your data storage (e.g., database)
-        // Replace this with your actual logic
+    @Override
+    public String getEnteredCodeForUser(String verificationCode) {
+        return enteredCodeStorage.getOrDefault(verificationCode, "");
     }
 
-    // Placeholder method, replace with actual logic to generate verification code
+    private void storeVerificationCodeForUser(String userEmail, String generatedCode) {
+        generatedCodeStorage.put(userEmail, generatedCode);
+    }
+
+    private String getStoredCode(String userEmail) {
+        return generatedCodeStorage.getOrDefault(userEmail, "");
+    }
+
     private String generateRandomCode() {
-        // Generate a verification code (e.g., random 6-digit code)
-        // Replace this with your actual logic
         Random random = new Random();
         return String.format("%06d", random.nextInt(999999));
+    }
+
+    @Override
+    public void storeEnteredCode(String verificationCode, String enteredCode) {
+        enteredCodeStorage.put(verificationCode, enteredCode);
     }
 }

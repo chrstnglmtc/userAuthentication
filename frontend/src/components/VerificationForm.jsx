@@ -1,33 +1,44 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-
-function VerificationForm({
-  onVerificationForm = () => {}, // Default to an empty function
-  onVerificationSuccess = () => {} // Default to an empty function
-}) {
+const VerificationForm = ({
+  onVerificationForm = () => {},
+  onVerificationSuccess = () => {}
+}) => {
   const [email, setEmail] = useState('');
+  const [otpCode, setOtpCode] = useState('');
   const navigate = useNavigate();
-
-  const generateOTP = () => {
-    return Math.floor(100000 + Math.random() * 900000).toString();
-  };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
-    const otpCode = generateOTP();
-
-    // Use the email value when making the verification request
-    const verificationData = {
-      recipient: email,
-      msgBody: `Your verification code is: ${otpCode}`,
-      subject: 'Verification Code',
-    };
-
     try {
-      console.log('Verification Data:', verificationData);
-      const response = await fetch('http://localhost:8085/sendMail', {
+      // Step 1: Generate Verification Code
+      const generateCodeResponse = await fetch('http://localhost:8085/generateVerificationCode', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          recipient: email,
+        }),
+      });
+
+      if (!generateCodeResponse.ok) {
+        console.error('Failed to generate verification code');
+        return;
+      }
+
+      const generatedCode = await generateCodeResponse.text();
+      setOtpCode(generatedCode);
+
+      // Step 2: Send Verification Code
+      const verificationData = {
+        recipient: email,
+        verificationCode: generatedCode,
+      };
+
+      const sendVerificationEmailResponse = await fetch('http://localhost:8085/sendMail', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -35,19 +46,17 @@ function VerificationForm({
         body: JSON.stringify(verificationData),
       });
 
-      if (response.ok) {
+      if (sendVerificationEmailResponse.ok) {
         navigate('/send');
         console.log('Verification email sent successfully');
-        console.log('Generated Verification Code:', otpCode);
-        onVerificationForm(email, otpCode); // Pass the email and OTP to the parent component
-        onVerificationSuccess(); // Notify the parent component of the successful verification
+        console.log('Generated Verification Code:', generatedCode);
+        onVerificationForm(generatedCode);
+        onVerificationSuccess();
       } else {
         console.error('Failed to send verification email');
-        // Handle the case where the email sending fails
       }
     } catch (error) {
-      console.error('Error sending verification email:', error);
-      // Handle the case where an error occurs during the verification process
+      console.error('Error during verification:', error);
     }
   };
 
@@ -56,11 +65,11 @@ function VerificationForm({
       <form className="verification-sign-in-form" onSubmit={handleFormSubmit}>
         <h1 className="verification-title">Email Verification</h1>
         <Link to="/email">
-        <button className="Verification-Backbutton">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-left" viewBox="0 0 16 16">
-            <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
-          </svg>
-        </button>
+          <button className="Verification-Backbutton">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-left" viewBox="0 0 16 16">
+              <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+            </svg>
+          </button>
         </Link>
         <p>Please enter Email</p>
         <div className="verification-input-field">
@@ -80,7 +89,8 @@ function VerificationForm({
       <div className="verification-panels-container">
         <div className="verification-panel verification-left-panel">
           <div className="content">
-            {/* Your content goes here */}
+            {/* Display the received OTP code */}
+            {otpCode && <p>Received OTP Code: {otpCode}</p>}
           </div>
           <img src="your-image.png" className="verification-image" alt="" />
         </div>
