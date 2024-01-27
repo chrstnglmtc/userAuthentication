@@ -1,6 +1,8 @@
 package com.authentication.userAuthentication.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -10,7 +12,10 @@ import com.authentication.userAuthentication.Dto.Request.SignUpDto;
 import com.authentication.userAuthentication.Entity.User;
 import com.authentication.userAuthentication.Entity.Enums.Role;
 import com.authentication.userAuthentication.Exceptions.InvalidJwtException;
+import com.authentication.userAuthentication.Exceptions.UserNotFoundException;
 import com.authentication.userAuthentication.Repo.UserRepo;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class AuthService implements UserDetailsService {
@@ -55,11 +60,17 @@ public class AuthService implements UserDetailsService {
         return userRepo.findByEmail(email);
     }
 
+    @Transactional
+    @Modifying
+    @Query("UPDATE User u SET u.isVerified = true WHERE u.email = :email")
     public void updateUserVerificationStatus(String email, boolean isVerified) {
         User user = userRepo.findByEmail(email);
         if (user != null) {
             user.setVerified(isVerified);
             userRepo.save(user);
+        } else {
+            throw new UserNotFoundException("User not found for email: " + email);
         }
     }
+    
 }
