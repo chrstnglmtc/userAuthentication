@@ -58,7 +58,7 @@ public class AuthService implements UserDetailsService {
     public void updateUserVerificationStatus(String email, boolean isVerified) {
         User user = userRepo.findByEmail(email);
         if (user != null) {
-            user.setIsVerified(isVerified);
+            user.setVerified(isVerified);
             userRepo.save(user);
         }
     }

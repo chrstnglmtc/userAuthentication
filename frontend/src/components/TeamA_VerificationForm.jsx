@@ -10,11 +10,10 @@ function TeamA_VerificationForm() {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-  
-    // TODO: Perform API call or verification logic
+
     try {
-      console.log('Submitting:', { verificationCode: verification, userEmail: email }); // Add this line
-  
+      console.log('Submitting:', { verificationCode: verification, recipient: email });
+
       // Example: Verify the code using an API endpoint
       const response = await fetch('http://localhost:8085/api/v1/auth/verifyCode', {
         method: 'POST',
@@ -23,22 +22,33 @@ function TeamA_VerificationForm() {
         },
         body: JSON.stringify({ verificationCode: verification, recipient: email }),
       });
-  
-      console.log('Response:', response); // Add this line
-  
+
+      console.log('Response:', response);
+
       if (response.ok) {
         // Verification successful
         setVerificationStatus('Verification successful');
       } else {
         // Verification failed
-        setVerificationStatus('Verification failed');
+        const errorMessage = await response.text(); // Get error message from response
+        setVerificationStatus(`Verification failed: ${errorMessage}`);
       }
     } catch (error) {
       console.error('Error during verification:', error);
+      if (error.response) {
+        // The request was made and the server responded with a non-2xx status code
+        console.error('Server responded with:', error.response.data);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error('No response received from the server');
+      } else {
+        // Something happened in setting up the request that triggered an error
+        console.error('Error setting up the request:', error.message);
+      }
       // Handle error
+      setVerificationStatus('Error during verification. Please try again.');
     }
   };
-  
 
   return (
     <div className="verification-forms-container">
@@ -54,14 +64,14 @@ function TeamA_VerificationForm() {
         <p className="center-text">Please enter the verification code and your email</p>
         <div className="verification-input-field">
           <input
-              type="email"
-              placeholder="Your Email"
-              id="email"
-              name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+            type="email"
+            placeholder="Your Email"
+            id="email"
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
           <input
             type="text"
             placeholder="Verification Code"
@@ -72,13 +82,9 @@ function TeamA_VerificationForm() {
             required
           />
           <button type="submit" className="TeamA-button">Send</button>
+          {verificationStatus && <p>{verificationStatus}</p>}
         </div>
       </form>
-
-      <div className="verification-panels-container">
-        {/* Display verification status */}
-        {verificationStatus && <p>{verificationStatus}</p>}
-      </div>
     </div>
   );
 }

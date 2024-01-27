@@ -1,6 +1,7 @@
 package com.authentication.userAuthentication.Controller;
 
 import com.authentication.userAuthentication.Entity.EmailDetails;
+import com.authentication.userAuthentication.Service.AuthService;
 import com.authentication.userAuthentication.Service.EmailService; // Adjusted import statement
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,9 @@ public class EmailController {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private AuthService authService; 
 
     @PostMapping("/sendMail")
     public String sendMail(@RequestBody EmailDetails details) {
@@ -41,27 +45,25 @@ public class EmailController {
     @PostMapping("/verifyCode")
     public ResponseEntity<String> verifyCode(@RequestBody EmailDetails details) {
         System.out.println("Received Verification Request: " + details.toString());
-    
+
         String userEmail = details.getRecipient(); // Assuming recipient is the email
         String enteredCode = details.getVerificationCode();
-    
+
         // Get the stored verification code for the user
         String storedCode = emailService.getStoredCodeForUser(userEmail);
-    
+
         // Compare the entered code with the stored code
         if (enteredCode.equals(storedCode)) {
             // Verification successful, update the user's entered code
             emailService.storeEnteredCode(userEmail, enteredCode);
-            
-            // Update the user's is_verified field in the database
-            userService.updateUserVerificationStatus(userEmail, true);
-    
+
+            // Update the user's is_verified field in the database using userService
+            authService.updateUserVerificationStatus(userEmail, true);
+
             return ResponseEntity.ok("Verification successful");
         } else {
             // Verification failed
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Verification failed");
         }
     }
-    
-    
 }

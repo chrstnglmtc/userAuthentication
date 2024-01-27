@@ -57,7 +57,7 @@ function TeamA_RegisterForm() {
         // Registration successful, you can redirect or perform other actions
         console.log('Registration successful');
         setVerificationCodeSent(true); // Set the state variable to true
-        navigate('/login');
+        navigate('/verify');
       } else {
         // Registration failed, handle errors
         console.error('Registration failed');
