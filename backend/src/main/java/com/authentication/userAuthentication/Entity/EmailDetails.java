@@ -12,4 +12,14 @@ public class EmailDetails {
     private String msgBody;
     private String subject;
     private String attachment;
+    private String verificationCode;
+    private String generatedCode;
+
+    public String getContent() {
+        return msgBody;
+    }
+
+    public void setContent(String content) {
+        this.msgBody = content;
+    }
 }

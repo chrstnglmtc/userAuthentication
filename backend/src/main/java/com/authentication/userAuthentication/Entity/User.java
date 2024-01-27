@@ -32,65 +32,72 @@ import lombok.Setter;
 @EqualsAndHashCode(of = "user_id")
 public class User implements UserDetails {
 
-  @Id
-  @Column(name="user_id")
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long user_id;
+    @Id
+    @Column(name="user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long user_id;
 
-  @Column(unique = true) // Make sure emails are unique
-  private String email;
+    @Column(unique = true) // Make sure emails are unique
+    private String email;
 
-  @Column(unique = true) // Make sure usernames are unique
-  private String userName;  
+    @Column(unique = true) // Make sure usernames are unique
+    private String userName;
 
-  private String password;
+    private String password;
 
-  private String firstName;
+    private String firstName;
 
-  private String lastName;
+    private String lastName;
 
-  @Enumerated(EnumType.STRING)
-  private Role role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
-  public User(String email, String userName, String password, String firstName, String lastName, Role role) {
-    this.email = email;
-    this.userName = userName;
-    this.password = password;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.role = role;
-}
+    @Column(name = "verification_code")
+    private String verificationCode;
 
-  @Override
-  public Collection<? extends GrantedAuthority> getAuthorities() {
-    if (this.role == Role.ADMIN) {
-      return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_STUDENT"));
+    @Column(name = "is_verified")
+    private boolean isVerified;
+
+    public User(String email, String userName, String password, String firstName, String lastName, Role role) {
+        this.email = email;
+        this.userName = userName;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.role = role;
+        this.isVerified = false; // Newly registered users are not verified by default
     }
-    return List.of(new SimpleGrantedAuthority("ROLE_STUDENT"));
-  }
 
-  @Override
-  public String getUsername() {
-    return userName;
-  }
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (this.role == Role.ADMIN) {
+            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_STUDENT"));
+        }
+        return List.of(new SimpleGrantedAuthority("ROLE_STUDENT"));
+    }
 
-  @Override
-  public boolean isAccountNonExpired() {
-    return true;
-  }
+    @Override
+    public String getUsername() {
+        return userName;
+    }
 
-  @Override
-  public boolean isAccountNonLocked() {
-    return true;
-  }
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
 
-  @Override
-  public boolean isCredentialsNonExpired() {
-    return true;
-  }
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
 
-  @Override
-  public boolean isEnabled() {
-    return true;
-  }
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return isVerified; // Only enable the account if it is verified
+    }
 }

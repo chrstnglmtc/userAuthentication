@@ -1,6 +1,8 @@
 package com.authentication.userAuthentication.Service.impl;
 
 import com.authentication.userAuthentication.Entity.EmailDetails;
+import com.authentication.userAuthentication.Entity.VerificationCodeEntity;
+import com.authentication.userAuthentication.Repo.VerificationCodeRepo;
 import com.authentication.userAuthentication.Service.EmailService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +15,11 @@ import org.springframework.stereotype.Service;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 @Service
 public class EmailServiceImpl implements EmailService {
@@ -21,8 +27,14 @@ public class EmailServiceImpl implements EmailService {
     @Autowired
     private JavaMailSender javaMailSender;
 
+    @Autowired
+    private VerificationCodeRepo verificationCodeRepo; // Inject your VerificationCodeRepo
+
     @Value("${spring.mail.username}")
     private String sender;
+
+    private final Map<String, String> generatedCodeStorage = new HashMap<>();
+    private final Map<String, String> enteredCodeStorage = new HashMap<>();
 
     @Override
     public String sendSimpleMail(EmailDetails details) {
@@ -34,7 +46,7 @@ public class EmailServiceImpl implements EmailService {
             mailMessage.setSubject(details.getSubject());
 
             javaMailSender.send(mailMessage);
-            return "Mail Sent Successfully...";
+            return "Mail Sent Successfully";
         } catch (Exception e) {
             return "Error while Sending Mail";
         }
@@ -59,5 +71,48 @@ public class EmailServiceImpl implements EmailService {
         } catch (MessagingException e) {
             return "Error while sending mail!!!";
         }
+    }
+
+    @Override
+    public String generateAndStoreVerificationCode(String userEmail) {
+        String generatedCode = generateRandomCode();
+
+        // Save verification code to the database
+        verificationCodeRepo.save(new VerificationCodeEntity(userEmail, generatedCode));
+
+        // Store verification code in memory (if needed)
+        generatedCodeStorage.put(userEmail, generatedCode);
+
+        return generatedCode;
+    }
+
+    @Override
+    public boolean verifyCode(String generatedCode, String enteredCode) {
+        String storedCode = getStoredCode(generatedCode);
+        return enteredCode.equals(storedCode);
+    }
+
+    @Override
+    public String getStoredCodeForUser(String generatedCode) {
+        return generatedCodeStorage.getOrDefault(generatedCode, "");
+    }
+
+    @Override
+    public String getEnteredCodeForUser(String verificationCode) {
+        return enteredCodeStorage.getOrDefault(verificationCode, "");
+    }
+
+    @Override
+    public void storeEnteredCode(String verificationCode, String enteredCode) {
+        enteredCodeStorage.put(verificationCode, enteredCode);
+    }
+
+    private String getStoredCode(String userEmail) {
+        return generatedCodeStorage.getOrDefault(userEmail, "");
+    }
+
+    private String generateRandomCode() {
+        Random random = new Random();
+        return String.format("%06d", random.nextInt(999999));
     }
 }

@@ -26,10 +26,12 @@ import com.authentication.userAuthentication.Dto.Request.JwtDto;
 import com.authentication.userAuthentication.Dto.Request.SignInDto;
 import com.authentication.userAuthentication.Dto.Request.SignUpDto;
 import com.authentication.userAuthentication.Dto.Request.UpdateUserDto;
+import com.authentication.userAuthentication.Entity.EmailDetails;
 import com.authentication.userAuthentication.Entity.User;
 import com.authentication.userAuthentication.Exceptions.InvalidJwtException;
 import com.authentication.userAuthentication.Repo.UserRepo;
 import com.authentication.userAuthentication.Service.AuthService;
+import com.authentication.userAuthentication.Service.EmailService;
 import com.authentication.userAuthentication.Service.TokenProvider;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -50,16 +52,36 @@ public class AuthController {
     @Autowired
     private UserRepo userRepo;
 
+    @Autowired
+    private EmailService emailService;
+
 // <-----------WORKING REGISTRATION ENDPOINT----------->
     @PostMapping("/signup")
     public ResponseEntity<JwtDto> signUp(@RequestBody @Valid SignUpDto data) {
         try {
+            // Perform user registration and get the user details
             String accessToken = service.signUp(data);
+
+            // Generate and store the verification code
+            String verificationCode = emailService.generateAndStoreVerificationCode(data.getEmail());
+
+            // Customize the email content or subject if needed
+            EmailDetails emailDetails = new EmailDetails();
+            emailDetails.setRecipient(data.getEmail());
+            emailDetails.setGeneratedCode(verificationCode);
+            emailDetails.setSubject("Verification Code");
+            emailDetails.setContent("Your verification code is: " + verificationCode);
+
+            // Send the verification code via email
+            emailService.sendSimpleMail(emailDetails);
+
+            // Return the access token in the response
             return ResponseEntity.ok(new JwtDto(accessToken));
         } catch (InvalidJwtException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
+
 
 // <-----------WORKING LOGIN ENDPOINT W/ SESSION----------->
 @PostMapping("/signin")

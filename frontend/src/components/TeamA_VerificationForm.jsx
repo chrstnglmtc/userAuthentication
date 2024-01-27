@@ -3,15 +3,42 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../Auth.css'; // Import a CSS file for styling
 
-function TeamA_VerificationForm({ onVerificationForm }) {
+function TeamA_VerificationForm() {
   const [verification, setVerification] = useState('');
+  const [email, setEmail] = useState('');
+  const [verificationStatus, setVerificationStatus] = useState(null);
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    onVerificationForm(verification);
-    console.log('Verification code submitted:', verification);
-    // You can add further logic or redirection if needed
+  
+    // TODO: Perform API call or verification logic
+    try {
+      console.log('Submitting:', { verificationCode: verification, userEmail: email }); // Add this line
+  
+      // Example: Verify the code using an API endpoint
+      const response = await fetch('http://localhost:8085/api/v1/auth/verifyCode', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ verificationCode: verification, recipient: email }),
+      });
+  
+      console.log('Response:', response); // Add this line
+  
+      if (response.ok) {
+        // Verification successful
+        setVerificationStatus('Verification successful');
+      } else {
+        // Verification failed
+        setVerificationStatus('Verification failed');
+      }
+    } catch (error) {
+      console.error('Error during verification:', error);
+      // Handle error
+    }
   };
+  
 
   return (
     <div className="verification-forms-container">
@@ -24,11 +51,20 @@ function TeamA_VerificationForm({ onVerificationForm }) {
           </button>
         </Link>
         <h1 className="verification-title">Email Verification</h1>
-        <p className="center-text">Please enter Email</p>
+        <p className="center-text">Please enter the verification code and your email</p>
         <div className="verification-input-field">
           <input
-            type="email"
-            placeholder="Email"
+              type="email"
+              placeholder="Your Email"
+              id="email"
+              name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          <input
+            type="text"
+            placeholder="Verification Code"
             id="verification"
             name="verification"
             value={verification}
@@ -40,7 +76,8 @@ function TeamA_VerificationForm({ onVerificationForm }) {
       </form>
 
       <div className="verification-panels-container">
-        {/* Any additional content you want to include */}
+        {/* Display verification status */}
+        {verificationStatus && <p>{verificationStatus}</p>}
       </div>
     </div>
   );

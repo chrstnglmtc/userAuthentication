@@ -10,6 +10,7 @@ function TeamA_RegisterForm() {
   const [userName, setUserName] = useState('');
   const [userType, setUserType] = useState('User'); // Default to 'User'
   const [error, setError] = useState('');
+  const [verificationCodeSent, setVerificationCodeSent] = useState(false); // New state variable
 
   const navigate = useNavigate();
 
@@ -55,6 +56,7 @@ function TeamA_RegisterForm() {
       if (response.ok) {
         // Registration successful, you can redirect or perform other actions
         console.log('Registration successful');
+        setVerificationCodeSent(true); // Set the state variable to true
         navigate('/login');
       } else {
         // Registration failed, handle errors
@@ -66,18 +68,18 @@ function TeamA_RegisterForm() {
       setError('Registration failed. Please try again.');
     }
   };
+
   return (
     <form onSubmit={handleRegister} className="template-form">
-       <Link to="/">
-  <div className="qBackbutton">
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-left" viewBox="0 0 16 16">
-      <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
-    </svg>
-  </div>
-</Link>
+      <Link to="/">
+        <div className="qBackbutton">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-left" viewBox="0 0 16 16">
+            <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+          </svg>
+        </div>
+      </Link>
       <h2>Sign up an account.</h2>
       <h2>Be part of the success.</h2>
-    
 
       <div className="group_input">
         <input
@@ -86,8 +88,7 @@ function TeamA_RegisterForm() {
           value={userName}
           onChange={(e) => setUserName(e.target.value)}
           placeholder={`Username (${userType === 'Admin' ? 'Admin' : userType})`}
-        required
-
+          required
         />
 
         <select
@@ -107,7 +108,6 @@ function TeamA_RegisterForm() {
         onChange={(e) => setFirstName(e.target.value)}
         placeholder="First Name"
         required
-
       />
       <input
         type="text"
@@ -116,7 +116,6 @@ function TeamA_RegisterForm() {
         onChange={(e) => setLastName(e.target.value)}
         placeholder="Last Name"
         required
-
       />
       <input
         type="email"
@@ -140,14 +139,19 @@ function TeamA_RegisterForm() {
         </label>
       </div>
       <div>
-        <h3 style={{fontSize: '15px'}}>By clicking Sign up you agree to our Terms of Use and our Privacy Policy.</h3>
+        <h3 style={{ fontSize: '15px' }}>By clicking Sign up you agree to our Terms of Use and our Privacy Policy.</h3>
       </div>
+      {verificationCodeSent && (
+        <div style={{ backgroundColor: 'lightgreen', padding: '10px', borderRadius: '5px', marginTop: '10px' }}>
+          <span style={{ color: 'green' }}>✓</span> Verification code has been sent to your email. Please check your inbox.
+        </div>
+      )}
       <Link to="/login">
         <div className="existing-account">
-      Already have an account?
+          Already have an account?
         </div>
       </Link>
-      <button type="submit" className="TeamA-button" >Sign up</button>
+      <button type="submit" className="TeamA-button">Sign up</button>
     </form>
   );
 }
