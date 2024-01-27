@@ -1,18 +1,24 @@
 /* eslint-disable no-unused-vars */
+/* eslint-disable */
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../Auth.css'; // Import a CSS file for styling
 
 function TeamA_VerificationForm() {
   const [verification, setVerification] = useState('');
   const [email, setEmail] = useState('');
   const [verificationStatus, setVerificationStatus] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
     try {
       console.log('Submitting:', { verificationCode: verification, recipient: email });
+
+      setLoading(true);
 
       // Example: Verify the code using an API endpoint
       const response = await fetch('http://localhost:8085/api/v1/auth/verifyCode', {
@@ -28,28 +34,24 @@ function TeamA_VerificationForm() {
       if (response.ok) {
         // Verification successful
         setVerificationStatus('Verification successful');
+        setTimeout(() => {
+          setLoading(false);
+          // Redirect to '/dashboard'
+         navigate('/dashboard');
+        }, 2000); // Adjust the duration of loading state as needed
       } else {
         // Verification failed
         const errorMessage = await response.text(); // Get error message from response
         setVerificationStatus(`Verification failed: ${errorMessage}`);
+        setLoading(false);
       }
     } catch (error) {
       console.error('Error during verification:', error);
-      if (error.response) {
-        // The request was made and the server responded with a non-2xx status code
-        console.error('Server responded with:', error.response.data);
-      } else if (error.request) {
-        // The request was made but no response was received
-        console.error('No response received from the server');
-      } else {
-        // Something happened in setting up the request that triggered an error
-        console.error('Error setting up the request:', error.message);
-      }
+      setLoading(false);
       // Handle error
       setVerificationStatus('Error during verification. Please try again.');
     }
   };
-
   return (
     <div className="verification-forms-container">
       <form className="template-form" onSubmit={handleFormSubmit}>
@@ -81,7 +83,9 @@ function TeamA_VerificationForm() {
             onChange={(e) => setVerification(e.target.value)}
             required
           />
-          <button type="submit" className="TeamA-button">Send</button>
+          <button type="submit" className="TeamA-button" disabled={loading}>
+            {loading ? 'Loading...' : 'Send'}
+          </button>
           {verificationStatus && <p>{verificationStatus}</p>}
         </div>
       </form>
