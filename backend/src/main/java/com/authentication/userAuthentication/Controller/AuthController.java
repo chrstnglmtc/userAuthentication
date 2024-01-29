@@ -1,5 +1,6 @@
 package com.authentication.userAuthentication.Controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +20,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.authentication.userAuthentication.Dto.UserDto;
 import com.authentication.userAuthentication.Dto.Request.JwtDto;
@@ -192,5 +195,28 @@ public ResponseEntity<JwtDto> signIn(@RequestBody @Valid SignInDto data) {
           return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid token");
       }
   }
+
+// <-----------UPLOAD PROFILE PICTURE ENDPOINT----------->
+    @PostMapping("/upload-pp")
+    public ResponseEntity<String> uploadProfilePicture(@RequestParam("userId") Long userId,
+                                                      @RequestParam("file") MultipartFile file) {
+        try {
+            // Retrieve the user by userId
+            User user = userRepo.findById(userId).orElse(null);
+
+            if (user != null) {
+                // Save the profile picture
+                user.setProfilePicture(file.getBytes());
+                userRepo.save(user);
+                return ResponseEntity.ok("Profile picture uploaded successfully");
+            } else {
+                // Handle the case where the user is not found
+                return ResponseEntity.notFound().build();
+            }
+        } catch (IOException e) {
+            // Handle IOException (e.g., failed to read profile picture bytes)
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload profile picture");
+        }
+    }
     
 }
