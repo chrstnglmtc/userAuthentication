@@ -1,18 +1,28 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import '../Auth.css'; // Import a CSS file for styling
 
 function TeamA_VerificationForm() {
   const [verification, setVerification] = useState('');
-  const [email, setEmail] = useState('');
   const [verificationStatus, setVerificationStatus] = useState(null);
+
+  // Extract email from URL using useLocation
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const emailFromRegistration = queryParams.get('email');
+
+  useEffect(() => {
+    if (emailFromRegistration) {
+      // Do something with the email if needed
+    }
+  }, [emailFromRegistration]);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      console.log('Submitting:', { verificationCode: verification, recipient: email });
+      console.log('Submitting:', { verificationCode: verification, recipient: emailFromRegistration });
 
       // Example: Verify the code using an API endpoint
       const response = await fetch('http://localhost:8085/api/v1/auth/verifyCode', {
@@ -20,7 +30,7 @@ function TeamA_VerificationForm() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ verificationCode: verification, recipient: email }),
+        body: JSON.stringify({ verificationCode: verification, recipient: emailFromRegistration }),
       });
 
       console.log('Response:', response);
@@ -61,17 +71,8 @@ function TeamA_VerificationForm() {
           </button>
         </Link>
         <h1 className="verification-title">Email Verification</h1>
-        <p className="center-text">Please enter the verification code and your email</p>
+        <p className="center-text">Please enter the verification code sent to your email</p>
         <div className="verification-input-field">
-          <input
-            type="email"
-            placeholder="Your Email"
-            id="email"
-            name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
           <input
             type="text"
             placeholder="Verification Code"
