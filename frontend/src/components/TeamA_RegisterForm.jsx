@@ -54,12 +54,10 @@ function TeamA_RegisterForm() {
       });
 
       if (response.ok) {
-        // Registration successful, you can redirect or perform other actions
         console.log('Registration successful');
-        setVerificationCodeSent(true); // Set the state variable to true
-        navigate('/verify');
+        setVerificationCodeSent(true);
+        navigate(`/verify?email=${email}`); // Include email as a query parameter
       } else {
-        // Registration failed, handle errors
         console.error('Registration failed');
         setError('Registration failed. Please try again.');
       }
