@@ -14,15 +14,17 @@ public class VerificationCodeEntity {
 
     private String userEmail;
     private String verificationCode;
+    private long expirationTimeInMillis;
 
     // Constructors
     public VerificationCodeEntity() {
         // Default constructor
     }
 
-    public VerificationCodeEntity(String userEmail, String verificationCode) {
+    public VerificationCodeEntity(String userEmail, String verificationCode, long expirationTimeInMillis) {
         this.userEmail = userEmail;
         this.verificationCode = verificationCode;
+        this.expirationTimeInMillis = expirationTimeInMillis;
     }
 
     // Getters and setters
@@ -49,5 +51,13 @@ public class VerificationCodeEntity {
 
     public void setVerificationCode(String verificationCode) {
         this.verificationCode = verificationCode;
+    }
+
+    public long getExpirationTimeInMillis() {
+        return expirationTimeInMillis;
+    }
+
+    public void setExpirationTimeInMillis(long expirationTimeInMillis) {
+        this.expirationTimeInMillis = expirationTimeInMillis;
     }
 }

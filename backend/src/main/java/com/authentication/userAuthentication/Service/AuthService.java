@@ -26,6 +26,7 @@ public class AuthService implements UserDetailsService {
     @Autowired
     private TokenProvider tokenProvider;
 
+
     @Override
     public UserDetails loadUserByUsername(String username) {
         var user = userRepo.findByEmail(username);
@@ -45,6 +46,7 @@ public class AuthService implements UserDetailsService {
         return tokenProvider.generateAccessToken(newUser);
     }
 
+
     public String signIn(String email, String password) throws InvalidJwtException {
         var user = userRepo.findByEmail(email);
 
@@ -60,17 +62,28 @@ public class AuthService implements UserDetailsService {
         return userRepo.findByEmail(email);
     }
 
-    @Transactional
-    @Modifying
-    @Query("UPDATE User u SET u.isVerified = true WHERE u.email = :email")
-    public void updateUserVerificationStatus(String email, boolean isVerified) {
-        User user = userRepo.findByEmail(email);
+    public void updateUserVerificationStatus(String userEmail, boolean verified) {
+        // Find the user by email
+        User user = userRepo.findByEmail(userEmail);
+
+        // Update the verification status
         if (user != null) {
-            user.setVerified(isVerified);
-            userRepo.save(user);
-        } else {
-            throw new UserNotFoundException("User not found for email: " + email);
+            user.setVerified(verified);
+            userRepo.save(user); // Save the updated user entity
         }
     }
+
+    // @Transactional
+    // @Modifying
+    // @Query("UPDATE User u SET u.isVerified = true WHERE u.email = :email")
+    // public void updateUserVerificationStatus(String email, boolean isVerified) {
+    //     User user = userRepo.findByEmail(email);
+    //     if (user != null) {
+    //         user.setVerified(isVerified);
+    //         userRepo.save(user);
+    //     } else {
+    //         throw new UserNotFoundException("User not found for email: " + email);
+    //     }
+    // }
     
 }

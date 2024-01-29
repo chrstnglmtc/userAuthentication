@@ -1,24 +1,23 @@
 /* eslint-disable no-unused-vars */
-/* eslint-disable */
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import '../Auth.css'; // Import a CSS file for styling
 
 function TeamA_VerificationForm() {
   const [verification, setVerification] = useState('');
   const [email, setEmail] = useState('');
   const [verificationStatus, setVerificationStatus] = useState(null);
-  const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    console.log('Component re-rendered. Current verificationStatus:', verificationStatus);
+  }, [verificationStatus]);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
+    // TODO: Perform API call or verification logic
     try {
-      console.log('Submitting:', { verificationCode: verification, recipient: email });
-
-      setLoading(true);
+      console.log('Submitting:', { verificationCode: verification, userEmail: email });
 
       // Example: Verify the code using an API endpoint
       const response = await fetch('http://localhost:8085/api/v1/auth/verifyCode', {
@@ -34,24 +33,17 @@ function TeamA_VerificationForm() {
       if (response.ok) {
         // Verification successful
         setVerificationStatus('Verification successful');
-        setTimeout(() => {
-          setLoading(false);
-          // Redirect to '/dashboard'
-         navigate('/dashboard');
-        }, 2000); // Adjust the duration of loading state as needed
       } else {
         // Verification failed
-        const errorMessage = await response.text(); // Get error message from response
-        setVerificationStatus(`Verification failed: ${errorMessage}`);
-        setLoading(false);
+        setVerificationStatus('Verification failed');
       }
     } catch (error) {
       console.error('Error during verification:', error);
-      setLoading(false);
       // Handle error
-      setVerificationStatus('Error during verification. Please try again.');
     }
   };
+  
+
   return (
     <div className="verification-forms-container">
       <form className="template-form" onSubmit={handleFormSubmit}>
@@ -66,14 +58,14 @@ function TeamA_VerificationForm() {
         <p className="center-text">Please enter the verification code and your email</p>
         <div className="verification-input-field">
           <input
-            type="email"
-            placeholder="Your Email"
-            id="email"
-            name="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+              type="email"
+              placeholder="Your Email"
+              id="email"
+              name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
           <input
             type="text"
             placeholder="Verification Code"
@@ -83,12 +75,14 @@ function TeamA_VerificationForm() {
             onChange={(e) => setVerification(e.target.value)}
             required
           />
-          <button type="submit" className="TeamA-button" disabled={loading}>
-            {loading ? 'Loading...' : 'Send'}
-          </button>
-          {verificationStatus && <p>{verificationStatus}</p>}
+          <button type="submit" className="TeamA-button">Send</button>
         </div>
       </form>
+
+      <div className="verification-panels-container">
+        {/* Display verification status */}
+        {verificationStatus && <p>{verificationStatus}</p>}
+      </div>
     </div>
   );
 }

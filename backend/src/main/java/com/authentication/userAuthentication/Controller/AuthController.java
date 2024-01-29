@@ -56,31 +56,32 @@ public class AuthController {
     private EmailService emailService;
 
 // <-----------WORKING REGISTRATION ENDPOINT----------->
-    @PostMapping("/signup")
-    public ResponseEntity<JwtDto> signUp(@RequestBody @Valid SignUpDto data) {
-        try {
-            // Perform user registration and get the user details
-            String accessToken = service.signUp(data);
+@PostMapping("/signup")
+public ResponseEntity<JwtDto> signUp(@RequestBody @Valid SignUpDto data) {
+    try {
+        // Perform user registration and get the user details
+        String accessToken = service.signUp(data);
 
-            // Generate and store the verification code
-            String verificationCode = emailService.generateAndStoreVerificationCode(data.getEmail());
+        // Generate and store the verification code
+        long expirationTime = System.currentTimeMillis() + (30 * 1000); // 30 seconds
+        String verificationCode = emailService.generateAndStoreVerificationCode(data.getEmail(), expirationTime);
 
-            // Customize the email content or subject if needed
-            EmailDetails emailDetails = new EmailDetails();
-            emailDetails.setRecipient(data.getEmail());
-            emailDetails.setGeneratedCode(verificationCode);
-            emailDetails.setSubject("Verification Code");
-            emailDetails.setContent("Your verification code is: " + verificationCode);
+        // Customize the email content or subject if needed
+        EmailDetails emailDetails = new EmailDetails();
+        emailDetails.setRecipient(data.getEmail());
+        emailDetails.setGeneratedCode(verificationCode);
+        emailDetails.setSubject("Verification Code");
+        emailDetails.setContent("Your verification code is: " + verificationCode);
 
-            // Send the verification code via email
-            emailService.sendSimpleMail(emailDetails);
+        // Send the verification code via email
+        emailService.sendSimpleMail(emailDetails);
 
-            // Return the access token in the response
-            return ResponseEntity.ok(new JwtDto(accessToken));
-        } catch (InvalidJwtException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
+        // Return the access token in the response
+        return ResponseEntity.ok(new JwtDto(accessToken));
+    } catch (InvalidJwtException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
+}
 
 
 // <-----------WORKING LOGIN ENDPOINT W/ SESSION----------->
