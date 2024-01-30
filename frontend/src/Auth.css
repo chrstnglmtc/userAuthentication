@@ -1563,3 +1563,58 @@ justify-content: center;
 
 }
 
+/* Add these styles for the modal animation */
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-sql {
+  animation: slideDown 0.5s ease-out;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1051; /* Ensure it's above the overlay */
+  background-color: #D9FFCF;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 500px;
+  height: 200px;
+}
+
+.verify-btn {
+  width: 120px;
+  height: 50px;
+}
+
+.modal-body{
+  font-size: 20px;
+}
+
+.modal-title{
+  font-size: 20px;
+}
+
+/* Add these styles for the dark overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Adjust the alpha value to control darkness */
+  z-index: 1050; /* Make sure it's above the modal */
+}
+
+/* Add these styles for the body overflow */
+.modal-open {
+  overflow: hidden;
+}

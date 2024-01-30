@@ -7,9 +7,10 @@ function TeamA_RegisterForm() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [userName, setUserName] = useState('');
-  const [userType, setUserType] = useState('User'); // Default to 'User'
+  const [userType, setUserType] = useState('User');
   const [error, setError] = useState('');
-  const [verificationCodeSent, setVerificationCodeSent] = useState(false); // New state variable
+  const [verificationCodeSent, setVerificationCodeSent] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const navigate = useNavigate();
 
@@ -55,7 +56,7 @@ function TeamA_RegisterForm() {
       if (response.ok) {
         console.log('Registration successful');
         setVerificationCodeSent(true);
-        navigate(`/verify?email=${email}`); // Include email as a query parameter
+        setShowModal(true);
       } else {
         console.error('Registration failed');
         setError('Registration failed. Please try again.');
@@ -64,6 +65,11 @@ function TeamA_RegisterForm() {
       console.error('Error during registration:', error);
       setError('Registration failed. Please try again.');
     }
+  };
+
+  const enroll = () => {
+    setShowModal(false);
+    navigate(`/verify?email=${email}`);
   };
 
   return (
@@ -132,17 +138,48 @@ function TeamA_RegisterForm() {
       />
       <div className="data-validation">
         <label style={{ color: error ? 'red' : 'green', fontSize: '15px', fontWeight: '700', transition: 'color 0.3s' }}>
-          { error || 'Password must be at least 8 characters long with one uppercase character, number, and symbol.'}
+          {error || 'Password must be at least 8 characters long with one uppercase character, number, and symbol.'}
         </label>
       </div>
       <div>
         <h3 style={{ fontSize: '15px' }}>By clicking Sign up you agree to our Terms of Use and our Privacy Policy.</h3>
       </div>
-      {verificationCodeSent && (
-        <div style={{ backgroundColor: 'lightgreen', padding: '10px', borderRadius: '5px', marginTop: '10px' }}>
-          <span style={{ color: 'green' }}>✓</span> Verification code has been sent to your email. Please check your inbox.
+
+      {verificationCodeSent && showModal && (
+  <>
+    <div className="modal-overlay"></div>
+    <div className="modal-sql modal fade show" id="modalSql" tabIndex="-1" aria-labelledby="modalSql" aria-hidden="true" style={{ display: 'block' }}>
+      <div className="modal-dialog">
+        <div className="modal-content" style={{ backgroundColor: "#D9FFCF", zIndex: 1051 /* Adjust the z-index to be higher than the overlay */ }}>
+          <div className="modal-header">
+            <h5 className="modal-title" id="modalSql">
+              Account Registration Successful!
+            </h5>
+          </div>
+          <div className="modal-body">
+            <p>Verify your Email</p>
+          </div>
+          <div className="modal-footer">
+            <button
+              type="button"
+              className="verify-btn"
+              style={{
+                backgroundColor: "#0e3b03",
+                color: "#ffffff",
+                borderRadius: "20px",
+                fontSize: "15px",
+              }}
+              onClick={enroll}
+            >
+              Proceed
+            </button>
+          </div>
         </div>
-      )}
+      </div>
+    </div>
+  </>
+)}
+
       <Link to="/login">
         <div className="existing-account">
           Already have an account?
