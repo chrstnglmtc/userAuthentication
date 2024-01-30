@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unknown-property */
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -18,15 +19,10 @@ function getUserImageType(profilePicture) {
   }
 }
 
-
 function TeamA_Profile() {
 
   const { isLoggedIn, handleLogout } = useAuth();
   const [userData, setUserData] = useState({});
-  const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
 
   useEffect(() => {
     // Fetch user data from your backend API
@@ -34,23 +30,33 @@ function TeamA_Profile() {
       try {
         // Get user ID from local storage
         const userId = localStorage.getItem('userId');
-  
+
         if (!userId) {
           console.error('User ID not found in local storage');
           // Handle this case, for example, redirect the user to login
           return;
         }
-  
+
         const response = await fetch(`http://localhost:8085/api/v1/auth/users/${userId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           },
         });
-  
+
         if (response.ok) {
           const userData = await response.json();
           setUserData(userData);
+
+          // If the profile picture is in binary format, convert it to a data URL
+          if (userData.profilePicture) {
+            const base64 = btoa(String.fromCharCode(...new Uint8Array(userData.profilePicture)));
+            const dataUrl = `data:image/avif;base64,${base64}`;
+            setUpdateData((prevData) => ({
+              ...prevData,
+              profilePicture: dataUrl,
+            }));
+          }
         } else {
           console.error('Failed to fetch user data', response.status, response.statusText);
           // Handle this error as needed
@@ -60,7 +66,7 @@ function TeamA_Profile() {
         // Handle unexpected errors
       }
     };
-  
+
     fetchUserData();
   }, []);
     
@@ -76,13 +82,11 @@ function TeamA_Profile() {
         </button>
         </Link>
         <div className="Prof1-left">
-        {userData.profilePicture && (
-  <img
-    src={`data:image/${getUserImageType(userData.profilePicture)};base64,${userData.profilePicture}`}
-    alt="Profile"
-    style={{ width: '100px', height: '100px' }}
-  />
-)}
+        <img
+          src={`data:image/${getUserImageType(userData.profilePicture)};base64,${userData.profilePicture}`}
+          alt="Profile"
+          className="Profile-picture"
+        />
           <h4>{userData.firstName} {userData.lastName}</h4>
           <p>Position name</p>
         </div>

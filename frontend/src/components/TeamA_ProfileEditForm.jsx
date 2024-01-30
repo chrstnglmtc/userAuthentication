@@ -2,10 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from './TeamA_AuthContext';
 import '../Auth.css';
-
+// Function to get user image type
+function getUserImageType(profilePicture) {
+  // Check if profilePicture is defined and not null
+  if (profilePicture && profilePicture.startsWith) {
+    // Check the image type based on the data
+    const isPNG = profilePicture.startsWith('data:image/png;base64,');
+    return isPNG ? 'png' : 'jpeg';
+  } else {
+    // Return a default type or handle accordingly
+    return 'png'; // You can change this to 'jpeg' or handle as needed
+  }
+}
 function TeamA_ProfileEditForm() {
   const navigate = useNavigate();
   const { handleLogout } = useAuth();
+  const [imagePreview, setImagePreview] = useState(null);
   const [userData, setUserData] = useState(null);
   const [updateData, setUpdateData] = useState({
     firstName: '',
@@ -62,12 +74,33 @@ function TeamA_ProfileEditForm() {
 
   const handleInputChange = (e, isFile = false) => {
     const { name, value, files } = e.target;
-
-    setUpdateData((prevData) => ({
-      ...prevData,
-      [name]: isFile ? files[0] : value,
-    }));
+  
+    if (isFile) {
+      // Update the profile picture state
+      setUpdateData((prevData) => ({
+        ...prevData,
+        [name]: files[0],
+      }));
+  
+      // Generate image preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+  
+      if (files[0]) {
+        reader.readAsDataURL(files[0]);
+      } else {
+        setImagePreview(null);
+      }
+    } else {
+      setUpdateData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
   };
+  
 
   const handleProfilePictureUpload = async () => {
     try {
@@ -143,7 +176,21 @@ function TeamA_ProfileEditForm() {
   return (
     <div className="Prof2-wrapper">
       <div className="Prof2-left">
-        {/* profile picture change here */}
+      <label htmlFor="profilePicture">Profile Picture</label>
+      <input
+        type="file"
+        id="profilePicture"
+        name="profilePicture"
+        onChange={(e) => handleInputChange(e, true)}
+        accept="image/*"
+      />
+      {imagePreview && (
+        <img
+          src={imagePreview}
+          alt="Profile Preview"
+          style={{ width: '100px', height: '100px', marginTop: '10px' }}
+        />
+      )}
         <h4>Name</h4>
         <p>Position name</p>
       </div>
@@ -186,18 +233,7 @@ function TeamA_ProfileEditForm() {
                 onChange={handleInputChange}
                 placeholder="Enter your username"
               />
-            </div>
-  
-            {/* Profile Picture Input */}
-            <label htmlFor="profilePicture">Profile Picture</label>
-            <input
-              type="file"
-              id="profilePicture"
-              name="profilePicture"
-              onChange={(e) => handleInputChange(e, true)}
-              accept="image/*"
-            />
-  
+            </div> 
             {/* Update and Cancel buttons */}
             <div className="Prof2-buttons">
               <button className="submit-button" type="submit">
