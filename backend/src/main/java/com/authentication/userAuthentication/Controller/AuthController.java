@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.authentication.userAuthentication.Dto.UserDto;
@@ -36,12 +38,17 @@ import com.authentication.userAuthentication.Service.TokenProvider;
 
 import jakarta.servlet.http.HttpServletRequest;
 
+
+
 @RestController
 @RequestMapping("/api/v1/auth")
 public class AuthController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private UserDetailsService userService; 
 
     @Autowired
     private AuthService service;
@@ -51,11 +58,14 @@ public class AuthController {
 
     @Autowired
     private UserRepo userRepo;
+    public boolean isEmailRegistered(String email) {
+        return userRepo.existsByEmail(email);
+    }
 
     @Autowired
     private EmailService emailService;
 
-// <-----------WORKING REGISTRATION ENDPOINT----------->
+    // <-----------WORKING REGISTRATION ENDPOINT----------->
     @PostMapping("/signup")
     public ResponseEntity<JwtDto> signUp(@RequestBody @Valid SignUpDto data) {
         try {
@@ -82,34 +92,34 @@ public class AuthController {
         }
     }
 
+    // <-----------WORKING LOGIN ENDPOINT W/ SESSION----------->
+    @PostMapping("/signin")
+    public ResponseEntity<JwtDto> signIn(@RequestBody @Valid SignInDto data) {
+        try {
+            String accessToken = service.signIn(data.email(), data.password());
+            User user = service.getUserByEmail(data.email());
 
-// <-----------WORKING LOGIN ENDPOINT W/ SESSION----------->
-@PostMapping("/signin")
-public ResponseEntity<JwtDto> signIn(@RequestBody @Valid SignInDto data) {
-    try {
-        String accessToken = service.signIn(data.email(), data.password());
-        User user = service.getUserByEmail(data.email());
+            if (user != null) {
+                JwtDto jwtDto = new JwtDto(
+                        accessToken,
+                        String.valueOf(user.getUser_id()),
+                        user.getUsername(),
+                        user.getFirstName(),
+                        user.getLastName(),
+                        user.getEmail()
+                );
 
-        if (user != null) {
-            JwtDto jwtDto = new JwtDto(
-                accessToken,
-                String.valueOf(user.getUser_id()),
-                user.getUsername(),
-                user.getFirstName(),
-                user.getLastName(),
-                user.getEmail()
-            );
-
-            return ResponseEntity.ok(jwtDto);
-        } else {
-            // Handle the case where the user is not found
+                return ResponseEntity.ok(jwtDto);
+            } else {
+                // Handle the case where the user is not found
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
+        } catch (InvalidJwtException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-    } catch (InvalidJwtException e) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
-}
-// <-----------GET USER ENDPOINT----------->
+
+    // <-----------GET USER ENDPOINT----------->
     @GetMapping("/user")
     public ResponseEntity<User> getUserData() {
         // Get the authenticated user's email from the SecurityContext
@@ -128,14 +138,14 @@ public ResponseEntity<JwtDto> signIn(@RequestBody @Valid SignInDto data) {
         }
     }
 
-// <-----------WORKING LIST USERS ENDPOINT----------->
+    // <-----------WORKING LIST USERS ENDPOINT----------->
     @GetMapping("/users")
     public ResponseEntity<List<User>> listUsers() {
         List<User> users = userRepo.findAll();
         return ResponseEntity.ok(users);
     }
 
-// <-----------GET USER ENDPOINT----------->
+    // <-----------GET USER ENDPOINT----------->
     @GetMapping("/users/{userId}")
     public ResponseEntity<UserDto> getUserById(@PathVariable Long userId) {
         Optional<User> optionalUser = userRepo.findById(userId);
@@ -150,7 +160,7 @@ public ResponseEntity<JwtDto> signIn(@RequestBody @Valid SignInDto data) {
         }
     }
 
-// <-----------NEW UPDATE ENDPOINT----------->
+    // <-----------NEW UPDATE ENDPOINT----------->
     @PutMapping("/update/{userId}")
     public ResponseEntity<User> updateUser(@PathVariable Long userId, @RequestBody @Valid UpdateUserDto updateData) {
         try {
@@ -177,19 +187,25 @@ public ResponseEntity<JwtDto> signIn(@RequestBody @Valid SignInDto data) {
             return ResponseEntity.badRequest().build();
         }
     }
-// <-----------WORKING LOGOUT ENDPOINT W/ SESSION----------->    
-  @DeleteMapping("/logout")
-  public ResponseEntity<String> logout(HttpServletRequest request) {
-      // Extract the token from the request
-      String token = tokenService.extractTokenFromRequest(request);
-      // Check if the token is valid before invalidating
-      if (token != null) {
-          // Invalidate the token (add it to a blacklist or revocation list)
-          tokenService.invalidateToken(token);
-          return ResponseEntity.status(HttpStatus.OK).body("Logout successful");
-      } else {
-          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid token");
-      }
-  }
-    
+
+    // <-----------WORKING LOGOUT ENDPOINT W/ SESSION----------->
+    @DeleteMapping("/logout")
+    public ResponseEntity<String> logout(HttpServletRequest request) {
+        // Extract the token from the request
+        String token = tokenService.extractTokenFromRequest(request);
+        // Check if the token is valid before invalidating
+        if (token != null) {
+            // Invalidate the token (add it to a blacklist or revocation list)
+            tokenService.invalidateToken(token);
+            return ResponseEntity.status(HttpStatus.OK).body("Logout successful");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid token");
+        }
+    }
+
+    @GetMapping("/checkRegisteredEmail")
+    public ResponseEntity<Boolean> checkRegisteredEmail(@RequestParam String email) {
+        boolean isEmailRegistered = userRepo.existsByEmail(email);
+        return ResponseEntity.ok(isEmailRegistered);
+    }
 }

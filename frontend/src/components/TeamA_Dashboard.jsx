@@ -1,11 +1,12 @@
 import React from "react";
+import { Link } from "react-router-dom";  // Import Link from React Router
 import "../Auth.css";
 import Navigation from './TeamA_Navigation';
 import { useAuth } from "./TeamA_AuthContext"; // Make sure to import your auth context
 
-
 const TeamA_Dashboard = () => {
   const { isLoggedIn, handleLogout } = useAuth();
+  const verificationStatus = true; // Assuming you have a verificationStatus state
 
   return (
     <div className="home-container">
@@ -32,6 +33,8 @@ const TeamA_Dashboard = () => {
           </div>
         </div>
       </div>
+
+      
     </div>
   );
 };

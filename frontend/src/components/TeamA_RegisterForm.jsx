@@ -145,7 +145,7 @@ function TeamA_RegisterForm() {
         <h3 style={{ fontSize: '15px' }}>By clicking Sign up you agree to our Terms of Use and our Privacy Policy.</h3>
       </div>
 
-      {verificationCodeSent && showModal && (
+      {verificationCodeSent && showModal &&(
   <>
     <div className="rf-modal-overlay"></div>
     <div className="rf-modal-sql modal fade show" id="modalSql" tabIndex="-1" aria-labelledby="modalSql" aria-hidden="true" style={{ display: 'block' }}>

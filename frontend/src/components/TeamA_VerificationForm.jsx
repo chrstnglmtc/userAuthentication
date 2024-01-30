@@ -100,7 +100,7 @@ function TeamA_VerificationForm() {
             <div className="vf-modal-dialog">
               <div className="vf-modal-content" style={{ backgroundColor: "#D9FFCF", zIndex: 1051 /* Adjust the z-index to be higher than the overlay */ }}>
                 <div className="vf-modal-header">
-                  <h5 className="vf-modal-title1" id="modalSql">
+                  <h5 className="vf-modal-title" id="modalSql">
                     Email Verification
                   </h5>
                 </div>
@@ -108,36 +108,23 @@ function TeamA_VerificationForm() {
                   <p>Email Verified Successfully!</p>
                 </div>
                 <div className="vf-modal-footer">
-                  <Link to="/profile">
+                  <Link to="/login">
                   <button
                     type="button"
-                    className="vf-create-btn"
+                    className="vf-login-btn"
                     style={{
                       backgroundColor: "#0e3b03",
                       color: "#ffffff",
                       borderRadius: "20px",
                       fontSize: "15px",
+                      position: "center",
                     }}
                     onClick={enroll}
                   >
-                    Create Profile
+                    Log-In
                   </button>
                   </Link>
-                  <Link to="/dashboard">
-                  <button
-                    type="button"
-                    className="vf-home-btn"
-                    style={{
-                      backgroundColor: "#0e3b03",
-                      color: "#ffffff",
-                      borderRadius: "20px",
-                      fontSize: "15px",
-                    }}
-                    onClick={() => setShowModal(false)}
-                  >
-                    Go to Home
-                  </button>
-                  </Link>
+                  
                 </div>
               </div>
             </div>
