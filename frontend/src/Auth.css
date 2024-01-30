@@ -1563,3 +1563,9 @@ justify-content: center;
 
 }
 
+.Profile-picture {
+  width: 150px; /* Set the desired width */
+  height: 150px; /* Set the desired height */
+  border-radius: 50%; /* Optional: add a border-radius for a circular shape */
+  object-fit: cover; /* Optional: control how the image fills the specified dimensions */
+}

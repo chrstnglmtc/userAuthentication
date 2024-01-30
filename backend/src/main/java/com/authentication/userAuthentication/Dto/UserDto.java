@@ -32,6 +32,8 @@ public class UserDto {
     
     private String role = "STUDENT";
 
+    private byte[] profilePicture;
+
     // Other fields and methods...
 
     // Add getter for role

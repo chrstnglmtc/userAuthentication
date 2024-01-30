@@ -21,13 +21,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Table(name="user")
+@Table(name = "user")
 @Entity
 @Getter
 @Setter
@@ -37,7 +38,7 @@ import lombok.Setter;
 public class User implements UserDetails {
 
     @Id
-    @Column(name="user_id")
+    @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long user_id;
 
@@ -54,7 +55,7 @@ public class User implements UserDetails {
     private String lastName;
 
     @Lob
-    @Column(name="profile_picture", columnDefinition="BLOB")
+    @Column(name = "profile_picture", columnDefinition = "BLOB")
     private byte[] profilePicture;
 
     @Enumerated(EnumType.STRING)
@@ -62,9 +63,12 @@ public class User implements UserDetails {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private VerificationCodeEntity verificationCodeEntity;
-    
+
     @Column(name = "is_verified")
     private boolean isVerified;
+
+    @Transient // Mark the field as transient to exclude it from database mapping
+    private String imageType;
 
     public User(String email, String userName, String password, String firstName, String lastName, Role role) {
         this.email = email;
@@ -116,5 +120,14 @@ public class User implements UserDetails {
 
     public void setVerificationCodeEntity(VerificationCodeEntity verificationCodeEntity) {
         this.verificationCodeEntity = verificationCodeEntity;
+    }
+
+    // Getter and setter for imageType
+    public String getImageType() {
+        return imageType;
+    }
+
+    public void setImageType(String imageType) {
+        this.imageType = imageType;
     }
 }

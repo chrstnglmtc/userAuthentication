@@ -1,6 +1,7 @@
 package com.authentication.userAuthentication.Controller;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -197,26 +198,31 @@ public ResponseEntity<JwtDto> signIn(@RequestBody @Valid SignInDto data) {
   }
 
 // <-----------UPLOAD PROFILE PICTURE ENDPOINT----------->
-    @PostMapping("/upload-pp")
-    public ResponseEntity<String> uploadProfilePicture(@RequestParam("userId") Long userId,
-                                                      @RequestParam("file") MultipartFile file) {
-        try {
-            // Retrieve the user by userId
-            User user = userRepo.findById(userId).orElse(null);
+@PostMapping("/upload-pp")
+public ResponseEntity<String> uploadProfilePicture(@RequestParam("userId") Long userId,
+                                                  @RequestParam("file") MultipartFile file) {
+    try {
+        // Retrieve the user by userId
+        User user = userRepo.findById(userId).orElse(null);
 
-            if (user != null) {
-                // Save the profile picture
-                user.setProfilePicture(file.getBytes());
-                userRepo.save(user);
-                return ResponseEntity.ok("Profile picture uploaded successfully");
-            } else {
-                // Handle the case where the user is not found
-                return ResponseEntity.notFound().build();
-            }
-        } catch (IOException e) {
-            // Handle IOException (e.g., failed to read profile picture bytes)
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload profile picture");
+        if (user != null) {
+            // Save the profile picture
+            user.setProfilePicture(file.getBytes());
+            userRepo.save(user);
+
+            // Log the profile picture data
+            System.out.println("Profile Picture Data: " + Arrays.toString(user.getProfilePicture()));
+
+            return ResponseEntity.ok("Profile picture uploaded successfully");
+        } else {
+            // Handle the case where the user is not found
+            return ResponseEntity.notFound().build();
         }
+    } catch (IOException e) {
+        // Handle IOException (e.g., failed to read profile picture bytes)
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload profile picture");
     }
+}
+
     
 }

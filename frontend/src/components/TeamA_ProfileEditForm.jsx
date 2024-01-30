@@ -7,10 +7,12 @@ function TeamA_ProfileEditForm() {
   const navigate = useNavigate();
   const { handleLogout } = useAuth();
   const [userData, setUserData] = useState(null);
-  const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const [updateData, setUpdateData] = useState({
+    firstName: '',
+    lastName: '',
+    userName: '',
+    profilePicture: null, // Add profilePicture to state
+  });
 
   useEffect(() => {
     // Fetch user data from your backend API
@@ -18,23 +20,33 @@ function TeamA_ProfileEditForm() {
       try {
         // Get user ID from local storage
         const userId = localStorage.getItem('userId');
-  
+
         if (!userId) {
           console.error('User ID not found in local storage');
           // Handle this case, for example, redirect the user to login
           return;
         }
-  
+
         const response = await fetch(`http://localhost:8085/api/v1/auth/users/${userId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           },
         });
-  
+
         if (response.ok) {
           const userData = await response.json();
           setUserData(userData);
+
+          // If the profile picture is in binary format, convert it to a data URL
+          if (userData.profilePicture) {
+            const base64 = btoa(String.fromCharCode(...new Uint8Array(userData.profilePicture)));
+            const dataUrl = `data:image/avif;base64,${base64}`;
+            setUpdateData((prevData) => ({
+              ...prevData,
+              profilePicture: dataUrl,
+            }));
+          }
         } else {
           console.error('Failed to fetch user data', response.status, response.statusText);
           // Handle this error as needed
@@ -44,77 +56,102 @@ function TeamA_ProfileEditForm() {
         // Handle unexpected errors
       }
     };
-  
+
     fetchUserData();
   }, []);
 
-  const UpdateProfile = () => {
-    const userId = localStorage.getItem('userId');
-    const [updateData, setUpdateData] = useState({
-      firstName: '',
-      lastName: '',
-      userName: '',
-      // Add more fields as needed
-    });
+  const handleInputChange = (e, isFile = false) => {
+    const { name, value, files } = e.target;
 
-    const handleInputChange = (e) => {
-      const { name, value } = e.target;
-      setUpdateData((prevData) => ({
-        ...prevData,
-        [name]: value,
-      }));
-    };
-
-    const handleUpdate = async () => {
-      try {
-        const authToken = localStorage.getItem('authToken');
-    
-        const response = await fetch(`http://localhost:8085/api/v1/auth/update/${userId}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authToken}`,
-          },
-          body: JSON.stringify(updateData),
-        });
-    
-        if (response.ok) {
-          // Handle successful update, e.g., show a success message
-          console.log('Profile updated successfully');
-          // Redirect to '/profile'
-          navigate('/profile');
-        } else {  
-          // Handle update failure, e.g., show an error message
-          console.error('Update failed', response.status, response.statusText);
-        }
-      } catch (error) {
-        // Handle network or unexpected errors
-        console.error('Unexpected error during update', error);
-      }
-    };
-
-    return {
-      handleUpdate,
-      handleInputChange,
-      updateData,
-    };
+    setUpdateData((prevData) => ({
+      ...prevData,
+      [name]: isFile ? files[0] : value,
+    }));
   };
 
-  const { handleUpdate, handleInputChange, updateData } = UpdateProfile();
+  const handleProfilePictureUpload = async () => {
+    try {
+      const userId = localStorage.getItem('userId');
+      const authToken = localStorage.getItem('authToken');
+
+      const formData = new FormData();
+      formData.append('userId', userId);
+      formData.append('file', updateData.profilePicture);
+
+      const response = await fetch(`http://localhost:8085/api/v1/auth/upload-pp`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${authToken}`,
+        },
+        body: formData,
+      });
+
+      if (response.ok) {
+        console.log('Profile picture uploaded successfully');
+      } else {
+        console.error('Profile picture upload failed', response.status, response.statusText);
+        // Handle the error as needed
+      }
+    } catch (error) {
+      console.error('Unexpected error during profile picture upload', error);
+      // Handle unexpected errors
+    }
+  };
+
+  const handleUpdate = async () => {
+    try {
+      const userId = localStorage.getItem('userId');
+      const authToken = localStorage.getItem('authToken');
+
+      const response = await fetch(`http://localhost:8085/api/v1/auth/update/${userId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`,
+        },
+        body: JSON.stringify({
+          firstName: updateData.firstName,
+          lastName: updateData.lastName,
+          userName: updateData.userName,
+          // Add more fields as needed
+        }),
+      });
+
+      if (response.ok) {
+        console.log('Profile updated successfully');
+        navigate('/profile');
+      } else {
+        console.error('Update failed', response.status, response.statusText);
+        // Handle update failure
+      }
+    } catch (error) {
+      console.error('Unexpected error during update', error);
+      // Handle network or unexpected errors
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Upload profile picture
+    await handleProfilePictureUpload();
+
+    // Update general profile information
+    await handleUpdate();
+  };
 
   return (
     <div className="Prof2-wrapper">
       <div className="Prof2-left">
-        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" className="bi bi-person-lines-fill" viewBox="0 0 16 16">
-          <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5m.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1z"/>
-        </svg>
+        {/* profile picture change here */}
         <h4>Name</h4>
         <p>Position name</p>
       </div>
       <div className="Prof2-right">
         <div className="Prof2-info">
           <h3>Profile Information</h3>
-          <form onSubmit={handleUpdate} className="Prof2-info_data">
+          <form onSubmit={handleSubmit} className="Prof2-info_data">
+            {/* Existing form fields */}
             <div className="Prof2-data">
               <label htmlFor="firstName">First Name</label>
               <input
@@ -150,20 +187,30 @@ function TeamA_ProfileEditForm() {
                 placeholder="Enter your username"
               />
             </div>
+  
+            {/* Profile Picture Input */}
+            <label htmlFor="profilePicture">Profile Picture</label>
+            <input
+              type="file"
+              id="profilePicture"
+              name="profilePicture"
+              onChange={(e) => handleInputChange(e, true)}
+              accept="image/*"
+            />
+  
+            {/* Update and Cancel buttons */}
+            <div className="Prof2-buttons">
+              <button className="submit-button" type="submit">
+                Update
+              </button>
+              <Link to="/profile">
+                <button className="cancel-button">Cancel</button>
+              </Link>
+            </div>
           </form>
-        </div>
-        {/* Update and Cancel buttons */}
-        <div className="Prof2-buttons">
-          <button className="submit-button" onClick={handleUpdate}>
-            Update
-          </button>
-          <Link to="/profile">
-            <button className="cancel-button">Cancel</button>
-          </Link>
         </div>
       </div>
     </div>
   );
-}
-
+}  
 export default TeamA_ProfileEditForm;
