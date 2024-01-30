@@ -147,22 +147,22 @@ function TeamA_RegisterForm() {
 
       {verificationCodeSent && showModal && (
   <>
-    <div className="modal-overlay"></div>
-    <div className="modal-sql modal fade show" id="modalSql" tabIndex="-1" aria-labelledby="modalSql" aria-hidden="true" style={{ display: 'block' }}>
-      <div className="modal-dialog">
-        <div className="modal-content" style={{ backgroundColor: "#D9FFCF", zIndex: 1051 /* Adjust the z-index to be higher than the overlay */ }}>
-          <div className="modal-header">
-            <h5 className="modal-title" id="modalSql">
+    <div className="rf-modal-overlay"></div>
+    <div className="rf-modal-sql modal fade show" id="modalSql" tabIndex="-1" aria-labelledby="modalSql" aria-hidden="true" style={{ display: 'block' }}>
+      <div className="rf-modal-dialog">
+        <div className="rf-modal-content" style={{ backgroundColor: "#D9FFCF", zIndex: 1051 /* Adjust the z-index to be higher than the overlay */ }}>
+          <div className="rf-modal-header">
+            <h5 className="rf-modal-title" id="modalSql">
               Account Registration Successful!
             </h5>
           </div>
-          <div className="modal-body">
+          <div className="rf-modal-body">
             <p>Verify your Email</p>
           </div>
-          <div className="modal-footer">
+          <div className="rf-modal-footer">
             <button
               type="button"
-              className="verify-btn"
+              className="rf-verify-btn"
               style={{
                 backgroundColor: "#0e3b03",
                 color: "#ffffff",

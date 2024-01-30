@@ -6,6 +6,7 @@ import '../Auth.css'; // Import a CSS file for styling
 function TeamA_VerificationForm() {
   const [verification, setVerification] = useState('');
   const [verificationStatus, setVerificationStatus] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   // Extract email from URL using useLocation
   const location = useLocation();
@@ -38,6 +39,7 @@ function TeamA_VerificationForm() {
       if (response.ok) {
         // Verification successful
         setVerificationStatus('Verification successful');
+        setShowModal(true);
       } else {
         // Verification failed
         const errorMessage = await response.text(); // Get error message from response
@@ -60,10 +62,14 @@ function TeamA_VerificationForm() {
     }
   };
 
+  const enroll = () => {
+    // Handle enrollment logic if needed
+  };
+
   return (
     <div className="verification-forms-container">
       <form className="template-form" onSubmit={handleFormSubmit}>
-        <Link to="/forgot" className="wBackbutton">
+        <Link to="/register" className="wBackbutton">
           <button>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-left" viewBox="0 0 16 16">
               <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
@@ -86,6 +92,58 @@ function TeamA_VerificationForm() {
           {verificationStatus && <p>{verificationStatus}</p>}
         </div>
       </form>
+
+      {verificationStatus && showModal && (
+        <>
+          <div className="vf-modal-overlay"></div>
+          <div className="vf-modal-sql modal fade show" id="modalSql" tabIndex="-1" aria-labelledby="modalSql" aria-hidden="true" style={{ display: 'block' }}>
+            <div className="vf-modal-dialog">
+              <div className="vf-modal-content" style={{ backgroundColor: "#D9FFCF", zIndex: 1051 /* Adjust the z-index to be higher than the overlay */ }}>
+                <div className="vf-modal-header">
+                  <h5 className="vf-modal-title1" id="modalSql">
+                    Email Verification
+                  </h5>
+                </div>
+                <div className="vf-modal-body">
+                  <p>Email Verified Successfully!</p>
+                </div>
+                <div className="vf-modal-footer">
+                  <Link to="/profile">
+                  <button
+                    type="button"
+                    className="vf-create-btn"
+                    style={{
+                      backgroundColor: "#0e3b03",
+                      color: "#ffffff",
+                      borderRadius: "20px",
+                      fontSize: "15px",
+                    }}
+                    onClick={enroll}
+                  >
+                    Create Profile
+                  </button>
+                  </Link>
+                  <Link to="/dashboard">
+                  <button
+                    type="button"
+                    className="vf-home-btn"
+                    style={{
+                      backgroundColor: "#0e3b03",
+                      color: "#ffffff",
+                      borderRadius: "20px",
+                      fontSize: "15px",
+                    }}
+                    onClick={() => setShowModal(false)}
+                  >
+                    Go to Home
+                  </button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }
