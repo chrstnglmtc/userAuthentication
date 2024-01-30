@@ -40,7 +40,7 @@ public class EmailController {
     @PostMapping("/generateVerificationCode")
     public String generateVerificationCode(@RequestBody EmailDetails details) {
         // Set the expiration time (e.g., 5 seconds from now)
-        long expirationTimeInMillis = System.currentTimeMillis() + (5 * 60 * 1000); // 5 minutes in milliseconds
+        long expirationTimeInMillis = System.currentTimeMillis() + (5 * 1000); // 5 minutes in milliseconds
 
         // Convert expiration time to a human-readable format (optional)
         LocalDateTime expirationDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(expirationTimeInMillis), ZoneId.systemDefault());

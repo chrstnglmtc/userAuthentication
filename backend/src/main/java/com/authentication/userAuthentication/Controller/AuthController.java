@@ -67,8 +67,9 @@ public ResponseEntity<JwtDto> signUp(@RequestBody @Valid SignUpDto data) {
         String accessToken = service.signUp(data);
 
         // Generate and store the verification code
-        long expirationTime = System.currentTimeMillis() + (30 * 1000); // 30 seconds
-        String verificationCode = emailService.generateAndStoreVerificationCode(data.getEmail(), expirationTime);
+        // Generate and store the verification code without expiration time
+        String verificationCode = emailService.generateAndStoreVerificationCode(data.getEmail());
+
 
         // Customize the email content or subject if needed
         EmailDetails emailDetails = new EmailDetails();
@@ -86,6 +87,7 @@ public ResponseEntity<JwtDto> signUp(@RequestBody @Valid SignUpDto data) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 }
+
 
 
 // <-----------WORKING LOGIN ENDPOINT W/ SESSION----------->

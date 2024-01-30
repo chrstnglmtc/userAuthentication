@@ -92,24 +92,40 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     @Transactional
-    public String generateAndStoreVerificationCode(String userEmail, long expirationTimeInMillis) {
+    public String generateAndStoreVerificationCode(String userEmail) {
+        return generateAndStoreVerificationCode(userEmail, getDefaultExpirationTimeInMillis());
+    }
+    @Override
+    @Transactional
+    public String generateAndStoreVerificationCode(String userEmail, Long expirationTimeInMillis) {
         // Fetch the user from the repository based on userEmail
         User user = userRepo.findByEmail(userEmail);
-    
+
         if (user != null) {
             String generatedCode = generateRandomCode();
-    
+
+            // Use a default expiration time if not provided
+            if (expirationTimeInMillis == null) {
+                expirationTimeInMillis = getDefaultExpirationTimeInMillis();
+            }
+
             // Save verification code with expiration time to the database
             verificationCodeRepo.save(new VerificationCodeEntity(user, generatedCode, expirationTimeInMillis));
-    
+
             // Store verification code in memory (if needed)
             generatedCodeStorage.put(userEmail, generatedCode);
-    
+
             return generatedCode;
         } else {
             // Handle the case where the user is not found
             return "User not found";
         }
+    }
+
+    private long getDefaultExpirationTimeInMillis() {
+        // Implement this method to provide a default expiration time
+        // This could be based on some configuration or constant value
+        return System.currentTimeMillis() + (5 * 60 * 1000); // Example: expiration time is 5 minutes from now
     }
 
     @Override

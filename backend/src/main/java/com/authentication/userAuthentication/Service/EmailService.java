@@ -19,8 +19,9 @@ public interface EmailService {
     String getStoredCodeForUser(String userEmail);
 
     // New method for generating and storing verification codes with expiration time
-    String generateAndStoreVerificationCode(String userEmail, long expirationTimeInMillis);
+    String generateAndStoreVerificationCode(String userEmail);
 
+    String generateAndStoreVerificationCode(String userEmail, Long expirationTimeInMillis);
     // New method for getting entered code
     String getEnteredCodeForUser(String verificationCode);
 
