@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.authentication.userAuthentication.Entity.Enums.Role;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -16,6 +17,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -57,9 +60,9 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @Column(name = "verification_code")
-    private String verificationCode;
-
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private VerificationCodeEntity verificationCodeEntity;
+    
     @Column(name = "is_verified")
     private boolean isVerified;
 
@@ -104,5 +107,14 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return isVerified; // Only enable the account if it is verified
+    }
+
+    // Getter and setter for VerificationCodeEntity
+    public VerificationCodeEntity getVerificationCodeEntity() {
+        return verificationCodeEntity;
+    }
+
+    public void setVerificationCodeEntity(VerificationCodeEntity verificationCodeEntity) {
+        this.verificationCodeEntity = verificationCodeEntity;
     }
 }

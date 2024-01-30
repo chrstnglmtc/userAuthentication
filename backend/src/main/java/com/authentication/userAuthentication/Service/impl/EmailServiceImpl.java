@@ -1,7 +1,9 @@
 package com.authentication.userAuthentication.Service.impl;
 
 import com.authentication.userAuthentication.Entity.EmailDetails;
+import com.authentication.userAuthentication.Entity.User;
 import com.authentication.userAuthentication.Entity.VerificationCodeEntity;
+import com.authentication.userAuthentication.Repo.UserRepo;
 import com.authentication.userAuthentication.Repo.VerificationCodeRepo;
 import com.authentication.userAuthentication.Service.AuthService;
 import com.authentication.userAuthentication.Service.EmailService;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.transaction.Transactional;
 
 import java.io.File;
 import java.time.Instant;
@@ -26,6 +29,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 
+
 @Service
 public class EmailServiceImpl implements EmailService {
 
@@ -34,6 +38,9 @@ public class EmailServiceImpl implements EmailService {
 
     @Autowired
     private AuthService authService;
+
+    @Autowired
+    private UserRepo userRepo;
 
     @Autowired
     private VerificationCodeRepo verificationCodeRepo; // Inject your VerificationCodeRepo
@@ -56,7 +63,8 @@ public class EmailServiceImpl implements EmailService {
             javaMailSender.send(mailMessage);
             return "Mail Sent Successfully";
         } catch (Exception e) {
-            return "Error while Sending Mail";
+            // Log the specific exception details
+            return "Error while Sending Mail: " + e.getMessage();
         }
     }
 
@@ -77,21 +85,31 @@ public class EmailServiceImpl implements EmailService {
             javaMailSender.send(mimeMessage);
             return "Mail sent Successfully";
         } catch (MessagingException e) {
-            return "Error while sending mail!!!";
+            // Log the specific exception details
+            return "Error while sending mail: " + e.getMessage();
         }
     }
 
     @Override
+    @Transactional
     public String generateAndStoreVerificationCode(String userEmail, long expirationTimeInMillis) {
-        String generatedCode = generateRandomCode();
-
-        // Save verification code with expiration time to the database
-        verificationCodeRepo.save(new VerificationCodeEntity(userEmail, generatedCode, expirationTimeInMillis));
-
-        // Store verification code in memory (if needed)
-        generatedCodeStorage.put(userEmail, generatedCode);
-
-        return generatedCode;
+        // Fetch the user from the repository based on userEmail
+        User user = userRepo.findByEmail(userEmail);
+    
+        if (user != null) {
+            String generatedCode = generateRandomCode();
+    
+            // Save verification code with expiration time to the database
+            verificationCodeRepo.save(new VerificationCodeEntity(user, generatedCode, expirationTimeInMillis));
+    
+            // Store verification code in memory (if needed)
+            generatedCodeStorage.put(userEmail, generatedCode);
+    
+            return generatedCode;
+        } else {
+            // Handle the case where the user is not found
+            return "User not found";
+        }
     }
 
     @Override
@@ -103,22 +121,23 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
+    @Transactional
     public boolean verifyCode(String userEmail, String enteredCode) {
         // Get the stored verification info for the user
         Optional<VerificationCodeEntity> verificationInfoOptional = verificationCodeRepo.findByUserEmail(userEmail);
-    
+
         if (verificationInfoOptional.isPresent()) {
             VerificationCodeEntity verificationInfo = verificationInfoOptional.get();
-    
+
             String storedCode = verificationInfo.getVerificationCode();
             long expirationTimeInMillis = verificationInfo.getExpirationTimeInMillis();
-    
+
             // Log values for debugging
             System.out.println("Current Time: " + System.currentTimeMillis());
             System.out.println("Expiration Time: " + expirationTimeInMillis);
             System.out.println("Stored Code: " + storedCode);
             System.out.println("Entered Code: " + enteredCode);
-    
+
             // Check if the code is expired
             if (System.currentTimeMillis() <= expirationTimeInMillis && enteredCode.equals(storedCode)) {
                 // Code is valid, update the user's verification status
@@ -126,10 +145,9 @@ public class EmailServiceImpl implements EmailService {
                 return true;
             }
         }
-    
+
         return false;
     }
-    
     
     
     @Override

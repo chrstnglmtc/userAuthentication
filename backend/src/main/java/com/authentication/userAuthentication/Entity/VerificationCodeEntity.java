@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class VerificationCodeEntity {
@@ -12,17 +14,21 @@ public class VerificationCodeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String userEmail;
     private String verificationCode;
     private long expirationTimeInMillis;
 
-    // Constructors
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+    
+
     public VerificationCodeEntity() {
         // Default constructor
     }
 
-    public VerificationCodeEntity(String userEmail, String verificationCode, long expirationTimeInMillis) {
-        this.userEmail = userEmail;
+    // Updated constructor to include user, verification code, and expiration time
+    public VerificationCodeEntity(User user, String verificationCode, long expirationTimeInMillis) {
+        this.user = user;
         this.verificationCode = verificationCode;
         this.expirationTimeInMillis = expirationTimeInMillis;
     }
@@ -35,14 +41,6 @@ public class VerificationCodeEntity {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getUserEmail() {
-        return userEmail;
-    }
-
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
     }
 
     public String getVerificationCode() {
@@ -59,5 +57,13 @@ public class VerificationCodeEntity {
 
     public void setExpirationTimeInMillis(long expirationTimeInMillis) {
         this.expirationTimeInMillis = expirationTimeInMillis;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
