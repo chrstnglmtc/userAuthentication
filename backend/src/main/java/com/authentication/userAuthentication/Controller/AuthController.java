@@ -158,32 +158,42 @@ public ResponseEntity<JwtDto> signIn(@RequestBody @Valid SignInDto data) {
     }
 
 // <-----------NEW UPDATE ENDPOINT----------->
-    @PutMapping("/update/{userId}")
-    public ResponseEntity<User> updateUser(@PathVariable Long userId, @RequestBody @Valid UpdateUserDto updateData) {
-        try {
-            // Retrieve the user by userId
-            User existingUser = userRepo.findById(userId).orElse(null);
+@PutMapping("/update/{userId}")
+public ResponseEntity<User> updateUser(@PathVariable Long userId, @RequestBody UpdateUserDto updateData) {
+    try {
+        // Retrieve the user by userId
+        User existingUser = userRepo.findById(userId).orElse(null);
 
-            if (existingUser != null) {
-                // Update user information with the data from the request
+        if (existingUser != null) {
+            // Update user information based on the fields provided in the request
+            if (updateData.getFirstName() != null) {
                 existingUser.setFirstName(updateData.getFirstName());
-                existingUser.setLastName(updateData.getLastName());
-                existingUser.setUserName(updateData.getUserName());
-                // Add more fields as needed
-
-                // Save the updated user
-                User updatedUser = userRepo.save(existingUser);
-
-                return ResponseEntity.ok(updatedUser);
-            } else {
-                // Handle the case where the user is not found
-                return ResponseEntity.notFound().build();
             }
-        } catch (Exception e) {
-            // Handle any exceptions (e.g., validation errors)
-            return ResponseEntity.badRequest().build();
+
+            if (updateData.getLastName() != null) {
+                existingUser.setLastName(updateData.getLastName());
+            }
+
+            if (updateData.getUserName() != null) {
+                existingUser.setUserName(updateData.getUserName());
+            }
+
+            // Add more fields as needed
+
+            // Save the updated user
+            User updatedUser = userRepo.save(existingUser);
+
+            return ResponseEntity.ok(updatedUser);
+        } else {
+            // Handle the case where the user is not found
+            return ResponseEntity.notFound().build();
         }
+    } catch (Exception e) {
+        // Handle any exceptions (e.g., validation errors)
+        return ResponseEntity.badRequest().build();
     }
+}
+
 // <-----------WORKING LOGOUT ENDPOINT W/ SESSION----------->    
   @DeleteMapping("/logout")
   public ResponseEntity<String> logout(HttpServletRequest request) {

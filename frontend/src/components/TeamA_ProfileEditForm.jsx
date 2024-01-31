@@ -29,48 +29,58 @@ function TeamA_ProfileEditForm() {
   useEffect(() => {
     // Fetch user data from your backend API
     const fetchUserData = async () => {
-      try {
-        // Get user ID from local storage
-        const userId = localStorage.getItem('userId');
+        try {
+            // Get user ID from local storage
+            const userId = localStorage.getItem('userId');
 
-        if (!userId) {
-          console.error('User ID not found in local storage');
-          // Handle this case, for example, redirect the user to login
-          return;
+            if (!userId) {
+                console.error('User ID not found in local storage');
+                // Handle this case, for example, redirect the user to login
+                return;
+            }
+
+            const response = await fetch(`http://localhost:8085/api/v1/auth/users/${userId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (response.ok) {
+                const userData = await response.json();
+                setUserData(userData);
+
+                // Set the initial state of updateData with the existing user data
+                setUpdateData({
+                    firstName: userData.firstName,
+                    lastName: userData.lastName,
+                    userName: userData.userName,
+                    // Add more fields as needed
+                    profilePicture: userData.profilePicture,
+                });
+
+                // If the profile picture is in binary format, convert it to a data URL
+                if (userData.profilePicture) {
+                    const base64 = btoa(String.fromCharCode(...new Uint8Array(userData.profilePicture)));
+                    const dataUrl = `data:image/avif;base64,${base64}`;
+                    setUpdateData((prevData) => ({
+                        ...prevData,
+                        profilePicture: dataUrl,
+                    }));
+                }
+            } else {
+                console.error('Failed to fetch user data', response.status, response.statusText);
+                // Handle this error as needed
+            }
+        } catch (error) {
+            console.error('Unexpected error during user data fetch', error);
+            // Handle unexpected errors
         }
-
-        const response = await fetch(`http://localhost:8085/api/v1/auth/users/${userId}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-
-        if (response.ok) {
-          const userData = await response.json();
-          setUserData(userData);
-
-          // If the profile picture is in binary format, convert it to a data URL
-          if (userData.profilePicture) {
-            const base64 = btoa(String.fromCharCode(...new Uint8Array(userData.profilePicture)));
-            const dataUrl = `data:image/avif;base64,${base64}`;
-            setUpdateData((prevData) => ({
-              ...prevData,
-              profilePicture: dataUrl,
-            }));
-          }
-        } else {
-          console.error('Failed to fetch user data', response.status, response.statusText);
-          // Handle this error as needed
-        }
-      } catch (error) {
-        console.error('Unexpected error during user data fetch', error);
-        // Handle unexpected errors
-      }
     };
 
     fetchUserData();
-  }, []);
+}, []);
+
 
   const handleInputChange = (e, isFile = false) => {
     const { name, value, files } = e.target;
@@ -133,35 +143,48 @@ function TeamA_ProfileEditForm() {
 
   const handleUpdate = async () => {
     try {
-      const userId = localStorage.getItem('userId');
-      const authToken = localStorage.getItem('authToken');
+        const userId = localStorage.getItem('userId');
+        const authToken = localStorage.getItem('authToken');
 
-      const response = await fetch(`http://localhost:8085/api/v1/auth/update/${userId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${authToken}`,
-        },
-        body: JSON.stringify({
-          firstName: updateData.firstName,
-          lastName: updateData.lastName,
-          userName: updateData.userName,
-          // Add more fields as needed
-        }),
-      });
+        const updateFields = {};
 
-      if (response.ok) {
-        console.log('Profile updated successfully');
-        navigate('/profile');
-      } else {
-        console.error('Update failed', response.status, response.statusText);
-        // Handle update failure
-      }
+        // Check if each field has been modified and add it to the updateFields object
+        if (updateData.firstName !== userData.firstName) {
+            updateFields.firstName = updateData.firstName;
+        }
+
+        if (updateData.lastName !== userData.lastName) {
+            updateFields.lastName = updateData.lastName;
+        }
+
+        if (updateData.userName !== userData.userName) {
+            updateFields.userName = updateData.userName;
+        }
+
+        // Add more fields as needed
+
+        const response = await fetch(`http://localhost:8085/api/v1/auth/update/${userId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`,
+            },
+            body: JSON.stringify(updateFields),
+        });
+
+        if (response.ok) {
+            console.log('Profile updated successfully');
+            navigate('/profile');
+        } else {
+            console.error('Update failed', response.status, response.statusText);
+            // Handle update failure
+        }
     } catch (error) {
-      console.error('Unexpected error during update', error);
-      // Handle network or unexpected errors
+        console.error('Unexpected error during update', error);
+        // Handle network or unexpected errors
     }
-  };
+};
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
