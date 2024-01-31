@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 @Service
@@ -50,6 +51,7 @@ public class EmailServiceImpl implements EmailService {
 
     private final Map<String, String> generatedCodeStorage = new HashMap<>();
     private final Map<String, String> enteredCodeStorage = new HashMap<>();
+    private final Map<String, VerificationCodeEntity> verificationCodeMap = new ConcurrentHashMap<>();
 
     @Override
     public String sendSimpleMail(EmailDetails details) {
@@ -125,7 +127,7 @@ public class EmailServiceImpl implements EmailService {
     private long getDefaultExpirationTimeInMillis() {
         // Implement this method to provide a default expiration time
         // This could be based on some configuration or constant value
-        return System.currentTimeMillis() + (5 * 60 * 1000); // Example: expiration time is 5 minutes from now
+        return System.currentTimeMillis() + (5 * 1000); // Example: expiration time is 5 minutes from now
     }
 
     @Override
@@ -165,7 +167,16 @@ public class EmailServiceImpl implements EmailService {
         return false;
     }
     
-    
+    @Override
+    public boolean isVerificationCodeExpired(String email) {
+        VerificationCodeEntity verificationCodeEntity = verificationCodeMap.get(email);
+        if (verificationCodeEntity != null) {
+            Instant expirationTime = verificationCodeEntity.getExpirationTime();
+            return Instant.now().isAfter(expirationTime);
+        }
+        return true; // Assume expired if no verification code is found
+    }
+
     @Override
     public String getStoredCodeForUser(String userEmail) {
         return generatedCodeStorage.getOrDefault(userEmail, "");
@@ -175,6 +186,45 @@ public class EmailServiceImpl implements EmailService {
     public String getEnteredCodeForUser(String verificationCode) {
         return enteredCodeStorage.getOrDefault(verificationCode, "");
     }
+    @Override
+    @Transactional
+    public String resendVerificationCode(String userEmail) {
+        User user = userRepo.findByEmail(userEmail);
+
+        if (user != null) {
+            // Check if there's an existing verification code
+            Optional<VerificationCodeEntity> existingVerificationCode = verificationCodeRepo.findByUserEmail(userEmail);
+
+            if (existingVerificationCode.isPresent()) {
+                // Use the existing verification code and update its expiration time
+                VerificationCodeEntity verificationCodeEntity = existingVerificationCode.get();
+                verificationCodeEntity.setExpirationTimeInMillis(getDefaultExpirationTimeInMillis());
+                verificationCodeRepo.save(verificationCodeEntity);
+
+                // You can send the code by email or any other communication method
+                return verificationCodeEntity.getVerificationCode();
+            } else {
+                // Generate a new verification code and store it
+                String generatedCode = generateRandomCode();
+                long expirationTimeInMillis = getDefaultExpirationTimeInMillis();
+
+                verificationCodeRepo.save(new VerificationCodeEntity(user, generatedCode, expirationTimeInMillis));
+                generatedCodeStorage.put(userEmail, generatedCode);
+
+                // You can send the code by email or any other communication method
+                return generatedCode;
+            }
+        } else {
+            return "User not found";
+        }
+    }
+
+    @Override
+    @Transactional
+    public String generateVerificationCode() {
+        // Implement the logic to generate a verification code
+        return generateRandomCode();
+    }
 
     @Override
     public void storeEnteredCode(String verificationCode, String enteredCode) {
@@ -183,6 +233,10 @@ public class EmailServiceImpl implements EmailService {
 
     private String getStoredCode(String userEmail) {
         return generatedCodeStorage.getOrDefault(userEmail, "");
+    }
+
+    public void saveVerificationCode(VerificationCodeEntity verificationCodeEntity) {
+        verificationCodeRepo.save(verificationCodeEntity);
     }
 
     private String generateRandomCode() {

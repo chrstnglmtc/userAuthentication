@@ -1,8 +1,6 @@
 package com.authentication.userAuthentication.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -12,10 +10,7 @@ import com.authentication.userAuthentication.Dto.Request.SignUpDto;
 import com.authentication.userAuthentication.Entity.User;
 import com.authentication.userAuthentication.Entity.Enums.Role;
 import com.authentication.userAuthentication.Exceptions.InvalidJwtException;
-import com.authentication.userAuthentication.Exceptions.UserNotFoundException;
 import com.authentication.userAuthentication.Repo.UserRepo;
-
-import jakarta.transaction.Transactional;
 
 @Service
 public class AuthService implements UserDetailsService {
@@ -72,6 +67,7 @@ public class AuthService implements UserDetailsService {
             userRepo.save(user); // Save the updated user entity
         }
     }
+        
 
     // @Transactional
     // @Modifying

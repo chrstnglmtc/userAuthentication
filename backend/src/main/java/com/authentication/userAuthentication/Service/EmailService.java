@@ -18,6 +18,8 @@ public interface EmailService {
     // Existing method for getting stored verification code
     String getStoredCodeForUser(String userEmail);
 
+    void saveVerificationCode(VerificationCodeEntity verificationCodeEntity);
+
     // New method for generating and storing verification codes with expiration time
     String generateAndStoreVerificationCode(String userEmail);
 
@@ -33,4 +35,9 @@ public interface EmailService {
 
     VerificationCodeEntity getStoredVerificationInfoForUser(String userEmail);
 
+    boolean isVerificationCodeExpired(String email);
+
+    String generateVerificationCode();    
+
+    String resendVerificationCode(String userEmail);
 }

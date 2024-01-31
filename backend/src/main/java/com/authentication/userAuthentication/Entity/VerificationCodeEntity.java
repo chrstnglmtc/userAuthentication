@@ -1,7 +1,10 @@
 package com.authentication.userAuthentication.Entity;
 
+import java.time.Instant;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,8 +19,11 @@ public class VerificationCodeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String verificationCode;
+
     private long expirationTimeInMillis;
+    private Instant expirationTime;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -33,7 +39,9 @@ public class VerificationCodeEntity {
         this.user = user;
         this.verificationCode = verificationCode;
         this.expirationTimeInMillis = expirationTimeInMillis;
+        this.expirationTime = Instant.ofEpochMilli(expirationTimeInMillis);
     }
+
 
     // Getters and setters
 
@@ -67,5 +75,9 @@ public class VerificationCodeEntity {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Instant getExpirationTime() {
+        return expirationTime;
     }
 }

@@ -6,29 +6,43 @@ import '../Auth.css'; // Import a CSS file for styling
 function TeamA_VerificationForm() {
   const [verification, setVerification] = useState('');
   const [verificationStatus, setVerificationStatus] = useState(null);
+  const [resendStatus, setResendStatus] = useState(null);
+  const [showResendButton, setShowResendButton] = useState(true);
+  const [emailFromRegistration, setEmailFromRegistration] = useState('');
+  const [resending, setResending] = useState(false);
+  const [codeExpired, setCodeExpired] = useState(false);
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const emailFromRegistration = queryParams.get('email'); 
-  
-  useEffect(() => {
-    console.log('Component re-rendered. Current verificationStatus:', verificationStatus);
-  }, [verificationStatus]);
 
   useEffect(() => {
-    if (emailFromRegistration) {
-      // Do something with the email if needed
-    }
+    setEmailFromRegistration(queryParams.get('email'));
+  }, [queryParams]);
+
+  useEffect(() => {
+    checkVerificationCodeExpiration(emailFromRegistration);
   }, [emailFromRegistration]);
+
+  const checkVerificationCodeExpiration = async (email) => {
+    try {
+      const response = await fetch(`http://localhost:8085/api/v1/auth/checkCodeExpiration?email=${email}`);
+
+      if (response.ok) {
+        const { codeExpired } = await response.json();
+        setCodeExpired(codeExpired);
+        setShowResendButton(codeExpired);
+      } else {
+        console.error('Failed to fetch verification code expiration status. Response:', response.status);
+      }
+    } catch (error) {
+      console.error('Error during code expiration check:', error);
+    }
+  };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
-    // TODO: Perform API call or verification logic
     try {
-      console.log('Submitting:', { verificationCode: verification, userEmail: emailFromRegistration });
-
-      // Example: Verify the code using an API endpoint
       const response = await fetch('http://localhost:8085/api/v1/auth/verifyCode', {
         method: 'POST',
         headers: {
@@ -37,21 +51,43 @@ function TeamA_VerificationForm() {
         body: JSON.stringify({ verificationCode: verification, recipient: emailFromRegistration }),
       });
 
-      console.log('Response:', response);
-
       if (response.ok) {
-        // Verification successful
         setVerificationStatus('Verification successful');
+        setShowResendButton(false); // Hide the Resend Code button after successful verification
       } else {
-        // Verification failed
         setVerificationStatus('Verification failed');
+        setShowResendButton(codeExpired); // Show the Resend Code button if the code is expired
       }
     } catch (error) {
       console.error('Error during verification:', error);
-      // Handle error
     }
   };
-  
+
+  const handleResendCode = async () => {
+    try {
+      setResending(true);
+
+      const resendResponse = await fetch('http://localhost:8085/api/v1/auth/resendCode', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ recipient: emailFromRegistration }),
+      });
+
+      if (resendResponse.ok) {
+        setResendStatus('Verification code resent successfully');
+        setShowResendButton(false); // Hide the Resend Code button after successfully resending
+      } else {
+        setResendStatus('Failed to resend verification code');
+        await new Promise(resolve => setTimeout(resolve, 5000));
+      }
+    } catch (error) {
+      console.error('Error during code resend:', error);
+    } finally {
+      setResending(false);
+    }
+  };
 
   return (
     <div className="verification-forms-container">
@@ -75,13 +111,26 @@ function TeamA_VerificationForm() {
             onChange={(e) => setVerification(e.target.value)}
             required
           />
-          <button type="submit" className="TeamA-button">Send</button>
+          {resending ? (
+            <p>Resending verification code...</p>
+          ) : codeExpired ? (
+            <>
+              {showResendButton && (
+                <button type="button" className="TeamA-button" onClick={handleResendCode} disabled={resending}>
+                  {resending ? 'Resending...' : 'Resend Code'}
+                </button>
+              )}
+              <button type="submit" className="TeamA-button">Send</button>
+            </>
+          ) : (
+            <button type="submit" className="TeamA-button">Send</button>
+          )}
         </div>
       </form>
 
       <div className="verification-panels-container">
-        {/* Display verification status */}
         {verificationStatus && <p>{verificationStatus}</p>}
+        {showResendButton && resendStatus && <p>{resendStatus}</p>}
       </div>
     </div>
   );
