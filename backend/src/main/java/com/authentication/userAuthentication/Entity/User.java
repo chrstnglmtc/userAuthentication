@@ -8,6 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.authentication.userAuthentication.Entity.Enums.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -61,14 +62,15 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private VerificationCodeEntity verificationCodeEntity;
-
     @Column(name = "is_verified")
     private boolean isVerified;
 
     @Transient // Mark the field as transient to exclude it from database mapping
     private String imageType;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private VerificationCodeEntity verificationCodeEntity;
 
     public User(String email, String userName, String password, String firstName, String lastName, Role role) {
         this.email = email;
