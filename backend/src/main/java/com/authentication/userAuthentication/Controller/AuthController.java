@@ -55,6 +55,9 @@ public class AuthController {
 
     @Autowired
     private UserRepo userRepo;
+    public boolean isEmailRegistered(String email) {
+        return userRepo.existsByEmail(email);
+    }
 
     @Autowired
     private EmailService emailService;
@@ -241,5 +244,9 @@ public ResponseEntity<String> uploadProfilePicture(@RequestParam("userId") Long 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload profile picture");
     }
 }
-
+    @GetMapping("/checkRegisteredEmail")
+    public ResponseEntity<Boolean> checkRegisteredEmail(@RequestParam String email) {
+        boolean isEmailRegistered = userRepo.existsByEmail(email);
+        return ResponseEntity.ok(isEmailRegistered);
+    }
 }

@@ -11,6 +11,7 @@ function TeamA_VerificationForm() {
   const [emailFromRegistration, setEmailFromRegistration] = useState('');
   const [resending, setResending] = useState(false);
   const [codeExpired, setCodeExpired] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -31,6 +32,7 @@ function TeamA_VerificationForm() {
         const { codeExpired } = await response.json();
         setCodeExpired(codeExpired);
         setShowResendButton(codeExpired);
+        setShowModal(true);
       } else {
         console.error('Failed to fetch verification code expiration status. Response:', response.status);
       }
@@ -89,6 +91,10 @@ function TeamA_VerificationForm() {
     }
   };
 
+  const enroll = () => {
+    // Handle enrollment logic if needed
+  };
+
   return (
     <div className="verification-forms-container">
       <form className="template-form" onSubmit={handleFormSubmit}>
@@ -128,6 +134,44 @@ function TeamA_VerificationForm() {
         </div>
       </form>
 
+      {verificationStatus && showModal && (
+        <>
+          <div className="vf-modal-overlay"></div>
+          <div className="vf-modal-sql modal fade show" id="modalSql" tabIndex="-1" aria-labelledby="modalSql" aria-hidden="true" style={{ display: 'block' }}>
+            <div className="vf-modal-dialog">
+              <div className="vf-modal-content" style={{ backgroundColor: "#D9FFCF", zIndex: 1051 /* Adjust the z-index to be higher than the overlay */ }}>
+                <div className="vf-modal-header">
+                  <h5 className="vf-modal-title" id="modalSql">
+                    Email Verification
+                  </h5>
+                </div>
+                <div className="vf-modal-body">
+                  <p>Email Verified Successfully!</p>
+                </div>
+                <div className="vf-modal-footer">
+                  <Link to="/login">
+                  <button
+                    type="button"
+                    className="vf-login-btn"
+                    style={{
+                      backgroundColor: "#0e3b03",
+                      color: "#ffffff",
+                      borderRadius: "20px",
+                      fontSize: "15px",
+                      position: "center",
+                    }}
+                    onClick={enroll}
+                  >
+                    Log-In
+                  </button>
+                  </Link>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
       <div className="verification-panels-container">
         {verificationStatus && <p>{verificationStatus}</p>}
         {showResendButton && resendStatus && <p>{resendStatus}</p>}
