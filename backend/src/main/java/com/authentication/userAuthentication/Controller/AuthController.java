@@ -214,6 +214,12 @@ public ResponseEntity<User> updateUser(@PathVariable Long userId, @RequestBody U
 public ResponseEntity<String> uploadProfilePicture(@RequestParam("userId") Long userId,
                                                   @RequestParam("file") MultipartFile file) {
     try {
+        // Check if the file size exceeds the allowed limit (e.g., 5 MB)
+        long maxFileSize = 2 * 1024 * 1024; // 2 MB in bytes
+        if (file.getSize() > maxFileSize) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("File size exceeds the allowed limit");
+        }
+
         // Retrieve the user by userId
         User user = userRepo.findById(userId).orElse(null);
 
@@ -236,5 +242,4 @@ public ResponseEntity<String> uploadProfilePicture(@RequestParam("userId") Long 
     }
 }
 
-    
 }

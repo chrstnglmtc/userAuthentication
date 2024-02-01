@@ -12,61 +12,73 @@ function getUserImageType(profilePicture) {
   if (profilePicture && profilePicture.startsWith) {
     // Check the image type based on the data
     const isPNG = profilePicture.startsWith('data:image/png;base64,');
-    return isPNG ? 'png' : 'jpeg';
+    const isJPEG = profilePicture.startsWith('data:image/jpeg;base64,');
+    
+    if (isPNG) {
+      return 'png';
+    } else if (isJPEG) {
+      return 'jpeg';
+    } else {
+      // Return a default type or handle accordingly
+      return 'unknown'; // You can change this to 'jpeg' or handle as needed
+    }
   } else {
     // Return a default type or handle accordingly
-    return 'png'; // You can change this to 'jpeg' or handle as needed
+    return 'unknown'; // You can change this to 'jpeg' or handle as needed
   }
 }
+
 
 function TeamA_Profile() {
 
   const { isLoggedIn, handleLogout } = useAuth();
   const [userData, setUserData] = useState({});
+  const [updateData, setUpdateData] = useState({});
 
   useEffect(() => {
-    // Fetch user data from your backend API
     const fetchUserData = async () => {
       try {
-        // Get user ID from local storage
         const userId = localStorage.getItem('userId');
-
         if (!userId) {
           console.error('User ID not found in local storage');
-          // Handle this case, for example, redirect the user to login
           return;
         }
-
+  
         const response = await fetch(`http://localhost:8085/api/v1/auth/users/${userId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           },
         });
-
+  
         if (response.ok) {
           const userData = await response.json();
           setUserData(userData);
-
-          // If the profile picture is in binary format, convert it to a data URL
-          if (userData.profilePicture) {
+  
+          if (userData.profilePicture !== undefined && userData.profilePicture !== null) {
             const base64 = btoa(String.fromCharCode(...new Uint8Array(userData.profilePicture)));
-            const dataUrl = `data:image/avif;base64,${base64}`;
+            const imageType = getUserImageType(userData.profilePicture);
+            const dataUrl = `data:image/${imageType};base64,${base64}`;
+  
+            // console.log('base64:', base64);
+            // console.log('imageType:', imageType);
+            // console.log('dataUrl:', dataUrl);
+  
             setUpdateData((prevData) => ({
               ...prevData,
               profilePicture: dataUrl,
             }));
+          } else {
+            console.error('Profile picture is undefined or null in user data');
           }
         } else {
           console.error('Failed to fetch user data', response.status, response.statusText);
-          // Handle this error as needed
         }
       } catch (error) {
         console.error('Unexpected error during user data fetch', error);
-        // Handle unexpected errors
       }
     };
-
+  
     fetchUserData();
   }, []);
     

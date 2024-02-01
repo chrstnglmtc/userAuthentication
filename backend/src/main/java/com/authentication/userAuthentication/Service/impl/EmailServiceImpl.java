@@ -248,7 +248,7 @@ public class EmailServiceImpl implements EmailService {
     public LocalDateTime getExpirationTime() {
         // Implement this method if you need to retrieve the expiration time
         // This could be based on some configuration or constant value
-        return LocalDateTime.now().plusSeconds(5); // Example: expiration time is 5 minutes from now
+        return LocalDateTime.now().plusMinutes(5); // Example: expiration time is 5 minutes from now
     }
 
     @Override

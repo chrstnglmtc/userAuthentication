@@ -3,17 +3,17 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from './TeamA_AuthContext';
 import '../Auth.css';
 // Function to get user image type
-function getUserImageType(profilePicture) {
-  // Check if profilePicture is defined and not null
-  if (profilePicture && profilePicture.startsWith) {
-    // Check the image type based on the data
-    const isPNG = profilePicture.startsWith('data:image/png;base64,');
-    return isPNG ? 'png' : 'jpeg';
-  } else {
-    // Return a default type or handle accordingly
-    return 'png'; // You can change this to 'jpeg' or handle as needed
-  }
-}
+// function getUserImageType(profilePicture) {
+//   // Check if profilePicture is defined and not null
+//   if (profilePicture && profilePicture.startsWith) {
+//     // Check the image type based on the data
+//     const isPNG = profilePicture.startsWith('data:image/png;base64,');
+//     return isPNG ? 'png' : 'jpeg';
+//   } else {
+//     // Return a default type or handle accordingly
+//     return 'png'; // You can change this to 'jpeg' or handle as needed
+//   }
+// }
 function TeamA_ProfileEditForm() {
   const navigate = useNavigate();
   const { handleLogout } = useAuth();
@@ -82,34 +82,45 @@ function TeamA_ProfileEditForm() {
 }, []);
 
 
-  const handleInputChange = (e, isFile = false) => {
-    const { name, value, files } = e.target;
-  
-    if (isFile) {
+const handleInputChange = (e, isFile = false) => {
+  const { name, value, files } = e.target;
+
+  if (isFile) {
+      const selectedFile = files[0];
+
+      // Check if the selected file size exceeds the allowed limit (5 MB)
+      const maxFileSize = 5 * 1024 * 1024; // 5 MB in bytes
+
+      if (selectedFile && selectedFile.size > maxFileSize) {
+          // Show an error message or handle it as needed
+          console.error('File size exceeds the allowed limit (5 MB)');
+          return;
+      }
+
       // Update the profile picture state
       setUpdateData((prevData) => ({
-        ...prevData,
-        [name]: files[0],
+          ...prevData,
+          [name]: selectedFile,
       }));
-  
+
       // Generate image preview
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImagePreview(reader.result);
+          setImagePreview(reader.result);
       };
-  
-      if (files[0]) {
-        reader.readAsDataURL(files[0]);
+
+      if (selectedFile) {
+          reader.readAsDataURL(selectedFile);
       } else {
-        setImagePreview(null);
+          setImagePreview(null);
       }
-    } else {
+  } else {
       setUpdateData((prevData) => ({
         ...prevData,
         [name]: value,
       }));
-    }
-  };
+  }
+};
   
 
   const handleProfilePictureUpload = async () => {
@@ -196,80 +207,84 @@ function TeamA_ProfileEditForm() {
     await handleUpdate();
   };
 
+
   return (
     <div className="Prof2-wrapper">
       <div className="Prof2-left">
-      <label htmlFor="profilePicture">Profile Picture</label>
-      <input
-        type="file"
-        id="profilePicture"
-        name="profilePicture"
-        onChange={(e) => handleInputChange(e, true)}
-        accept="image/*"
-      />
-      {imagePreview && (
-        <img
-          src={imagePreview}
-          alt="Profile Preview"
-          style={{ width: '100px', height: '100px', marginTop: '10px' }}
+        <label htmlFor="profilePicture">Profile Picture</label>
+        <input
+          type="file"
+          id="profilePicture"
+          name="profilePicture"
+          onChange={(e) => handleInputChange(e, true)}
+          accept="image/*"
         />
-      )}
+        {imagePreview && (
+          <img
+            src={imagePreview}
+            alt="Profile Preview"
+            style={{ width: '100px', height: '100px', marginTop: '10px' }}
+          />
+        )}
         <h4>Name</h4>
         <p>Position name</p>
       </div>
       <div className="Prof2-right">
-        <div className="Prof2-info">
-          <h3>Profile Information</h3>
-          <form onSubmit={handleSubmit} className="Prof2-info_data">
-            {/* Existing form fields */}
-            <div className="Prof2-data">
-              <label htmlFor="firstName">First Name</label>
-              <input
-                type="text"
-                id="firstName"
-                name="firstName"
-                value={updateData.firstName}
-                onChange={handleInputChange}
-                placeholder="Enter your first name"
-              />
-              <label htmlFor="email">Email</label>
-              <div className="data">
-                {userData && <p>{userData.email}</p>}
+        {userData && Object.keys(userData).length > 0 && ( // Check if userData is not null and not an empty object
+          <div className="Prof2-info">
+            <h3>Profile Information</h3>
+            <form onSubmit={handleSubmit} className="Prof2-info_data">
+              {/* Existing form fields */}
+              <div className="Prof2-data">
+                <label htmlFor="firstName">First Name</label>
+                <input
+                  type="text"
+                  id="firstName"
+                  name="firstName"
+                  value={updateData.firstName}
+                  onChange={handleInputChange}
+                  placeholder="Enter your first name"
+                />
+                <label htmlFor="email">Email</label>
+                <div className="data">
+                  {userData && <p>{userData.email}</p>}
+                </div>
               </div>
-            </div>
-            <div className="Prof2-data">
-              <label htmlFor="lastName">Last Name</label>
-              <input
-                type="text"
-                id="lastName"
-                name="lastName"
-                value={updateData.lastName}
-                onChange={handleInputChange}
-                placeholder="Enter your last name"
-              />
-              <label htmlFor="username">Username</label>
-              <input
-                type="text"
-                id="username"
-                name="userName"
-                value={updateData.userName}
-                onChange={handleInputChange}
-                placeholder="Enter your username"
-              />
-            </div> 
-            {/* Update and Cancel buttons */}
-            <div className="Prof2-buttons">
-              <button className="submit-button" type="submit">
-                Update
-              </button>
-              <Link to="/profile">
-                <button className="cancel-button">Cancel</button>
-              </Link>
-            </div>
-          </form>
-        </div>
+              <div className="Prof2-data">
+                <label htmlFor="lastName">Last Name</label>
+                <input
+                  type="text"
+                  id="lastName"
+                  name="lastName"
+                  value={updateData.lastName}
+                  onChange={handleInputChange}
+                  placeholder="Enter your last name"
+                />
+                <label htmlFor="username">Username</label>
+                <input
+                  type="text"
+                  id="userName"
+                  name="userName"
+                  value={updateData.userName}
+                  onChange={handleInputChange}
+                  placeholder="Enter your username"
+                />
+              </div>
+              {/* Update and Cancel buttons */}
+              <div className="Prof2-buttons">
+                <button className="submit-button" type="submit">
+                  Update
+                </button>
+                <Link to="/profile">
+                  <button className="cancel-button">Cancel</button>
+                </Link>
+              </div>
+            </form>
+          </div>
+        )}
       </div>
     </div>
   );
-}  
+}
+
 export default TeamA_ProfileEditForm;
