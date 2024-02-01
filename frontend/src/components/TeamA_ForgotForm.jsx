@@ -18,10 +18,10 @@ function TeamA_ForgotForm({ onForgotPassword }) {
       console.log('Resetting password for email:', email);
 
       // Redirect to EmailVerification page after handling the forgot password logic
-      navigate('/EmailForm');
+      navigate('/email'); // Assuming you want to navigate to '/email' after initiating the reset
     } catch (error) {
-      console.error('Error during email check:', error);
-      setResetStatus('Error during email check. Please try again.');
+      console.error('Error during password reset:', error);
+      setResetStatus('Error during password reset. Please try again.');
     }
   };
 
@@ -31,19 +31,29 @@ function TeamA_ForgotForm({ onForgotPassword }) {
       const checkEmailResponse = await fetch(`http://localhost:8085/api/v1/auth/checkRegisteredEmail?email=${email}`, {
         method: 'GET',
       });
-
+  
       if (checkEmailResponse.ok) {
         const isEmailRegistered = await checkEmailResponse.json();
-
+  
+        // Set state indicating that the verification was attempted
+        setVerificationAttempted(true);
+  
         if (isEmailRegistered) {
-          // Set state indicating that the verification was attempted
-          setVerificationAttempted(true);
           // Show success message or handle accordingly
           setResetStatus('Email is registered. Please check your email.');
-          navigate('/email');
+  
+          // Your existing logic for initiating the forgot password process
+          const forgotPasswordResponse = await fetch(`http://localhost:8085/api/v1/auth/forgot-password?email=${email}`, {
+            method: 'POST',
+          });
+  
+          if (forgotPasswordResponse.ok) {
+            navigate('/email');
+            // Handle successful response from the forgot password endpoint if needed
+          } else {
+            // Handle error response from the forgot password endpoint if needed
+          }
         } else {
-          // Set state indicating that the verification was attempted
-          setVerificationAttempted(true);
           // Show error message to the user that the entered email is not registered
           setResetStatus('Email Not Registered');
         }
@@ -74,7 +84,6 @@ function TeamA_ForgotForm({ onForgotPassword }) {
           <p>Please enter your email address to reset your password.</p>
           <div className="email-input-field">
             <i className="fas fa-envelope"></i>
-            {/* Use setEmail to update the email state */}
             <input
               type="email"
               id="email"

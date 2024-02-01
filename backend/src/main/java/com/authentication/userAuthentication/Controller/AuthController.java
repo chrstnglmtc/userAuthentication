@@ -55,9 +55,6 @@ public class AuthController {
 
     @Autowired
     private UserRepo userRepo;
-    public boolean isEmailRegistered(String email) {
-        return userRepo.existsByEmail(email);
-    }
 
     @Autowired
     private EmailService emailService;
@@ -91,7 +88,38 @@ public ResponseEntity<JwtDto> signUp(@RequestBody @Valid SignUpDto data) {
     }
 }
 
+@PostMapping("/forgot-password")
+    public ResponseEntity<String> forgotPassword(@RequestParam String email) {
+        try {
+            // Check if the email is registered
+            boolean isEmailRegistered = userRepo.existsByEmail(email);
 
+            if (isEmailRegistered) {
+                // Generate and store the verification code for forgot password
+                String verificationCode = emailService.generateAndStoreVerificationCode(email);
+
+                // Customize the email content or subject if needed
+                EmailDetails emailDetails = new EmailDetails();
+                emailDetails.setRecipient(email);
+                emailDetails.setGeneratedCode(verificationCode);
+                emailDetails.setSubject("Forgot Password - Verification Code");
+                emailDetails.setContent("Your verification code is: " + verificationCode);
+
+                // Send the verification code via email
+                emailService.sendSimpleMail(emailDetails);
+
+                return ResponseEntity.ok("Verification code sent successfully");
+            } else {
+                // Email is not registered, return an error response
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email is not registered");
+            }
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            // Handle any exceptions (e.g., email sending failure)
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to send verification code");
+        }
+    }
 
 // <-----------WORKING LOGIN ENDPOINT W/ SESSION----------->
 @PostMapping("/signin")
