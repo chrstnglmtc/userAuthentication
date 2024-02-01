@@ -127,7 +127,7 @@ public class EmailServiceImpl implements EmailService {
     private long getDefaultExpirationTimeInMillis() {
         // Implement this method to provide a default expiration time
         // This could be based on some configuration or constant value
-        return System.currentTimeMillis() + (5 * 1000); // Example: expiration time is 5 minutes from now
+        return System.currentTimeMillis() + (5 * 60 * 1000); // Example: expiration time is 5 minutes from now
     }
 
     @Override

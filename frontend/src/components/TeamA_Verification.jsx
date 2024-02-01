@@ -11,7 +11,7 @@ function TeamA_Verification() { // Corrected function name
       </div>
       <div className="verification-navi">
         <div className="home-button">
-          <Link to="/">
+          <Link to="/dashboard">
             <button className="TeamA-button" >Home</button>
           </Link>
         </div>

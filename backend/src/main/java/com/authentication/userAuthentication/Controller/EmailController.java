@@ -50,45 +50,50 @@ public class EmailController {
 
     // New endpoint for resending verification code
     @PostMapping("/resendCode")
-public ResponseEntity<String> resendVerificationCode(@RequestBody EmailDetails details) {
-    try {
-        String userEmail = details.getRecipient();
-        User user = authService.getUserByEmail(userEmail);
-
-        if (user == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+    public ResponseEntity<String> resendVerificationCode(@RequestBody EmailDetails details) {
+        try {
+            String userEmail = details.getRecipient();
+            User user = authService.getUserByEmail(userEmail);
+    
+            if (user == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+            }
+    
+            // Generate and store a new verification code for the user
+            String newVerificationCode = emailService.generateVerificationCode(); // Assuming this generates a new code
+    
+            VerificationCodeEntity existingVerificationCode = emailService.getStoredVerificationInfoForUser(userEmail);
+    
+            if (existingVerificationCode != null) {
+                // Update the existing verification code
+                existingVerificationCode.setVerificationCode(newVerificationCode);
+                existingVerificationCode.setExpirationTimeInMillis(System.currentTimeMillis() + (5 * 60 * 1000)); // Set new expiration time
+    
+                // Save the updated verification code to the database
+                emailService.saveVerificationCode(existingVerificationCode);
+            } else {
+                // If no existing verification code, generate and store a new one
+                VerificationCodeEntity newVerificationCodeEntity = new VerificationCodeEntity();
+                newVerificationCodeEntity.setUser(user);
+                newVerificationCodeEntity.setVerificationCode(newVerificationCode);
+                newVerificationCodeEntity.setExpirationTimeInMillis(System.currentTimeMillis() + (5 * 60 * 1000)); // Set expiration time to 5 minutes
+                emailService.saveVerificationCode(newVerificationCodeEntity);
+            }
+    
+            // Send email with the new verification code
+            EmailDetails emailDetails = new EmailDetails();
+            emailDetails.setRecipient(userEmail);
+            emailDetails.setGeneratedCode(newVerificationCode);
+            emailDetails.setSubject("New Verification Code");
+            emailDetails.setContent("Your new verification code is: " + newVerificationCode);
+            emailService.sendSimpleMail(emailDetails);
+    
+            return ResponseEntity.ok("Verification code resent successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to resend verification code");
         }
-
-        // Check if there is an existing verification code for the user
-        VerificationCodeEntity existingVerificationCode = emailService.getStoredVerificationInfoForUser(userEmail);
-
-        if (existingVerificationCode != null) {
-            // Update the existing verification code
-            String newVerificationCode = emailService.generateVerificationCode();
-            existingVerificationCode.setVerificationCode(newVerificationCode);
-            existingVerificationCode.setExpirationTimeInMillis(System.currentTimeMillis() + (5 * 60 * 1000)); // Set new expiration time
-
-            // Save the updated verification code to the database
-            emailService.saveVerificationCode(existingVerificationCode);
-        } else {
-            // If no existing verification code, generate and store a new one
-            String newVerificationCode = emailService.generateAndStoreVerificationCode(userEmail);
-        }
-
-        // Send email with the updated verification code
-        EmailDetails emailDetails = new EmailDetails();
-        emailDetails.setRecipient(userEmail);
-        emailDetails.setGeneratedCode(existingVerificationCode.getVerificationCode());
-        emailDetails.setSubject("New Verification Code");
-        emailDetails.setContent("Your new verification code is: " + existingVerificationCode.getVerificationCode());
-        emailService.sendSimpleMail(emailDetails);
-
-        return ResponseEntity.ok("Verification code resent successfully");
-    } catch (Exception e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to resend verification code");
     }
-}
-
+    
     
     @PostMapping("/verifyCode")
     public ResponseEntity<String> verifyCode(@RequestBody EmailDetails details) {
@@ -108,13 +113,18 @@ public ResponseEntity<String> resendVerificationCode(@RequestBody EmailDetails d
     @GetMapping("/checkCodeExpiration")
     public ResponseEntity<Map<String, Object>> checkCodeExpiration(@RequestParam String email) {
         try {
+            VerificationCodeEntity verificationCodeEntity = emailService.getStoredVerificationInfoForUser(email);
             boolean codeExpired = emailService.isVerificationCodeExpired(email);
+    
             Map<String, Object> response = new HashMap<>();
             response.put("codeExpired", codeExpired);
+            response.put("expirationTime", verificationCodeEntity.getExpirationTimeInMillis()); // Assuming getExpirationTimeInMillis() method exists
+    
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("error", "Internal Server Error"));
         }
     }
+    
 
 }

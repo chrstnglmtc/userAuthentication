@@ -55,8 +55,10 @@ function TeamA_RegisterForm() {
 
       if (response.ok) {
         console.log('Registration successful');
+        // Store the email in local storage
+        localStorage.setItem('email', email);
         setVerificationCodeSent(true);
-        navigate(`/verify?email=${email}`); // Include email as a query parameter
+        navigate('/verify'); // Include email as a query parameter
       } else {
         console.error('Registration failed');
         setError('Registration failed. Please try again.');

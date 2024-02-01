@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unknown-property */
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useNavigation} from 'react-router-dom';
 import '../Auth.css';
 import Navigation from './TeamA_Navigation';
 import { useAuth } from "./TeamA_AuthContext";
@@ -34,6 +34,7 @@ function TeamA_Profile() {
   const { isLoggedIn, handleLogout } = useAuth();
   const [userData, setUserData] = useState({});
   const [updateData, setUpdateData] = useState({});
+  const navigate = useNavigate(); //
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -81,18 +82,20 @@ function TeamA_Profile() {
   
     fetchUserData();
   }, []);
+
+  const handleGoBack = () => {
+    navigate(-1); // Go back to the previous window
+  };
     
   return (
     <>
       <Navigation isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
       <div className="Prof1-wrapper">
-        <Link to="/">
-        <button className="Backbutton">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-left" viewBox="0 0 16 16">
-          <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
-        </svg>
+      <button className="Backbutton" onClick={handleGoBack}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-left" viewBox="0 0 16 16">
+            <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+          </svg>
         </button>
-        </Link>
         <div className="Prof1-left">
         <img
           src={`data:image/${getUserImageType(userData.profilePicture)};base64,${userData.profilePicture}`}

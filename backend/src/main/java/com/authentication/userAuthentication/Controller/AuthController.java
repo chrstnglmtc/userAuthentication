@@ -117,24 +117,20 @@ public ResponseEntity<JwtDto> signIn(@RequestBody @Valid SignInDto data) {
     }
 }
 // <-----------GET USER ENDPOINT----------->
-    @GetMapping("/user")
-    public ResponseEntity<User> getUserData() {
-        // Get the authenticated user's email from the SecurityContext
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userEmail = authentication.getName();
+@GetMapping("/user")
+public ResponseEntity<User> getUserData() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    String userEmail = authentication.getName();
+    User user = userRepo.findByEmail(userEmail);
 
-        // Retrieve user data based on email
-        User user = userRepo.findByEmail(userEmail);
-
-        if (user != null) {
-            // Return user data
-            return ResponseEntity.ok(user);
-        } else {
-            // Handle the case where user data is not found
-            return ResponseEntity.notFound().build();
-        }
+    if (user != null) {
+        // Include the verification status in the response
+        user.setVerified(emailService.isVerificationCodeExpired(user.getEmail()));
+        return ResponseEntity.ok(user);
+    } else {
+        return ResponseEntity.notFound().build();
     }
-
+}
 // <-----------WORKING LIST USERS ENDPOINT----------->
     @GetMapping("/users")
     public ResponseEntity<List<User>> listUsers() {
@@ -156,6 +152,7 @@ public ResponseEntity<JwtDto> signIn(@RequestBody @Valid SignInDto data) {
             return ResponseEntity.notFound().build();
         }
     }
+
 
 // <-----------NEW UPDATE ENDPOINT----------->
 @PutMapping("/update/{userId}")

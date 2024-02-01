@@ -1,5 +1,5 @@
-import React from 'react';
-import { Route, Routes, Navigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './components/TeamA_AuthContext';
 
 import TeamA_Landing from './components/TeamA_Landing';
@@ -35,6 +35,62 @@ PrivateRoute.propTypes = {
 };
 
 function App() {
+  const [isVerified, setIsVerified] = useState(false);
+  const { isAuthReady } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkVerificationStatus = async () => {
+      // Retrieve the user ID from local storage
+      const storedUserId = localStorage.getItem('userId');
+
+      if (storedUserId) {
+        try {
+          // Use the user ID to fetch verification status
+          const response = await fetch(`http://localhost:8085/api/v1/auth/users/${storedUserId}`);
+          if (response.ok) {
+            const user = await response.json();
+
+            // Ensure that the response has the expected structure
+            if (user && user.hasOwnProperty('user_id')) {
+              setIsVerified(user.verified);
+
+              // Redirect to a different route if the user is verified
+              if (user.verified) {
+                navigate('/dashboard');
+              }
+            } else {
+              console.error('Invalid user data received from the server:', user);
+            }
+          } else {
+            console.error('Failed to fetch user data. Response:', response.status);
+          }
+        } catch (error) {
+          console.error('Error during verification status check:', error);
+        }
+      } else {
+        console.log('User ID not found in local storage');
+      }
+    };
+
+    // Check verification status only when authentication is ready
+    if (isAuthReady) {
+      checkVerificationStatus();
+    }
+  }, [isAuthReady, navigate, isVerified]);  // Added 'isVerified' as a dependency
+
+  useEffect(() => {
+    // Trigger verification check after successful registration
+    if (localStorage.getItem('registrationSuccess')) {
+      checkVerificationStatus();
+      // Clear the registration success flag
+      localStorage.removeItem('registrationSuccess');
+    }
+  }, []);
+  // Show loading indicator while authentication is not ready
+  if (!isAuthReady) {
+    return <div>Loading...</div>;
+  }
   return (
     <AuthProvider>
       <Routes>
@@ -44,7 +100,11 @@ function App() {
         <Route path="/dashboard" element={<PrivateRoute element={<TeamA_Dashboard />} />} />
         <Route path="/forgot" element={<TeamA_Forgot />} />
         <Route path="/email" element={<TeamA_Email />} />
-        <Route path="/verify" element={<TeamA_Verification />} />
+        <Route
+          path="/verify"
+          element={isVerified ? <Navigate to="/dashboard" /> : <TeamA_Verification />}
+        />
+        <Route path="/login" element={<TeamA_Login />} />
         <Route path="/profile" element={<PrivateRoute element={<TeamA_Profile />} />} />
         <Route path="/update" element={<PrivateRoute element={<TeamA_ProfileEdit />} />} />
         <Route path="/navigation" element={<TeamA_Navigation />} />
