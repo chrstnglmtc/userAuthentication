@@ -12,6 +12,7 @@ function TeamA_VerificationForm() {
   const [resending, setResending] = useState(false);
   const [codeExpired, setCodeExpired] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
+  const [timeDifference, setTimeDifference] = useState(null);
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -28,13 +29,9 @@ function TeamA_VerificationForm() {
 
   useEffect(() => {
     const storedEmail = localStorage.getItem('email');
-    console.log('Stored Email:', storedEmail);
-    
+
     if (storedEmail) {
       setEmailFromRegistration(storedEmail);
-      console.log('Setting emailFromRegistration:', storedEmail);
-      
-      // Check verification code expiration after setting emailFromRegistration
       checkVerificationCodeExpiration(storedEmail);
     }
   }, []);
@@ -42,18 +39,32 @@ function TeamA_VerificationForm() {
   const checkVerificationCodeExpiration = async (email) => {
     try {
       const response = await fetch(`http://localhost:8085/api/v1/auth/checkCodeExpiration?email=${email}`);
-  
+
       if (response.ok) {
         const { codeExpired, expirationTime } = await response.json();
         setCodeExpired(codeExpired);
-        setShowResendButton(codeExpired);
-  
+
         if (expirationTime) {
-          const now = new Date().getTime();
-          const timeDifference = Math.floor((expirationTime - now) / (60 * 1000)); // Convert milliseconds to minutes
-          console.log('Verification code expires in:', timeDifference, 'minutes');
+          const updateCountdown = () => {
+            const now = new Date().getTime();
+            const newTimeDifference = Math.floor((expirationTime - now) / (60 * 1000)); // Convert milliseconds to minutes
+            console.log('Updated Verification code expires in:', newTimeDifference, 'minutes');
+            setTimeDifference(newTimeDifference);
+
+            if (newTimeDifference > 0) {
+              setTimeout(updateCountdown, 60000); // Update every minute (60 * 1000 milliseconds)
+            } else {
+              setShowResendButton(true);
+            }
+          };
+
+          updateCountdown(); // Initial update
+
+          setShowResendButton(false);
         } else {
           console.log('Verification code does not expire');
+          setShowResendButton(true); // Show resend button even if expirationTime is not available
+          setTimeDifference(0); // Initialize timeDifference with a default value
         }
       } else {
         console.error('Failed to fetch verification code expiration status. Response:', response.status);
@@ -62,8 +73,6 @@ function TeamA_VerificationForm() {
       console.error('Error during code expiration check:', error);
     }
   };
-  
-
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -104,9 +113,12 @@ function TeamA_VerificationForm() {
       if (resendResponse.ok) {
         setVerificationStatus('Verification code resent successfully');
         setShowResendButton(false);
+  
+        // Reload the page
+        window.location.reload();
       } else {
         setVerificationStatus('Failed to resend verification code');
-        await new Promise(resolve => setTimeout(resolve, 5000));
+        await new Promise((resolve) => setTimeout(resolve, 5000));
       }
     } catch (error) {
       console.error('Error during code resend:', error);
@@ -114,45 +126,63 @@ function TeamA_VerificationForm() {
       setResending(false);
     }
   };
+  
 
   return (
     <div className="verification-forms-container">
-      {!isVerified && (  // Only show the form if not verified
+      {!isVerified && ( // Only show the form if not verified
         <form className="template-form" onSubmit={handleFormSubmit}>
           <Link to="/forgot" className="wBackbutton">
             <button>
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-left" viewBox="0 0 16 16">
-                <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                className="bi bi-arrow-left"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.a.5 0 0 0 0 .708l4 4a.5.a.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
+                />
               </svg>
             </button>
           </Link>
           <h1 className="verification-title">Email Verification</h1>
-          <p className="center-text">Please enter the verification code sent to {emailFromRegistration}</p>
-          <div className="verification-input-field">
-            <input
-              type="text"
-              placeholder="Verification Code"
-              id="verification"
-              name="verification"
-              value={verification}
-              onChange={(e) => setVerification(e.target.value)}
-              required
-            />
-            {resending ? (
-              <p>Resending verification code...</p>
-            ) : codeExpired ? (
-              <>
-                {showResendButton && (
-                  <button type="button" className="TeamA-button" onClick={handleResendCode} disabled={resending}>
+          {codeExpired && (
+            <div className="verification-input-field">
+              <input
+                type="text"
+                placeholder="Verification Code"
+                id="verification"
+                name="verification"
+                value={verification}
+                onChange={(e) => setVerification(e.target.value)}
+                required
+              />
+              {resending ? (
+                <p>Resending verification code...</p>
+              ) : (
+                <button type="submit" className="TeamA-button">
+                  Send
+                </button>
+              )}
+              {showResendButton && (
+                <div>
+                  <a href="#" className="resend-link" onClick={handleResendCode} disabled={resending}>
                     {resending ? 'Resending...' : 'Resend Code'}
-                  </button>
-                )}
-                <button type="submit" className="TeamA-button">Send</button>
-              </>
-            ) : (
-              <button type="submit" className="TeamA-button">Send</button>
-            )}
-          </div>
+                  </a>
+                </div>
+              )}
+              {timeDifference !== null && (
+                <p>{`Verification code expires in: ${timeDifference} ${
+                  timeDifference === 1 ? 'minute' : 'minutes'
+                }`}</p>
+              )}
+              {!resending && timeDifference === null && <p>{`Verification code expires in: 0 minutes`}</p>}
+            </div>
+          )}
         </form>
       )}
 

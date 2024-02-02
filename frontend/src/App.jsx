@@ -56,8 +56,8 @@ function App() {
               setIsVerified(user.verified);
 
               // Redirect to a different route if the user is verified
-              if (user.verified) {
-                navigate('/dashboard');
+              if (!user.verified && window.location.pathname !== '/verify') {
+                navigate('/verify');
               }
             } else {
               console.error('Invalid user data received from the server:', user);
@@ -77,7 +77,7 @@ function App() {
     if (isAuthReady) {
       checkVerificationStatus();
     }
-  }, [isAuthReady, navigate, isVerified]);  // Added 'isVerified' as a dependency
+  }, [isAuthReady, navigate]);
 
   useEffect(() => {
     // Trigger verification check after successful registration
@@ -93,25 +93,28 @@ function App() {
   }
   return (
     <AuthProvider>
-      <Routes>
-        <Route path="/" element={<TeamA_Landing />} />
-        <Route path="/login" element={<TeamA_Login />} />
-        <Route path="/register" element={<TeamA_Register />} />
-        <Route path="/dashboard" element={<PrivateRoute element={<TeamA_Dashboard />} />} />
-        <Route path="/forgot" element={<TeamA_Forgot />} />
-        <Route path="/email" element={<TeamA_Email />} />
-        <Route
-          path="/verify"
-          element={isVerified ? <Navigate to="/dashboard" /> : <TeamA_Verification />}
-        />
-        <Route path="/login" element={<TeamA_Login />} />
-        <Route path="/profile" element={<PrivateRoute element={<TeamA_Profile />} />} />
-        <Route path="/update" element={<PrivateRoute element={<TeamA_ProfileEdit />} />} />
-        <Route path="/navigation" element={<TeamA_Navigation />} />
-        <Route path="/change" element={<TeamA_ChangePassword />} />
-        <Route path="/about" element={<PrivateRoute element={<TeamA_About />} />} />
-        <Route path="/new" element={<TeamA_NewPass />} />
-      </Routes>
+    <Routes>
+      <Route path="/" element={<TeamA_Landing />} />
+      <Route path="/login" element={<TeamA_Login />} />
+      <Route path="/register" element={<TeamA_Register />} />
+      <Route path="/forgot" element={<TeamA_Forgot />} />
+      <Route path="/email" element={<TeamA_Email />} />
+
+      {/* Protected Routes */}
+      <Route path="/dashboard" element={<PrivateRoute element={<TeamA_Dashboard />} />} />
+      <Route path="/profile" element={<PrivateRoute element={<TeamA_Profile />} />} />
+      <Route path="/update" element={<PrivateRoute element={<TeamA_ProfileEdit />} />} />
+      <Route path="/navigation" element={<PrivateRoute element={<TeamA_Navigation />} />} />
+      <Route path="/change" element={<PrivateRoute element={<TeamA_ChangePassword />} />} />
+      <Route path="/about" element={<PrivateRoute element={<TeamA_About />} />} />
+      <Route path="/new" element={<PrivateRoute element={<TeamA_NewPass />} />} />
+
+      {/* Verification Route */}
+      <Route
+        path="/verify"
+        element={<TeamA_Verification />}
+      />
+    </Routes>
     </AuthProvider>
   );
 }
