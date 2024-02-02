@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import com.authentication.userAuthentication.Entity.VerificationDetails;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -116,5 +117,28 @@ public ResponseEntity<String> resendVerificationCode(@RequestBody EmailDetails d
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("error", "Internal Server Error"));
         }
     }
+    @PostMapping("/verifyForgotPassword")
+public ResponseEntity<String> verifyForgotPassword(@RequestBody VerificationDetails details) {
+    try {
+        // Validate the verification code (existing logic)
+
+        // Check if the new password is the same as the registered password
+        boolean isSameAsRegisteredPassword = authService.isPasswordSameAsRegistered(details.getRecipient(), details.getNewPassword());
+
+        if (isSameAsRegisteredPassword) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Password input exists: New password must not be the same as the registered password");
+        }
+
+        // Update the password in the database
+        authService.updatePassword(details.getRecipient(), details.getNewPassword());
+
+        // Continue with the existing verification logic (if needed)
+
+        return ResponseEntity.ok("Password changed successfully");
+    } catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error during password change");
+    }
+}
+
 
 }

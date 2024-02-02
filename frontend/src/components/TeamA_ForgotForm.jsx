@@ -48,7 +48,8 @@ function TeamA_ForgotForm({ onForgotPassword }) {
           });
   
           if (forgotPasswordResponse.ok) {
-            navigate('/email');
+            console.log('Email Sent Successfully');
+            navigate(`/email?email=${email}`);
             // Handle successful response from the forgot password endpoint if needed
           } else {
             // Handle error response from the forgot password endpoint if needed

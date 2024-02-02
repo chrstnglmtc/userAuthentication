@@ -67,6 +67,16 @@ public class AuthService implements UserDetailsService {
             userRepo.save(user); // Save the updated user entity
         }
     }
+
+    public boolean isPasswordSameAsRegistered(Object recipient, Object newPassword) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'isPasswordSameAsRegistered'");
+    }
+
+    public void updatePassword(Object recipient, Object newPassword) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'updatePassword'");
+    }
         
 
     // @Transactional

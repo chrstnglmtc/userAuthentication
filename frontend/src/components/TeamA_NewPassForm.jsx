@@ -7,6 +7,7 @@ function TeamA_NewPassForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [newPasswordError, setNewPasswordError] = useState('');
   const [confirmPasswordError, setConfirmPasswordError] = useState('');
+  const [userEmail, setUserEmail] = useState(''); // Added state for user email
 
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
@@ -23,15 +24,30 @@ function TeamA_NewPassForm() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Perform your form submission here
-    if (newPassword === confirmPassword && newPassword.trim() !== '') {
-      console.log('Password match! Submitting...');
-      // Add your logic for form submission.
-    } else {
-      console.error('Passwords do not match or are empty. Please check.');
+    try {
+      const response = await fetch('http://localhost:8085/api/v1/auth/verifyForgotPassword', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          recipient: userEmail, // Use the dynamically obtained user email
+          newPassword,
+          // Add other necessary fields (verificationCode, etc.) if required
+        }),
+      });
+
+      if (response.ok) {
+        console.log('Password changed successfully');
+        // Add any logic after successful password change
+      } else {
+        console.error('Failed to change password');
+      }
+    } catch (error) {
+      console.error('Error during password change:', error);
     }
   };
 

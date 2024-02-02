@@ -277,4 +277,22 @@ public ResponseEntity<String> uploadProfilePicture(@RequestParam("userId") Long 
         boolean isEmailRegistered = userRepo.existsByEmail(email);
         return ResponseEntity.ok(isEmailRegistered);
     }
+    @PostMapping("/verifyForgotPasswordCode")
+    public ResponseEntity<String> verifyForgotPasswordCode(@RequestBody EmailDetails details) {
+        System.out.println("Received Forgot Password Verification Request: " + details.toString());
+    
+        String userEmail = details.getRecipient();
+        String enteredCode = details.getVerificationCode();
+        boolean verificationResult = emailService.verifyForgotPasswordCode(userEmail, enteredCode);
+    
+        if (verificationResult) {
+            return ResponseEntity.ok("Verification successful");
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Verification failed");
+        }
+    }    
+
+    
+
+
 }

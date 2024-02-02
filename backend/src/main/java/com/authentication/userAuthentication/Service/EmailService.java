@@ -24,6 +24,7 @@ public interface EmailService {
     String generateAndStoreVerificationCode(String userEmail);
 
     String generateAndStoreVerificationCode(String userEmail, Long expirationTimeInMillis);
+
     // New method for getting entered code
     String getEnteredCodeForUser(String verificationCode);
 
@@ -37,7 +38,10 @@ public interface EmailService {
 
     boolean isVerificationCodeExpired(String email);
 
-    String generateVerificationCode();    
+    String generateVerificationCode();
 
     String resendVerificationCode(String userEmail);
+
+    // New method for verifying the forgot password code
+    boolean verifyForgotPasswordCode(String userEmail, String enteredCode);
 }
