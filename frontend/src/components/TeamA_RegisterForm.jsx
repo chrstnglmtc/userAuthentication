@@ -39,11 +39,11 @@ function TeamA_RegisterForm() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-
+  
     if (!validateEmail(email) || !validatePassword(password)) {
       return;
     }
-
+  
     try {
       const response = await fetch('http://localhost:8085/api/v1/auth/signup', {
         method: 'POST',
@@ -52,7 +52,7 @@ function TeamA_RegisterForm() {
         },
         body: JSON.stringify({ email, password, firstName, lastName, userName }),
       });
-
+  
       if (response.ok) {
         console.log('Registration successful');
         // Store the email in local storage
@@ -60,14 +60,23 @@ function TeamA_RegisterForm() {
         setVerificationCodeSent(true);
         navigate('/verify'); // Include email as a query parameter
       } else {
-        console.error('Registration failed');
-        setError('Registration failed. Please try again.');
+        // Check if the response has a JSON body
+        const data = response.headers.get('Content-Type')?.includes('application/json') ? await response.json() : null;
+  
+        if (response.status === 409) {
+          console.error('User already exists');
+          setError(data?.message || 'User with this email or username already exists. Please use different credentials.');
+        } else {
+          console.error('Registration failed');
+          setError(data?.message || 'Registration failed. Please try again.');
+        }
       }
     } catch (error) {
       console.error('Error during registration:', error);
       setError('Registration failed. Please try again.');
     }
   };
+  
 
   return (
     <form onSubmit={handleRegister} className="template-form">

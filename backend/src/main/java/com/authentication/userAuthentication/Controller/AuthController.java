@@ -63,13 +63,21 @@ public class AuthController {
 @PostMapping("/signup")
 public ResponseEntity<JwtDto> signUp(@RequestBody @Valid SignUpDto data) {
     try {
+        // Check if the email already exists
+        if (userRepo.existsByEmail(data.getEmail())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null); // Email already exists
+        }
+
+        // Check if the username already exists
+        if (userRepo.existsByUserName(data.getUserName())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null); // Username already exists
+        }
+
         // Perform user registration and get the user details
         String accessToken = service.signUp(data);
 
         // Generate and store the verification code
-        // Generate and store the verification code without expiration time
         String verificationCode = emailService.generateAndStoreVerificationCode(data.getEmail());
-
 
         // Customize the email content or subject if needed
         EmailDetails emailDetails = new EmailDetails();
@@ -87,6 +95,7 @@ public ResponseEntity<JwtDto> signUp(@RequestBody @Valid SignUpDto data) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 }
+
 
 
 

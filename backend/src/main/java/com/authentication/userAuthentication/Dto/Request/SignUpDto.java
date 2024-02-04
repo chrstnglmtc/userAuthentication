@@ -24,4 +24,8 @@ public record SignUpDto(
     public MultipartFile getProfilePicture() {
         return profilePicture;
     }
+
+    public String getUserName() {
+        return userName;
+    }
 }
