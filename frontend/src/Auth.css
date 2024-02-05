@@ -1569,3 +1569,52 @@ justify-content: center;
   border-radius: 50%; /* Optional: add a border-radius for a circular shape */
   object-fit: cover; /* Optional: control how the image fills the specified dimensions */
 }
+
+/* Auth.css */
+.template-form {
+  width: 600px;
+  max-width: 100%;
+  height: 350px;
+  position: relative;
+}
+
+.email-input-field,
+.otp-input-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 60%;
+}
+
+.small-button {
+  margin: 10px 10px 10px;
+  margin-top: 4;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  color: #ffffff;
+  border-radius: 150px;
+  background-color: #126912;
+  border: 1px solid #126912;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.5);
+  position: absolute;
+  right: 0;
+}
+
+.small-button:hover {
+  background-color: gray;
+}
+
+
+
+.home-container {
+  text-align: center;
+}
+
+/* Additional styles for better visual appeal (optional) */
+.email-input-field input,
+.otp-input-field input {
+  width: min-content;
+  padding-right: 30px;
+  width: 100%; /* Adjust this value based on the button's width */
+}
