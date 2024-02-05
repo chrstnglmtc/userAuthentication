@@ -1,70 +1,47 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import '../Auth.css';
 
 function TeamA_ForgotForm() {
   const [email, setEmail] = useState('');
   const [otp, setOtp] = useState('');
-  const [resetStatus, setResetStatus] = useState('');
   const [verificationAttempted, setVerificationAttempted] = useState(false);
-  const [isSendButtonDisabled, setSendButtonDisabled] = useState(false);
-  const [isVerifyButtonDisabled, setVerifyButtonDisabled] = useState(true);
+  const [resetStatus, setResetStatus] = useState('');
   const [error, setError] = useState('');
 
-  const navigate = useNavigate();
+  const handleSendToEmailClick = () => {
+    fetch(`/checkRegisteredEmail?email=${email}`)
+      .then(response => response.json())
+      .then(data => {
+        const isEmailRegistered = data;
 
-  const handleSendToEmailClick = async () => {
-    e.preventDefault();
-
-    try {
-      // Check if the email is registered before initiating the forgot password logic
-      console.log('Before fetch');
-      const checkEmailResponse = await fetch(`http://localhost:8085/api/v1/auth/checkRegisteredEmail?email=${email}`, {
-        method: 'GET',
-      });
-  
-      if (checkEmailResponse.ok) {
-        const isEmailRegistered = await checkEmailResponse.json();
-  
-        // Set state indicating that the verification was attempted
-        setVerificationAttempted(true);
-  
         if (isEmailRegistered) {
-          // Show success message or handle accordingly
-          setResetStatus('Email is registered. Please check your email.');
-  
-          // Your existing logic for initiating the forgot password process
-          const forgotPasswordResponse = await fetch(`http://localhost:8085/api/v1/auth/forgot-password?email=${email}`, {
-            method: 'POST',
-          });
-  
-          if (forgotPasswordResponse.ok) {
-            console.log('Email Sent Successfully');
-            navigate(`/email?email=${email}`);
-            // Handle successful response from the forgot password endpoint if needed
-          } else {
-            // Handle error response from the forgot password endpoint if needed
-          }
+          console.log('Email is registered.');
+          // Implement the logic to send an email with an OTP
+          // You can use a service or API call for this purpose
+          console.log('Sending email...');
         } else {
-          // Show error message to the user that the entered email is not registered
-          setResetStatus('Email Not Registered');
+          setError('Email not registered. Please enter a registered email.');
         }
-      } else {
-        // Handle other errors if needed
-        setVerificationAttempted(true);
-        setResetStatus('Error: Unable to check the email registration status. Please try again.');
-      }
-    } catch (error) {
-      console.error('Error during email check:', error);
-      setVerificationAttempted(true);
-      setResetStatus('Error during email check. Please try again.');
-    }
+      })
+      .catch(error => {
+        console.error('Error checking registered email:', error);
+        setError('An error occurred while checking the registered email.');
+      });
   };
 
-  const handleVerifyClick = async () => {
-    // Your existing logic for OTP verification
-    // ...
+  const handleVerifyClick = () => {
+    // Implement the logic to verify the OTP
+    // You can use a service or API call for this purpose
+    console.log('Verifying...');
+    setVerificationAttempted(true); // Update state to indicate verification attempt
+    // Set the appropriate reset status or error message based on verification result
+    // setResetStatus('Verification successful!');
+    // setError('Verification failed. Please try again.');
   };
+
+
+  // Rest of the code...
 
   return (
     <div className="forgot-container">
@@ -105,14 +82,14 @@ function TeamA_ForgotForm() {
           
           {/* Remember Password Navigation */}
           <Link to="/login" className="remember-password-link">
-            Remember Passworda
+            Remember Password
           </Link>
 
           {verificationAttempted && <p className="verification-status">{resetStatus}</p>}
           {error && <p className="error-message">{error}</p>}
           
           {/* Replace the "Send to Email" button with "Verify" button */}
-          <button className="TeamA-button" onClick={handleVerifyClick} disabled={isVerifyButtonDisabled}>
+          <button className="TeamA-button" onClick={handleVerifyClick}>
             Verify
           </button>
         </form>
