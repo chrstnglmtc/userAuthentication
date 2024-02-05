@@ -215,6 +215,40 @@ public ResponseEntity<User> updateUser(@PathVariable Long userId, @RequestBody U
       }
   }
 
+  @PostMapping("/forgot-password")
+    public ResponseEntity<String> forgotPassword(@RequestParam String email) {
+        try {
+            // Check if the email is registered
+            boolean isEmailRegistered = userRepo.existsByEmail(email);
+
+            if (isEmailRegistered) {
+                // Generate and store the verification code for forgot password
+                String verificationCode = emailService.generateAndStoreVerificationCode(email);
+
+                // Customize the email content or subject if needed
+                EmailDetails emailDetails = new EmailDetails();
+                emailDetails.setRecipient(email);
+                emailDetails.setGeneratedCode(verificationCode);
+                emailDetails.setSubject("Forgot Password - Verification Code");
+                emailDetails.setContent("Your verification code is: " + verificationCode);
+
+                // Send the verification code via email
+                emailService.sendSimpleMail(emailDetails);
+
+                return ResponseEntity.ok("Verification code sent successfully");
+            } else {
+                // Email is not registered, return an error response
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email is not registered");
+            }
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            // Handle any exceptions (e.g., email sending failure)
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to send verification code");
+        }
+    }
+
+    
 // <-----------UPLOAD PROFILE PICTURE ENDPOINT----------->
 @PostMapping("/upload-pp")
 public ResponseEntity<String> uploadProfilePicture(@RequestParam("userId") Long userId,
@@ -247,5 +281,9 @@ public ResponseEntity<String> uploadProfilePicture(@RequestParam("userId") Long 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to upload profile picture");
     }
 }
-
+    @GetMapping("/checkRegisteredEmail")
+    public ResponseEntity<Boolean> checkRegisteredEmail(@RequestParam String email) {
+        boolean isEmailRegistered = userRepo.existsByEmail(email);
+        return ResponseEntity.ok(isEmailRegistered);
+    }
 }
