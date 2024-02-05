@@ -1,12 +1,12 @@
 import React from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import '../Auth.css';
-import ProfileEditForm from "./TeamA_ProfileEditForm";
-import Navigation from './TeamA_Navigation';
-import { useAuth } from "./TeamA_AuthContext";
+import ProfileEditForm from "./ProfileEditForm";
+import Navigation from './Navigation';
+import { useAuth } from "./AuthContext";
 
 
-function TeamA_ProfileEdit() {
+function ProfileEdit() {
 
   const { isLoggedIn, handleLogout } = useAuth();
   const navigate = useNavigate(); //
@@ -28,4 +28,4 @@ function TeamA_ProfileEdit() {
   );
 }
 
-export default TeamA_ProfileEdit;
+export default ProfileEdit;

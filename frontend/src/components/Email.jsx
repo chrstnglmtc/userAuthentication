@@ -1,10 +1,10 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
-import EmailForm from './TeamA_EmailForm';
+import EmailForm from './EmailForm';
 import { Link } from 'react-router-dom';
 import '../Auth.css'; // Assuming you want to include Auth.css
 
-function TeamA_Email() {
+function Email() {
   return (
     <div className="email-container">
       <div className="auth-header">
@@ -27,4 +27,4 @@ function TeamA_Email() {
   );
 }
 
-export default TeamA_Email;
+export default Email;

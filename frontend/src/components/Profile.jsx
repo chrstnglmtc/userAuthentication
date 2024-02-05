@@ -3,8 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useNavigation} from 'react-router-dom';
 import '../Auth.css';
-import Navigation from './TeamA_Navigation';
-import { useAuth } from "./TeamA_AuthContext";
+import Navigation from './Navigation';
+import { useAuth } from "./AuthContext";
 
 // Function to get user image type
 function getUserImageType(profilePicture) {
@@ -29,7 +29,7 @@ function getUserImageType(profilePicture) {
 }
 
 
-function TeamA_Profile() {
+function Profile() {
 
   const { isLoggedIn, handleLogout } = useAuth();
   const [userData, setUserData] = useState({});
@@ -149,4 +149,4 @@ function TeamA_Profile() {
   );
 }
 
-export default TeamA_Profile;
+export default Profile;

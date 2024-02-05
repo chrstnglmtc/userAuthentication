@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-function TeamA_RegisterForm() {
+function RegisterForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
@@ -165,4 +165,4 @@ function TeamA_RegisterForm() {
   );
 }
 
-export default TeamA_RegisterForm;
+export default RegisterForm;

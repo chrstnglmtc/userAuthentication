@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from './TeamA_AuthContext';
+import { useAuth } from './AuthContext';
 import '../Auth.css';
 // Function to get user image type
 // function getUserImageType(profilePicture) {
@@ -14,7 +14,7 @@ import '../Auth.css';
 //     return 'png'; // You can change this to 'jpeg' or handle as needed
 //   }
 // }
-function TeamA_ProfileEditForm() {
+function ProfileEditForm() {
   const navigate = useNavigate();
   const { handleLogout } = useAuth();
   const [imagePreview, setImagePreview] = useState(null);
@@ -287,4 +287,4 @@ const handleInputChange = (e, isFile = false) => {
   );
 }
 
-export default TeamA_ProfileEditForm;
+export default ProfileEditForm;

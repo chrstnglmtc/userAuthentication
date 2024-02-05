@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import '../Auth.css'; // Import a CSS file for styling
 
-function TeamA_VerificationForm() {
+function VerificationForm() {
   const [verification, setVerification] = useState('');
   const [verificationStatus, setVerificationStatus] = useState(null);
   const [resendStatus, setResendStatus] = useState(null);
@@ -194,4 +194,4 @@ function TeamA_VerificationForm() {
   );
 }
 
-export default TeamA_VerificationForm;
+export default VerificationForm;

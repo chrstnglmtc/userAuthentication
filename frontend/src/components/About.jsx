@@ -4,9 +4,9 @@
 import React from "react";
 import '../Auth.css';
 import { Link } from "react-router-dom";
-import Footer from "./TeamA_Footer";
-import Navigation from './TeamA_Navigation';
-import { useAuth } from "./TeamA_AuthContext";
+import Footer from "./Footer";
+import Navigation from './Navigation';
+import { useAuth } from "./AuthContext";
 
 // New component for the photo section
 const PhotoSection = () => {

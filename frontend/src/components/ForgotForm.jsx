@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-function TeamA_ForgotForm({ onForgotPassword }) {
+function ForgotForm({ onForgotPassword }) {
   const [email, setEmail] = useState('');
 
   const navigate = useNavigate();
@@ -62,4 +62,4 @@ const handleForgot = (e) => {
   );
 }
 
-export default TeamA_ForgotForm;
+export default ForgotForm;

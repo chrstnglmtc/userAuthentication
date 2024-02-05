@@ -1,8 +1,8 @@
 import React from 'react';
-import LoginForm from './TeamA_ForgotForm';
+import LoginForm from './ForgotForm';
 import { Link } from "react-router-dom";
 import '../Auth.css';
-function TeamA_Forgot({ onNavigateHome, onForgotPassword }) {
+function Forgot({ onNavigateHome, onForgotPassword }) {
 
   return (
     <div className="forgot-container">
@@ -25,4 +25,4 @@ function TeamA_Forgot({ onNavigateHome, onForgotPassword }) {
   );
 }
 
-export default TeamA_Forgot;
+export default Forgot;

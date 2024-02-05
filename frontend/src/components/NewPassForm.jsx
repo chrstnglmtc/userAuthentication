@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-function TeamA_NewPassForm() {
+function NewPassForm() {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -105,4 +105,4 @@ function TeamA_NewPassForm() {
   );
 }
 
-export default TeamA_NewPassForm;
+export default NewPassForm;

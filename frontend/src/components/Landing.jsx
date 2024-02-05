@@ -2,9 +2,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../Auth.css";
-import Footer from "./TeamA_Footer";
+import Footer from "./Footer";
 
-const TeamA_Landing = () => {
+const Landing = () => {
   return (
     <div>
       <nav className="my-navigation">
@@ -88,4 +88,4 @@ const TeamA_Landing = () => {
   );
 };
 
-export default TeamA_Landing;
+export default Landing;

@@ -1,7 +1,8 @@
+/* eslint-disable no-unused-vars */
 import React from "react";
 import "../Auth.css";
-import Navigation from './TeamA_Navigation';
-import { useAuth } from "./TeamA_AuthContext"; // Make sure to import your auth context
+import Navigation from './Navigation';
+import { useAuth } from "./AuthContext"; // Make sure to import your auth context
 
 
 const TeamA_Dashboard = () => {

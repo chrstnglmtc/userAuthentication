@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from "./TeamA_AuthContext";
+import { useAuth } from "./AuthContext";
 
-function TeamA_LoginForm() {
+function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
@@ -83,4 +83,4 @@ function TeamA_LoginForm() {
 }
 
 
-export default TeamA_LoginForm;
+export default LoginForm;

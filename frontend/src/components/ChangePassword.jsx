@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unknown-property */
 import React from 'react';
-import ChangePasswordForm from './TeamA_ChangePasswordForm'; // Correct import statement
+import ChangePasswordForm from './ChangePasswordForm'; // Correct import statement
 import { Link } from 'react-router-dom';
 import '../Auth.css';
-import { useAuth } from './TeamA_AuthContext';
-import Navigation from './TeamA_Navigation';
+import { useAuth } from './AuthContext';
+import Navigation from './Navigation';
 
 function TeamA_ChangePassword() { // Corrected function name
   const { isLoggedIn, handleLogin, handleLogout } = useAuth();

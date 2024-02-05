@@ -1,9 +1,9 @@
 import React from "react";
-import Navigation from './TeamA_Navigation';
-import { useAuth } from './TeamA_AuthContext';
+import Navigation from './Navigation';
+import { useAuth } from './AuthContext';
 import '../Auth.css';
 
-const TeamA_Home = () => {
+const Home = () => {
   const { isLoggedIn, handleLogin, handleLogout } = useAuth();
 
   return (
@@ -35,4 +35,4 @@ const TeamA_Home = () => {
   );
 };
 
-export default TeamA_Home;
+export default Home;
