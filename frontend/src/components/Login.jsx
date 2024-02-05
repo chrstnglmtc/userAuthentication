@@ -1,31 +1,44 @@
+// eslint-disable-next-line no-unused-vars
 import React from 'react';
 import LoginForm from './LoginForm';
 import { Link } from "react-router-dom";
 import '../Auth.css';
 
-function Login({ onNavigateHome, onForgotPassword }) {
+function Login() {
 
   return (
     <div className="auth-container">
-      <div className="auth-header">
-        <img src="/assets/images/companyLogo.png" alt="Logo" className="logo" />
+      <div className="home-header">
+        
+        <img
+          src="/assets/images/companyLogo.png" 
+          alt="Logo"
+          className="logo"
+        />
       </div>
+      
       <div className="auth-navi">
         <div className="home-button">
-            <Link to="/">
-                <button className="TeamA-button" >Home</button>
-            </Link> 
+          <Link to="/">
+          
+            <button className='login-button'>Home</button>
+           
+          </Link>
         </div>
       </div>
-      <div className="label-container">
+      <div style={{display: "flex", justifyContent: "center"}}>
+      <div style={{display: "flex", flexDirection: "column", alignItems: "start", }}>
+      <div>
         <div className="auth-label">
-          <h1>SIGN IN</h1>
+          <h1>LOG IN</h1>
         </div>
       </div>
       <div className="auth-content">
         <div className="auth-sign">
-            <LoginForm/>
+          <LoginForm />
         </div>
+      </div>
+      </div>
       </div>
     </div>
   );

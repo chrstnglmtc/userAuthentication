@@ -9,31 +9,26 @@ const Navigation = () => {
 
   return (
     <nav className="my-navigation">
-      <img src="..\src\assets\TeamAassets\companyLogo.png" alt="Logo" />
+      <img src="/assets/images/companyLogo.png" alt="Logo" />
       <ul className="menu hide">
         <li>
-          <a href="/">Home</a>
+          <a href="/dashboard">Home</a>
         </li>
         <li>
-          <a href="About">About us</a>
+          <a href="/about">About us</a>
         </li>
         <li>
           <a href="https://www.tsukiden.com.ph">Contact us</a>
         </li>
-        <li>
-          {isLoggedIn ? (
-            <Link to="/verification">
-              <button>Verification</button>
-            </Link>
-          ) : (
-            <></>
-          )}
-        </li>
-        <li></li>
       </ul>
       <div className="testing">
         {isLoggedIn ? (
-          <button onClick={handleLogout}>Logout</button>
+          <>
+          <Link to="/profile">
+            <button id="profile">Profile</button>
+          </Link>
+          <button id="logout" onClick={handleLogout}>Logout</button>
+        </>
         ) : (
           <>
             <Link to="/register">

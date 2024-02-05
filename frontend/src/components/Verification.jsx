@@ -10,11 +10,11 @@ function Verification() { // Corrected function name
         <img src="/assets/images/companyLogo.png" alt="Logo" className="verification-logo" />
       </div>
       <div className="verification-navi">
-        <div className="home-button">
+      <div className="home-button">
           <Link to="/dashboard">
-            <button className="TeamA-button" >Home</button>
+            <button>Home</button>
           </Link>
-        </div>
+          </div>
       </div>
       <div className="content">
         <div className="verification-sign">

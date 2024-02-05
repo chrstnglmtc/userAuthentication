@@ -3,8 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useNavigation} from 'react-router-dom';
 import '../Auth.css';
-import Navigation from './Navigation';
 import { useAuth } from "./AuthContext";
+import UserNavigation from './UserNavigation';
 
 // Function to get user image type
 function getUserImageType(profilePicture) {
@@ -89,12 +89,12 @@ function Profile() {
     
   return (
     <>
-      <Navigation isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
+      <UserNavigation isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
       <div className="Prof1-wrapper">
         <div className="Prof1-left">
-        <button className="Backbutton" onClick={handleGoBack}>
+        <button className="wBackbutton">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-left" viewBox="0 0 16 16">
-            <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
           </svg>
         </button>
         <img
@@ -109,32 +109,27 @@ function Profile() {
           <div className="Prof1-info">
             <h3>Profile Information</h3>
             <div className="Prof1-info_data">
-              <div className="Prof1-data">
+              <div className="Prof1-data_row">
                 <h4>Email</h4>
                 <p>{userData.email}</p>
               </div>
-              <div className="Prof1-data">
+              <div className="Prof1-data_row">
                 <h4>Username</h4>
                 <p>{userData.username}</p>
               </div>
-            </div>
-            <div className="Prof2-info_data">
-              <div className="Prof2-data">
+              <div className="Prof1-data_row">
                 <h4>First Name</h4>
                 <p>{userData.firstName}</p>
               </div>
-              <div className="Prof2-data">
+              <div className="Prof1-data_row">
                 <h4>Last Name</h4>
                 <p>{userData.lastName}</p>
               </div>
             </div>
           </div>
-          <div className="Prof1-projects">
-            <h3>Earned badges</h3>
-            <div className="Pro1-data">
-              {/* Add content for earned badges */}
-            </div>
-          </div>
+          <div className="Pro1-data">
+          {/* Add content for earned badges */}
+        </div>
           <div className="Prof1-buttons">
             <Link to="/update">
               <button className="Prof1-Editbuttons">Edit</button>

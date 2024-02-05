@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from "./AuthContext";
+import Footer from './Footer';
 
 function LoginForm() {
   const [email, setEmail] = useState('');
@@ -38,47 +39,41 @@ function LoginForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="template-form">
-      <Link to="/">
-        <button className="qBackbutton">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-left" viewBox="0 0 16 16">
-            <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
-          </svg>
-        </button>
-      </Link>
-      <h2>Sign in to your account.</h2>
-      <h2>Be part of the success.</h2>
-      <input
-        type="email"
-        id="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Email Address"
-        required
-      />
-      <input
-        type="password"
-        id="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        onKeyPress={handleKeyPress}  // Add this line to capture Enter key
-        placeholder="Password"
-        required
-      />
-      <div className="remember-me">
-        {/* Your remember me checkbox */}
-      </div>
-      <div>
-        <h3>By clicking "Sign in," you agree to our Terms of Use and our Privacy Policy.</h3>
-      </div>
-      <Link to="/forgot">
-        <div className="forgot-password">
-          Forgot your password?
+    <>
+      <form onSubmit={handleSubmit} className="template-form">
+        <h2 style={{ margin: '30px' }}>Sign In to Your Account and Be Part of the Success</h2>
+        <input
+          type="email"
+          id="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Email Address"
+          required
+        />
+        <input
+          type="password"
+          id="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          onKeyPress={handleKeyPress} 
+          placeholder="Password"
+          required
+        />
+        <div className="remember-me">
+          {/* Your remember me checkbox */}
         </div>
-      </Link>
-      <button type="submit" className="TeamA-button">Sign in</button>
-      {error && <div className="error-message">{error}</div>}
-    </form>
+        <div>
+          <h3 style={{ marginTop: '15px' }}>By clicking "Sign in," you agree to our Terms of Use and our Privacy Policy.</h3>
+        </div>
+        <Link to="/forgot">
+          <div className="forgot-password">
+            Forgot your password?
+          </div>
+        </Link>
+        <button  className="TeamA-button">Sign in</button>
+        {error && <div className="error-message">{error}</div>}
+      </form>
+    </>
   );
 }
 

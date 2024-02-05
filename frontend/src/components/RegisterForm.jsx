@@ -10,6 +10,7 @@ function RegisterForm() {
   const [userName, setUserName] = useState('');
   const [userType, setUserType] = useState('User'); // Default to 'User'
   const [error, setError] = useState('');
+  const [showError, setShowError] = useState(false); // State to control visibility of the error message
   const [verificationCodeSent, setVerificationCodeSent] = useState(false); // New state variable
 
   const navigate = useNavigate();
@@ -106,7 +107,6 @@ function RegisterForm() {
           onChange={handleUserTypeChange}
         >
           <option value="Student">Student</option>
-          <option value="Admin">Admin</option>
           <option value="Instructor">Instructor</option>
         </select>
       </div>
@@ -142,11 +142,13 @@ function RegisterForm() {
         placeholder="Password"
         required
       />
-      <div className="data-validation">
-        <label style={{ color: error ? 'red' : 'green', fontSize: '15px', fontWeight: '700', transition: 'color 0.3s' }}>
-          { error || 'Password must be at least 8 characters long with one uppercase character, number, and symbol.'}
-        </label>
-      </div>
+        <div className="data-validation">
+          {showError && (
+            <label style={{ color: 'red', fontSize: '15px', fontWeight: '700', transition: 'color 0.3s' }}>
+              {error}
+            </label>
+          )}
+        </div>
       <div>
         <h3 style={{ fontSize: '15px' }}>By clicking Sign up you agree to our Terms of Use and our Privacy Policy.</h3>
       </div>
@@ -160,7 +162,7 @@ function RegisterForm() {
           Already have an account?
         </div>
       </Link>
-      <button type="submit" className="TeamA-button">Sign up</button>
+      <button className="TeamA-button" style={{ backgroundColor: '#126912' }}>Sign Up</button>
     </form>
   );
 }
