@@ -1,7 +1,9 @@
-package com.authentication.userAuthentication.Dto;
+package com.authentication.userAuthentication.Dto.Request;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+
+import com.authentication.userAuthentication.Entity.Enums.Role;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,7 +32,7 @@ public class UserDto {
 
     private String username;
 
-    private String role = "STUDENT";
+    private Role role;
 
     private byte[] profilePicture;
 
@@ -41,15 +43,10 @@ public class UserDto {
     // Add getter and setter for isVerified
     public boolean isVerified() {
         return isVerified;
-    }
+    }   
 
     public void setVerified(boolean isVerified) {
         this.isVerified = isVerified;
-    }
-
-    // Add getter for role
-    public String getRole() {
-        return role;
     }
 
     // Add getter and setter for username

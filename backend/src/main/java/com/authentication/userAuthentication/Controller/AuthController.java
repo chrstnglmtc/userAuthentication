@@ -25,13 +25,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.authentication.userAuthentication.Dto.UserDto;
 import com.authentication.userAuthentication.Dto.Request.JwtDto;
 import com.authentication.userAuthentication.Dto.Request.SignInDto;
 import com.authentication.userAuthentication.Dto.Request.SignUpDto;
 import com.authentication.userAuthentication.Dto.Request.UpdateUserDto;
+import com.authentication.userAuthentication.Dto.Request.UserDto;
 import com.authentication.userAuthentication.Entity.EmailDetails;
 import com.authentication.userAuthentication.Entity.User;
+import com.authentication.userAuthentication.Entity.Enums.Role;
 import com.authentication.userAuthentication.Exceptions.InvalidJwtException;
 import com.authentication.userAuthentication.Repo.UserRepo;
 import com.authentication.userAuthentication.Service.AuthService;
@@ -72,8 +73,13 @@ public ResponseEntity<JwtDto> signUp(@RequestBody @Valid SignUpDto data) {
         if (userRepo.existsByUserName(data.getUserName())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(null); // Username already exists
         }
-
+    
+        // System.out.println("Received Role: " + data.getRole());
         // Perform user registration and get the user details
+        System.out.println("Received user data:");
+        System.out.println("Email: " + data.getEmail());
+        System.out.println("UserName: " + data.getUserName());
+        System.out.println("Role: " + data.getRole());
         String accessToken = service.signUp(data);
 
         // Generate and store the verification code

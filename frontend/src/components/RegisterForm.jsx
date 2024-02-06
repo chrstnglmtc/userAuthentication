@@ -8,7 +8,7 @@ function RegisterForm() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [userName, setUserName] = useState('');
-  const [userType, setUserType] = useState('User'); // Default to 'User'
+  const [role, setRole] = useState(''); // Default to 'STUDENT'
   const [error, setError] = useState('');
   const [showError, setShowError] = useState(false); // State to control visibility of the error message
   const [verificationCodeSent, setVerificationCodeSent] = useState(false); // New state variable
@@ -29,8 +29,8 @@ function RegisterForm() {
     return isValid;
   };
 
-  const handleUserTypeChange = (e) => {
-    setUserType(e.target.value);
+  const handleRoleChange = (e) => {
+    setRole(e.target.value);
   };
 
   const handlePasswordChange = (e) => {
@@ -46,12 +46,16 @@ function RegisterForm() {
     }
   
     try {
+      // Map Role to corresponding role enum value
+      const mappedRole = role === 'INSTRUCTOR' ? 'INSTRUCTOR' : 'STUDENT';
+      console.log('Selected Role:', role);
+      console.log('Mapped role:', mappedRole);
       const response = await fetch('http://localhost:8085/api/v1/auth/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password, firstName, lastName, userName }),
+        body: JSON.stringify({ email, password, firstName, lastName, userName, role: mappedRole }), // Use the mapped role
       });
   
       if (response.ok) {
@@ -61,9 +65,8 @@ function RegisterForm() {
         setVerificationCodeSent(true);
         navigate('/verify'); // Include email as a query parameter
       } else {
-        // Check if the response has a JSON body
+        // Handle error response
         const data = response.headers.get('Content-Type')?.includes('application/json') ? await response.json() : null;
-  
         if (response.status === 409) {
           console.error('User already exists');
           setError(data?.message || 'User with this email or username already exists. Please use different credentials.');
@@ -77,6 +80,7 @@ function RegisterForm() {
       setError('Registration failed. Please try again.');
     }
   };
+  
   
 
   return (
@@ -97,17 +101,17 @@ function RegisterForm() {
           id="username"
           value={userName}
           onChange={(e) => setUserName(e.target.value)}
-          placeholder={`Username (${userType === 'Admin' ? 'Admin' : userType})`}
+          placeholder={`Username (${role === 'Admin' ? 'Admin' : role})`}
           required
         />
 
         <select
-          id="userType"
-          value={userType}
-          onChange={handleUserTypeChange}
+          id="Role"
+          value={role}
+          onChange={handleRoleChange}
         >
-          <option value="Student">Student</option>
-          <option value="Instructor">Instructor</option>
+          <option value="STUDENT">Student</option>
+          <option value="INSTRUCTOR">Instructor</option>
         </select>
       </div>
       <input

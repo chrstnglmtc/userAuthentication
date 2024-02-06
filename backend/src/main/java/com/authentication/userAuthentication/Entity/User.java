@@ -1,6 +1,8 @@
 package com.authentication.userAuthentication.Entity;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -84,10 +86,16 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (this.role == Role.ADMIN) {
-            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_STUDENT"));
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_USER")); // All users have ROLE_USER by default
+
+        if (this.role == Role.INSTRUCTOR) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_INSTRUCTOR"));
+        } else if (this.role == Role.STUDENT) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_STUDENT"));
         }
-        return List.of(new SimpleGrantedAuthority("ROLE_STUDENT"));
+
+        return authorities;
     }
 
     @Override
