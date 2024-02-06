@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
@@ -55,6 +54,10 @@ public class AuthController {
 
     @Autowired
     private UserRepo userRepo;
+    public boolean isEmailRegistered(String email) {
+        return userRepo.existsByEmail(email);
+    }
+
 
     @Autowired
     private EmailService emailService;
@@ -219,9 +222,9 @@ public ResponseEntity<User> updateUser(@PathVariable Long userId, @RequestBody U
     public ResponseEntity<String> forgotPassword(@RequestParam String email) {
         try {
             // Check if the email is registered
-            boolean isEmailRegistered = userRepo.existsByEmail(email);
+            User isEmailRegistered = userRepo.findByEmail(email);
 
-            if (isEmailRegistered) {
+            if (isEmailRegistered != null) {
                 // Generate and store the verification code for forgot password
                 String verificationCode = emailService.generateAndStoreVerificationCode(email);
 
@@ -248,7 +251,28 @@ public ResponseEntity<User> updateUser(@PathVariable Long userId, @RequestBody U
         }
     }
 
-    
+    @PostMapping("/verify-forgot-password")
+    public ResponseEntity<String> verifyForgotPassword(@RequestBody EmailDetails details) {
+    try {
+        // Extract information from the request
+        String userEmail = details.getRecipient();
+        String enteredCode = details.getVerificationCode();
+
+        // Verify the entered code
+        boolean verificationResult = emailService.verifyCode(userEmail, enteredCode);
+
+        if (verificationResult) {
+            return ResponseEntity.ok("Verification successful");
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Verification failed");
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+        // Handle any exceptions
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error during verification");
+    }
+}
+
 // <-----------UPLOAD PROFILE PICTURE ENDPOINT----------->
 @PostMapping("/upload-pp")
 public ResponseEntity<String> uploadProfilePicture(@RequestParam("userId") Long userId,
@@ -282,8 +306,8 @@ public ResponseEntity<String> uploadProfilePicture(@RequestParam("userId") Long 
     }
 }
     @GetMapping("/checkRegisteredEmail")
-    public ResponseEntity<Boolean> checkRegisteredEmail(@RequestParam String email) {
-        boolean isEmailRegistered = userRepo.existsByEmail(email);
+    public ResponseEntity<User> checkRegisteredEmail(@RequestParam String email) {
+        User isEmailRegistered = userRepo.findByEmail(email);
         return ResponseEntity.ok(isEmailRegistered);
     }
 }
