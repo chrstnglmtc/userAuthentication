@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-function Prof2Form({ onProf2Form }) {
+function TeamA_Prof2Form({ onProf2Form }) {
   const [verification, setVerification] = useState('');
 
   const handleFormSubmit = (e) => {
@@ -74,4 +74,4 @@ function Prof2Form({ onProf2Form }) {
   );
 }
 
-export default Prof2Form;
+export default TeamA_Prof2Form;

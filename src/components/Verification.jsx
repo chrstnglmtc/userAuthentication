@@ -3,7 +3,7 @@ import VerificationForm from './VerificationForm'; // Correct import statement
 import { Link } from 'react-router-dom';
 import '../Auth.css';
 
-function Verification({ onVerification }) { // Corrected function name
+function TeamA_Verification({ onVerification }) { // Corrected function name
   return (
     <div className="verification-container">
       <div className="auth-header">
@@ -25,4 +25,4 @@ function Verification({ onVerification }) { // Corrected function name
   );
 }
 
-export default Verification;
+export default TeamA_Verification;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-function RegisterForm() {
+function TeamA_RegisterForm() {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [firstName, setFirstName] = useState('');
@@ -142,4 +142,4 @@ function RegisterForm() {
   );
 }
 
-export default RegisterForm;
+export default TeamA_RegisterForm;

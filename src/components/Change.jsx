@@ -3,7 +3,7 @@ import ChangeForm from './ChangeForm'; // Correct import statement
 import { Link } from 'react-router-dom';
 import '../Auth.css';
 
-function Change({ onProf1 }) { // Corrected function name
+function TeamA_Change({ onProf1 }) { // Corrected function name
   return (
     <div>
       
@@ -36,4 +36,4 @@ function Change({ onProf1 }) { // Corrected function name
   );
 }
 
-export default Change;
+export default TeamA_Change;

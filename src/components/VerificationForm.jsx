@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../Auth.css'; // Import a CSS file for styling
 
-function VerificationForm({ onVerificationForm }) {
+function TeamA_VerificationForm({ onVerificationForm }) {
   const [verification, setVerification] = useState('');
 
   const handleFormSubmit = (e) => {
@@ -24,7 +24,6 @@ function VerificationForm({ onVerificationForm }) {
         </Link>
         <h1 className="verification-title">Email Verification</h1>
         <p className="center-text">Please enter Email</p>
-        <label htmlFor="verification">Email:</label>
         <div className="verification-input-field">
           <input
             type="email"
@@ -46,4 +45,4 @@ function VerificationForm({ onVerificationForm }) {
   );
 }
 
-export default VerificationForm;
+export default TeamA_VerificationForm;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-function ChangeForm({ onChangeForm }) {
+function TeamA_ChangeForm({ onChangeForm }) {
   const [verification, setVerification] = useState('');
 
   const handleFormSubmit = (e) => {
@@ -75,4 +75,4 @@ function ChangeForm({ onChangeForm }) {
   );
 }
 
-export default ChangeForm;
+export default TeamA_ChangeForm;

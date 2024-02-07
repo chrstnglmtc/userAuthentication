@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import '../Auth.css';
 
-const Home = () => {
+const TeamA_Home = () => {
     return (
     <div className="home-container">
         <div className="home-header">
@@ -53,4 +53,4 @@ const Home = () => {
     );
 }
 
-export default Home;
+export default TeamA_Home;

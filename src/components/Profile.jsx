@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import '../Account.css';
 
-const Profile = () => {
+const TeamA_Profile = () => {
     const navigate = useNavigate();
 
     const handleLogout = async () => {
@@ -91,4 +91,4 @@ const Profile = () => {
     );
 }
 
-export default Profile;
+export default TeamA_Profile;

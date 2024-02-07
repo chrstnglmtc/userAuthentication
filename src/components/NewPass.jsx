@@ -1,9 +1,9 @@
 import React from 'react';
-import EmailForm from './EmailForm';
+import NewPassForm from './NewPassForm';
 import { Link } from 'react-router-dom';
 import '../Auth.css'; // Assuming you want to include Auth.css
 
-function TeamA_Email({ onNavigateHome, onEmailForm }) {
+function TeamA_NewPass({ onNewPassForm }) {
   return (
     <div className="email-container">
       <div className="auth-header">
@@ -19,11 +19,11 @@ function TeamA_Email({ onNavigateHome, onEmailForm }) {
       
       <div className="content">
         <div className="email-sign">
-          <EmailForm onEmailForm={onEmailForm} />
+          <NewPassForm onNewPassForm={onNewPassForm} />
         </div>
       </div>
     </div>
   );
 }
 
-export default TeamA_Email;
+export default TeamA_NewPass;

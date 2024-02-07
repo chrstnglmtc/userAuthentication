@@ -6,6 +6,7 @@ import Footer from "./Footer";
 // New component for the photo section
 const PhotoSection = () => {
   return (
+    <div style={{ backgroundImage:"url(/assets/images/companyLogo.png)",backgroundRepeat:"no-repeat" }}>
     <div className="photo-section">
       <div className="photo-box">
       <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
@@ -27,11 +28,12 @@ foster professional growth and care to our EMPLOYEES &
 develop innovative solutions dedicated
 for the welfare of our COMMUNITY & SOCIETY.</p>
       </div>
+      </div>
     </div>
   );
 };
 
-const About = () => {
+const TeamA_About = () => {
   return (
     <>
       {/* Header Section */}
@@ -48,6 +50,9 @@ const About = () => {
             </Link>
             <Link to='/'>
               <button>Logout</button>
+            </Link>
+            <Link to='/new'>
+              <button>qwerty</button>
             </Link>
             {/* Add more navigation links as needed */}
           </ul>
@@ -76,4 +81,4 @@ Tsukiden Global Solutions Inc. is one of the pioneers in IT Outsourcing for the 
   );
 }
 
-export default About;
+export default TeamA_About;

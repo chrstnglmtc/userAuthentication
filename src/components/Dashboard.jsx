@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../Auth.css";
 
-const Dashboard = () => {
+const TeamA_Dashboard = () => {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -76,4 +76,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default TeamA_Dashboard;

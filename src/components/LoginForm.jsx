@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-function LoginForm({ onForgotPassword }) {
+function TeamA_LoginForm({ onForgotPassword }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
@@ -79,4 +79,4 @@ function LoginForm({ onForgotPassword }) {
   );
 }
 
-export default LoginForm;
+export default TeamA_LoginForm;

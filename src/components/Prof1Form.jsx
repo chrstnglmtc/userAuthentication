@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function Prof1Form({ onProf1Form }) {
+function TeamA_Prof1Form({ onProf1Form }) {
   const [verification, setVerification] = useState('');
 
   const handleFormSubmit = (e) => {
@@ -47,4 +47,4 @@ function Prof1Form({ onProf1Form }) {
   );
 }
 
-export default Prof1Form;
+export default TeamA_Prof1Form;

@@ -4,11 +4,11 @@
   import "../Auth.css";
   import Footer from "./Footer";
 
-  const LandingPage = () => {
+  const TeamA_LandingPage = () => {
     return (
       <div>
         <nav>
-          <img src="/assets/images/companyLogo.png" alt="Logo" />
+        <img src="/assets/images/companyLogo.png" alt="Logo" className="logo" />
           <ul className="menu hide">
             <li>
               <a href="About">About</a>
@@ -91,4 +91,4 @@
     );
   };
 
-  export default LandingPage;
+  export default TeamA_LandingPage;

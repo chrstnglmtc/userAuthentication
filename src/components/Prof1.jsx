@@ -3,7 +3,7 @@ import Prof1Form from './Prof1Form'; // Correct import statement
 import { Link } from 'react-router-dom';
 import '../Auth.css';
 
-function Prof1({ onProf1 }) {
+function TeamA_Prof1({ onProf1 }) {
   return (
     <>
       <nav className="Prof1-navbar">
@@ -67,4 +67,4 @@ function Prof1({ onProf1 }) {
   );
 }
 
-export default Prof1;
+export default TeamA_Prof1;
