@@ -164,7 +164,7 @@ function VerificationForm() {
               {resending ? (
                 <p>Resending verification code...</p>
               ) : (
-                <button type="submit" className="TeamA-button">
+                <button  type="submit" className="TeamA-button">
                   Send
                 </button>
               )}

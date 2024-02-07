@@ -2016,3 +2016,264 @@ color: gray;
       display: block;
   }
 }
+
+
+/*##################BASE STYLE CSS###############*/
+.btn-view-course:hover {
+  background-color: #145304;
+}
+
+#c_dashboard_header {
+  background-color: #BCE8B1;
+}
+
+.c_chapter_cardmain:hover {
+  filter: drop-shadow(0 0 1em #484848);
+}
+
+.buttonReturn:hover .c_chapter_return {
+  transform: scale(1.1);
+}
+
+#c_course_itemcontainer:hover {
+  filter: drop-shadow(0 0 1em #126912);
+}
+
+  /* CARD POSITIONING */
+#c_cardpreview_cardouter {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  max-height: 100%;
+  box-sizing: border-box;
+}
+
+/* CARD SPACING */
+#c_cardpreview_cardcontainer {
+  margin: 10px;
+}
+
+#c_preview_headerTitle {
+  font-size: 2.5rem;
+}
+
+#c_preview_headerSub{
+  font-size: 2.3rem;
+}
+
+#c_preview_headerSub{
+  font-size: 1.5rem;
+}
+
+#enrollButton1,
+#enrollButton2,
+#enrollButton3 {
+  display: 'flex';
+  align-items: 'center';
+  justify-content: 'center';
+  height: '30px';
+}
+
+#c_course_maincontainer{
+  margin-left: 5rem;
+  margin-right: 5rem;
+}
+
+#c_course_tag{
+  margin-top: 0.5rem;
+  margin-right: 0.5rem; 
+  width: 7rem;
+  height: 4rem;
+  background-color: #BCE8B1; 
+  border-radius: 0.5rem;
+  border: 2px solid #126912;
+}
+
+#c_course_tagtext,
+#c_course_cardbody {
+  font-size: 1rem;
+} 
+
+#c_course_cardmain{
+  margin-top: 10px; 
+  will-change: filter; 
+  transition: filter 300ms; 
+  background-color: red; 
+  border-radius: 1rem;
+}
+
+#c_maincontent_maincontainer{
+  text-align: left;
+  align-items: left;
+  font-size: 2.5rem;
+  
+}
+
+#c_maincontent_textcontainer{
+  color: #0e3b03;
+  background-color: #D9FFCF;
+  text-align: center;
+  overflow: visible;
+  border: 2px solid;
+  border-color: #0e3b03;
+}
+
+#c_maincontent_textdesc{
+  font-size: 1.3rem;
+}
+
+#c_maincontent_mainlayout{
+  margin-top: 1.5rem; 
+  margin-left: 10rem; 
+  margin-right: 10rem;
+}
+
+#c_maincontent_buttoncontainer {
+  /* D-GRID */
+  display: grid;
+  gap: 0.5rem;
+  margin: 10px;
+  /* GAP-2 */
+  > * {
+      margin-top: 0.5rem;
+      margin-bottom: 0.5rem;
+  }
+
+  /* D-MD-FLEX */
+  display: flex;
+
+  /* JUSTIFY-CONTENT-MD-END */
+  justify-content: flex-end;
+}
+
+
+/* LARGE DESKTOP */
+@media only screen and (max-width: 1024px) {
+  
+  #c_course_cardbody{
+      background-color: #126912;
+      border-radius: 1rem;
+  }
+  #c_course_tagtext,
+  #c_course_cardbody {
+  font-size: 1rem;
+  } 
+  #c_course_tag{
+      width: 7rem;
+      height: 4rem;
+  }
+  #c_maincontent_textcontainer{
+      font-size: 18px;
+  }
+}
+
+/* TYPICAL LAPTOP */
+@media only screen and (max-width: 992px) {
+  #c_cardpreview_cardouter {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-height: 100%;
+  }
+  #c_course_cardbody{
+      background-color: #126912;
+      border-radius: 1rem;
+  }
+  #c_course_tagtext,
+  #c_course_cardbody {
+  font-size: 1rem;    
+  } 
+  #c_course_tag{
+      width: 7rem;
+      height: 4rem;
+  }
+}
+
+/* TYPICAL TABLET */
+@media only screen and (max-width: 768px) {
+  #c_cardpreview_cardouter {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-height: 100%;
+  }
+  #c_course_cardbody{
+      background-color: #126912;
+      border-radius: 1rem;
+  }
+  #c_course_tagtext,
+  #c_course_cardbody {
+  font-size: 0.8rem;
+  justify-content: center;
+  } 
+  #c_course_tag{
+      width: 7rem;
+      height: 4rem;
+  }
+  #c_maincontent_maincontainer{
+      text-align: center;
+      align-items: left;
+      font-size: 2.5rem;
+  }
+  
+}
+
+/* TYPICAL SMARTPHONE */
+@media only screen and (max-width: 480px) {
+  #c_cardpreview_cardouter {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-height: 100%;
+  }
+  #c_course_cardbody{
+      background-color: #126912;
+      border-radius: 1rem;
+  }
+  #c_course_tagtext,
+  #c_course_cardbody {
+  font-size: 0.5rem;
+  justify-content: center;
+  } 
+  #c_course_tag{
+      width: 4rem;
+      height: 2rem;
+  }
+  #c_maincontent_textcontainer{
+      width: 20rem;
+  }
+  #c_maincontent_maincontainer{
+      text-align: left;
+      font-size: 1.5rem;
+  }
+  #c_maincontent_mainlayout{
+      margin-top: 1.5rem; 
+      margin-left: 0rem; 
+      margin-right: 0rem;
+  }
+  #c_maincontent_buttoncontainer {
+      /* D-GRID */
+      display: center;
+      gap: 0.5rem;
+      margin: 10px;
+      /* GAP-2 */
+      > * {
+          margin-top: 0.5rem;
+          margin-bottom: 0.5rem;
+      }
+  
+      /* D-MD-FLEX */
+      display: flex;
+  
+      /* JUSTIFY-CONTENT-MD-END */
+      justify-content: flex-end;
+  }
+
+}  
+
+
+
+
+
+
+

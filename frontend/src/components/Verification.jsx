@@ -12,7 +12,7 @@ function Verification() { // Corrected function name
       <div className="verification-navi">
       <div className="home-button">
           <Link to="/dashboard">
-            <button>Home</button>
+            <button className="login-button">Home</button>
           </Link>
           </div>
       </div>
