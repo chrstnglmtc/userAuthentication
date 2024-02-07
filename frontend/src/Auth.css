@@ -554,7 +554,9 @@ input::placeholder{
   margin-top: 20px; /* Add space between panels */
 }
 
-
+.Profile-picture {
+  width: 200px;
+}
 
 .email-image {
   width: 100%;
@@ -2270,6 +2272,8 @@ color: gray;
   }
 
 }  
+
+
 
 
 

@@ -4,7 +4,9 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useNavigation} from 'react-router-dom';
 import '../Auth.css';
 import { useAuth } from "./AuthContext";
-import UserNavigation from './UserNavigation';
+import { Modal } from 'react-bootstrap';
+import ProfileEditForm from './ProfileEditForm';
+// import UserNavigation from './UserNavigation';
 
 // Function to get user image type
 function getUserImageType(profilePicture) {
@@ -29,12 +31,21 @@ function getUserImageType(profilePicture) {
 }
 
 
-function Profile() {
+const Profile  = ({ handleClose }) => {
 
   const { isLoggedIn, handleLogout } = useAuth();
   const [userData, setUserData] = useState({});
   const [updateData, setUpdateData] = useState({});
   const navigate = useNavigate(); //
+  const [showEditModal, setShowEditModal] = useState(false);
+
+  const handleEdit = () => {
+    setShowEditModal(true);
+  };
+
+  const handleEditClose = () => {
+    setShowEditModal(false);
+  };
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -83,16 +94,13 @@ function Profile() {
     fetchUserData();
   }, []);
 
-  const handleGoBack = () => {
-    navigate(-1); // Go back to the previous window
-  };
     
   return (
     <>
-      <UserNavigation isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
+      {/* <UserNavigation isLoggedIn={isLoggedIn} handleLogout={handleLogout} /> */}
       <div className="Prof1-wrapper">
         <div className="Prof1-left">
-        <button className="wBackbutton">
+        <button onClick={handleClose} className="wBackbutton">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-left" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
           </svg>
@@ -131,9 +139,13 @@ function Profile() {
           {/* Add content for earned badges */}
         </div>
           <div className="Prof1-buttons">
-            <Link to="/update">
-              <button className="Prof1-Editbuttons">Edit</button>
+            <Link to="#">
+              <button onClick={handleEdit} className="Prof1-Editbuttons">Edit</button>
             </Link>
+            {/* Edit Profile Modal */}
+            <Modal show={showEditModal} onHide={handleEditClose} centered size="lg">
+              <ProfileEditForm handleEditClose={handleEditClose}  />
+            </Modal>
             <Link to="/change">
               <button className="Prof1-ChangeButton">Change Password</button>
             </Link>

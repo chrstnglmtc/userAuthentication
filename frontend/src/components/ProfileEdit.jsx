@@ -10,8 +10,11 @@ function ProfileEdit() {
 
   const { isLoggedIn, handleLogout } = useAuth();
   const navigate = useNavigate(); //
-  const handleGoBack = () => {
-    navigate(-1); // Go back to the previous window
+  const [showEditModal, setShowEditModal] = useState(false);
+
+  const handleEditClose = () => {
+    setShowEditModal(false);
+    
   };
     
   return (

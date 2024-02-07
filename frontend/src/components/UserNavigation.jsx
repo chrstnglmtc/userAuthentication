@@ -33,7 +33,7 @@ function getUserImageType(profilePicture) {
     }
   }
 
-const UserNavigation = ({ onUserDataFetched }) => {
+const UserNavigation = ({ onUserDataFetched, openModal }) => {
   const { isLoggedIn, handleLogout } = useAuth();
   const [clicked, setClicked] = useState(false);
   const [userData, setUserData] = useState({});
@@ -216,7 +216,7 @@ const UserNavigation = ({ onUserDataFetched }) => {
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
-                <Dropdown.Item href="/profile">
+                <Dropdown.Item href="#" onClick={openModal}>
                   <FaRegUserCircle /> Profile
                 </Dropdown.Item>
                 <Dropdown.Item
