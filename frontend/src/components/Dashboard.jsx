@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, {Fragment, useState} from "react";
+import React, {Fragment} from "react";
 import "../Auth.css";
 import { enroll } from "../scripts/script";
 import { useAuth } from "./AuthContext"; // Make sure to import your auth context
@@ -9,10 +9,11 @@ import Footer from "./Footer";
 
 const Dashboard = () => {
   const { isLoggedIn, handleLogout } = useAuth();
-
+ 
   return (
     <Fragment>
-     <div className="header p-3 h-50 d-flex align-items-center justify-content-center" id="c_dashboard_header">
+      <UserNavigation isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
+      <div className="header p-3 h-50 d-flex align-items-center justify-content-center" id="c_dashboard_header">
         <div className="c_dashboard_title title p-3 text-center">
           <div className="c_dashboard_japchar jap-char">
             <h1 className="c_dashboard_char fw-bold" id="c_preview_headerTitle">
@@ -216,6 +217,7 @@ const Dashboard = () => {
         <p className="footerText text-center">
         </p>
       </div>
+
       {/* End of Modals */}
       <Footer/>
     </Fragment>
