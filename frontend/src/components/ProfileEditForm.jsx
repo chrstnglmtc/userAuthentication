@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import '../Auth.css';
@@ -14,11 +14,12 @@ import '../Auth.css';
 //     return 'png'; // You can change this to 'jpeg' or handle as needed
 //   }
 // }
-function ProfileEditForm() {
+function ProfileEditForm({ handleClose }) {
   const navigate = useNavigate();
   const { handleLogout } = useAuth();
   const [imagePreview, setImagePreview] = useState(null);
   const [userData, setUserData] = useState(null);
+  const fileInputRef = useRef(null);
   const [updateData, setUpdateData] = useState({
     firstName: '',
     lastName: '',
@@ -185,7 +186,7 @@ const handleInputChange = (e, isFile = false) => {
 
         if (response.ok) {
             console.log('Profile updated successfully');
-            navigate('/profile');
+            handleClose();
         } else {
             console.error('Update failed', response.status, response.statusText);
             // Handle update failure
@@ -207,17 +208,31 @@ const handleInputChange = (e, isFile = false) => {
     await handleUpdate();
   };
 
+  const handleCancel = () => {
+    handleClose();
+  }
+
+  const handleChooseFileClick = () => {
+    // Trigger the file input when the custom button is clicked
+    fileInputRef.current.click();
+  };
 
   return (
     <div className="Prof2-wrapper">
       <div className="Prof2-left">
         <label htmlFor="profilePicture">Profile Picture</label>
+        <button className="TeamA-button" onClick={handleChooseFileClick}>
+          Choose File
+        </button>
+        {/* Hidden file input */}
         <input
           type="file"
           id="profilePicture"
           name="profilePicture"
+          ref={fileInputRef}
           onChange={(e) => handleInputChange(e, true)}
           accept="image/*"
+          style={{ display: 'none' }}
         />
         {imagePreview && (
           <img
@@ -226,7 +241,7 @@ const handleInputChange = (e, isFile = false) => {
             style={{ width: '100px', height: '100px', marginTop: '10px' }}
           />
         )}
-        <h4>Name</h4>
+        <h4>{updateData.firstName} {updateData.lastName}</h4>
         <p>Position name</p>
       </div>
       <div className="Prof2-right">
@@ -275,8 +290,8 @@ const handleInputChange = (e, isFile = false) => {
                 <button className="submit-button" type="submit">
                   Update
                 </button>
-                <Link to="/profile">
-                  <button className="cancel-button">Cancel</button>
+                <Link to="#">
+                  <button onClick={handleCancel} className="cancel-button">Cancel</button>
                 </Link>
               </div>
             </form>

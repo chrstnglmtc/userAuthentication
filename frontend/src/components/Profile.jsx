@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unknown-property */
 import React, { useState, useEffect } from 'react';
@@ -31,21 +32,13 @@ function getUserImageType(profilePicture) {
 }
 
 
-const Profile  = ({ handleClose }) => {
+const Profile  = ({ handleClose, handleEditClick }) => {
 
   const { isLoggedIn, handleLogout } = useAuth();
   const [userData, setUserData] = useState({});
   const [updateData, setUpdateData] = useState({});
   const navigate = useNavigate(); //
-  const [showEditModal, setShowEditModal] = useState(false);
 
-  const handleEdit = () => {
-    setShowEditModal(true);
-  };
-
-  const handleEditClose = () => {
-    setShowEditModal(false);
-  };
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -140,12 +133,8 @@ const Profile  = ({ handleClose }) => {
         </div>
           <div className="Prof1-buttons">
             <Link to="#">
-              <button onClick={handleEdit} className="Prof1-Editbuttons">Edit</button>
+              <button onClick={handleEditClick} className="Prof1-Editbuttons">Edit</button>
             </Link>
-            {/* Edit Profile Modal */}
-            <Modal show={showEditModal} onHide={handleEditClose} centered size="lg">
-              <ProfileEditForm handleEditClose={handleEditClose}  />
-            </Modal>
             <Link to="/change">
               <button className="Prof1-ChangeButton">Change Password</button>
             </Link>

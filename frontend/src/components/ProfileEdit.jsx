@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
 import React from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import '../Auth.css';
@@ -6,25 +8,16 @@ import Navigation from './Navigation';
 import { useAuth } from "./AuthContext";
 
 
-function ProfileEdit() {
+const ProfileEdit = ({ handleClose }) => {
 
   const { isLoggedIn, handleLogout } = useAuth();
   const navigate = useNavigate(); //
-  const [showEditModal, setShowEditModal] = useState(false);
-
-  const handleEditClose = () => {
-    setShowEditModal(false);
-    
-  };
     
   return (
     <div>
-      <Navigation isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
-      <Link to="/profile">
-      </Link>
       <div className="Prof2-content">
         <div className="Prof2-sign">
-          <ProfileEditForm/>
+          <ProfileEditForm handleClose={handleClose}/>
         </div>
       </div>
     </div>
