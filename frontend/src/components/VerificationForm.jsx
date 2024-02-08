@@ -126,7 +126,12 @@ function VerificationForm() {
       setResending(false);
     }
   };
-  
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleFormSubmit(e);
+    }
+  };
 
   return (
     <div className="verification-forms-container">
@@ -159,6 +164,7 @@ function VerificationForm() {
                 name="verification"
                 value={verification}
                 onChange={(e) => setVerification(e.target.value)}
+                onKeyPress={handleKeyPress} 
                 required
               />
               {resending ? (

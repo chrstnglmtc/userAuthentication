@@ -81,7 +81,11 @@ function RegisterForm() {
     }
   };
   
-  
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleRegister(e);
+    }
+  };
 
   return (
     <form onSubmit={handleRegister} className="template-form">
@@ -143,6 +147,7 @@ function RegisterForm() {
         id="password"
         value={password}
         onChange={handlePasswordChange}
+        onKeyPress={handleKeyPress} 
         placeholder="Password"
         required
       />
