@@ -1,15 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
-
-body {
-  display: block;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  margin: 0;
-  padding: 0;
-  background-color:#EBFFE5 ;
-  font-family: 'Inter';
-}
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,800');
 
 /* src/App.css */
 .app {
@@ -23,11 +12,6 @@ body {
   margin: 0;
 }
 
-.buttons {
-  margin-top: 20px;
-  border-radius: 150px;
-}
-
 .TeamA-button {
   margin: 10px 10px 10px;
   padding: 10px 20px;
@@ -39,19 +23,32 @@ body {
   border: 1px solid #126912;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.5);
 }
-
 .TeamA-button:hover {
   background-color: gray;
 }
 
 
+.login-button
+{
+  cursor: pointer;
+  color: #ffff;
+  border-radius: 100px;
+  background-color: #126912;
+  border: 1px solid #126912;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.5);
+  width: 5rem;
+  height: 2rem;
+} 
+.login-button:hover {
+background-color: gray;
+}
 
 .home-container {
   text-align: center;
 }
 
 .home-header {
-  background-color: #BCE8B1;
+  background-color: #D9FFCF;
   padding: 10px;
   height: 70px;
   text-align: center;
@@ -67,12 +64,10 @@ body {
   margin-left: 20px;
 }
 
-
-.right-container {
-  display: flex;
+.right-container button{
   align-items: center;
   margin-right: 20px;
-}
+} 
 
 .logo-container {
   display: flex;
@@ -84,7 +79,6 @@ body {
   width: 170px;
   height: auto;
 }
-
 
 
 .home-header nav a {
@@ -115,11 +109,12 @@ body {
 .japanese-message h1 {
   color: #F6F6F6;
   font-family: Inter;
-  font-size: 64px;
+  font-size: 54px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
-  margin-bottom: 20px;
+  margin: 55px;
+  margin-top:20px;
 }
 
 .japanese-message {
@@ -133,10 +128,11 @@ body {
 .english-message h1 {
   color: #587354;
   font-family: Inter;
-  font-size: 64px;
+  font-size: 54px;
   font-style: italic;
   font-weight: 700;
-  margin-top: 0px;
+  margin-top:-65px;
+  margin-bottom: 10px;
 }
 
 .english-message {
@@ -183,10 +179,17 @@ body {
 }
 
 .label-container {
+ display: flex;
+ padding-bottom: 4rem;
+ justify-content: center;
+
+} 
+
+.container-under
+{
   display: flex;
-  padding-right:240px;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  align-items: start;
 
 }
 
@@ -198,7 +201,22 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+
+
 }
+
+
+/* Landing Page Nav-Bar */
+
+.landingPage_NavBar
+{
+  background-color: #BCE8B1;
+  padding: 1em 2em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 
 .auth-navi {
   padding-top: 20px;
@@ -223,13 +241,10 @@ body {
   margin: 0;
 }
 
-.home-button {
-  position: absolute;
-  right: 60px;
-}
+
 
 .template-form{
-  width: 600px;
+  width: 700px;
   margin: 0 auto;
   background-color: #BCE8B1;
   padding: 20px;
@@ -239,14 +254,14 @@ body {
 
 .template-form input {
   width: 400px;
-  margin-top: 20px;
-  padding: 12px;
+  padding: 20px;
+  height: 45px;
   margin-bottom: 15px;
   font-size: 16px;
   border: 1px solid #ccc; /* Input border color */
   border-radius: 5px;  
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.05);
-  text-align: center;
+  text-align: left;
 }
 
 .template-form h2 {
@@ -268,6 +283,7 @@ body {
   cursor: pointer;
   font-size: 14px;
   text-decoration: underline;
+  margin-top: 10px;
 }
 
 .template-form .existing-account  {
@@ -275,20 +291,26 @@ body {
   font-weight: 700px;
   cursor: pointer;
   font-size: 14px;
+  margin-top: 30px;
   text-decoration: underline;
-  margin-top: 10px;
+}
+.template-form .existing-account:hover {
+  color: #0056b3;
 }
 
 .template-form .forgot-password:hover {
   color: #0056b3;
 }
 
-
 /* ... existing styles ... */
 
 /* New styles for Forgot.jsx form */
 .forgot-container {
-text-align: center;
+text-align: center; 
+}
+
+.forgottext{
+  margin-top: 50px;
 }
 
 .forgot-header  {
@@ -345,10 +367,7 @@ text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 margin: 0;
 }
 
-.forgot-home-button {
-position: absolute;
-right: 60px;
-}
+
 
 
 .forgot-form {
@@ -397,6 +416,7 @@ text-decoration: underline;
 color: #4D4141;
 font-weight: 700px;
 cursor: pointer;
+
 font-size: 14px;
 text-decoration: underline;
 }
@@ -414,26 +434,27 @@ align-items: center;
 justify-content: center;
 }
 
-
-.group_input {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 67px;
+input::placeholder{
+  text-align: left;
 }
 
-.group_input input {
-  width: 300px;
+.group_input  {
+  width: 400px;
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+
 }
 
 .group_input select {
-  width: 100px;
-  height: 57px;
+  width:  6rem;
+  height: 3rem;
   margin-bottom: px;
   border-radius: 5px;
+  height: 45px;
 }
 
-/* Email  */
+/* Email and Code Verifictaion */
 
 /* Updated styles for the EmailForm Component */
 
@@ -477,11 +498,13 @@ justify-content: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 20px;
   align-items: center;
   width: 400px;
   height: 30px;
+  margin-top: 20px;
 }
+
+
 
 .email-input-field input {
   width: 300px;
@@ -491,7 +514,6 @@ justify-content: center;
   border-radius: 5px;
   box-sizing: border-box;
   text-align: center;
-  
 }
 
 .email-button {
@@ -509,7 +531,7 @@ justify-content: center;
     
 }
 .email-button:hover {
-  background-color: #126912;
+  background-color: gray
 }
 
 .email-panels-container {
@@ -532,7 +554,9 @@ justify-content: center;
   margin-top: 20px; /* Add space between panels */
 }
 
-
+.Profile-picture {
+  width: 200px;
+}
 
 .email-image {
   width: 100%;
@@ -545,21 +569,6 @@ justify-content: center;
   margin-top: 10px; /* Add space between text and link */
 }
 
-.email-resend-code,
-.email-not-received-code {
-  color: #126912; /* Dark Green */
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.email-resend-code:hover,
-.email-not-received-code:hover {
-  color: #ccc;
-  text-decoration: underline;
-  background-color: transparent; /* Remove the background color */
-}
-
-/*verification*/
 .verification-forms-container {
   position: relative;
   width: 100%;
@@ -649,8 +658,6 @@ justify-content: center;
   margin-top: 20px; /* Add space between panels */
 }
 
-
-
 .verification-image {
   width: 100%;
   max-width: 400px; /* Adjust the image max-width as needed */
@@ -675,12 +682,7 @@ justify-content: center;
   text-decoration: underline;
   background-color: transparent; /* Remove the background color */
 }
-
-
-/*Profile1*/
-
 /* SharedStyles.css */
-
 .Prof1-navbar {
   background-color: #D9FFCF;
   padding: 15px;
@@ -783,17 +785,24 @@ justify-content: center;
   text-transform: uppercase;
   letter-spacing: 5px;
 }
+.Prof1-info_data {
+  display: flex;
+  flex-direction: column;
+}
 
-.Prof1-info_data,
-.Prof1-projects_data {
+.Prof1-info_row {
   display: flex;
   justify-content: space-between;
-
+  margin-bottom: 10px;
 }
 
-.Prof1-data {
-  width: 45%;
+.Prof1-info_row h4 {
+  margin-right: 10px;
+  font-weight: bold;
 }
+
+
+
 
 .Prof1-data h4 {
   color: #0e3b03;
@@ -819,11 +828,6 @@ justify-content: center;
 .Prof1-projects_data {
   margin-top: 20px; /* Add space above the projects data */
 }
-
-
-
-
-/*Profile2*/
 
 
 .Prof2-navbar {
@@ -865,7 +869,6 @@ justify-content: center;
   box-shadow: 0 11px 20px 0 rgba(14, 59, 3, 0.1);
   margin: 20px;
   border-radius: 10px;
-  padding-bottom: 45px;
 }
 
 .Prof2-left {
@@ -877,7 +880,6 @@ justify-content: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
 }
 
 .Prof2-left img {
@@ -930,6 +932,7 @@ justify-content: center;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  margin: 15px;
   
 }
 .Prof2-data input {
@@ -981,13 +984,7 @@ justify-content: center;
   justify-content: flex-start;
   padding-left: 90px;
   gap: 10px;
-  align-self: flex-start;
 }
-
-#password {
-  margin: 0;
-}
-
 
 .remember-me .rememberMe_input {
   width: 15px; /* Adjust the size of the checkbox */
@@ -999,9 +996,9 @@ justify-content: center;
 .Prof2-buttons {
   display: flex;
   justify-content: flex-end; /* Align buttons to the right */
-  margin-top: 10px; /* Adjust the top margin as needed */
+  margin-top: 60px; /* Adjust the top margin as needed */
   margin-right: 10px; /* Adjust the right margin as needed */
-  margin-bottom: 10px; /* Add margin at the bottom */
+  column-gap: 10px;
 }
 
 .cancel-button {
@@ -1025,12 +1022,11 @@ justify-content: center;
   cursor: pointer;
   font-size: 14px;
   transition: background-color 0.3s ease;
-  margin-right: 10px;
   
 }
 
 .submit-button:hover {
-  background-color:#999; /* Change background color on hover */
+  background-color:gray; /* Change background color on hover */
 }
 
 /*Prof1 edit and change password buttons */
@@ -1040,7 +1036,7 @@ justify-content: center;
   justify-content: flex-end; /* Align buttons to the right */
   margin-top: 10px; /* Adjust the top margin as needed */
   margin-right: 10px; /* Adjust the right margin as needed */
-  margin-bottom: 10px
+  margin-bottom: 10px;
 }
 
 .Prof1-ChangeButton,
@@ -1054,10 +1050,15 @@ justify-content: center;
   font-size: 14px;
   margin-right: 10px;
   transition: background-color 0.3s ease;
+  margin-left: 1rem;
 }
+.Prof1-Editbuttons
+{
 
+  margin-right: 1rem;
+}
 .Prof1-Editbuttons {
-  margin-right: 10px; /* Remove the right margin for the Edit button */
+  margin-right: 0; /* Remove the right margin for the Edit button */
 }
 
 .Prof1-ChangeButton:hover,
@@ -1067,8 +1068,38 @@ justify-content: center;
 
 /*Change Password*/
 
+.Change-navbar {
+  background-color: #D9FFCF;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
+.Change-nav-logo {
+  color: #0e3b03;
+  font-size: 20px;
+}
 
+.Change-nav-links {
+  flex-grow: 1;
+}
+
+.Change-nav-list {
+  list-style: none;
+  display: flex;
+  justify-content: flex-start; /* Align items to the left */
+}
+
+.Change-nav-list li {
+  margin-right: 20px;
+}
+
+.Change-nav-list a {
+  text-decoration: none;
+  color: #0e3b03;
+  font-size: 16px;
+}
 
 .Change-wrapper {
   display: flex;
@@ -1076,7 +1107,6 @@ justify-content: center;
   box-shadow: 0 11px 20px 0 rgba(14, 59, 3, 0.1);
   margin: 20px;
   border-radius: 10px;
-  padding-bottom: 65px;
 }
 
 .Change-left {
@@ -1088,7 +1118,7 @@ justify-content: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  
 }
 
 .Change-left img {
@@ -1122,7 +1152,7 @@ justify-content: center;
 
 .Change-right {
   width: 65%;
-  padding: 30px 25px;
+  padding: 25px 25px;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
 }
@@ -1141,6 +1171,7 @@ justify-content: center;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  margin:15px;
 }
 
 .Change-data {
@@ -1180,15 +1211,18 @@ justify-content: center;
 .Change-buttons {
   display: flex;
   justify-content: flex-end; /* Align buttons to the right */
-  margin-top: 10px; /* Adjust the top margin as needed */
+  margin-top: 60px; /* Adjust the top margin as needed */
   margin-right: 10px; /* Adjust the right margin as needed */
-  margin-bottom: 10px
+  column-gap: 10px;
+}
+.Change-Backbutton:hover {
+  background-color: gray;
 }
 
-.save-button,
+.save-button
 .cancel-button{
-  background-color:#4caf50;
-  color:#fff;
+  background-color: #126912;
+  color:#F6F6F6;
   border: none;
   padding: 8px 16px;
   border-radius: 5px;
@@ -1196,38 +1230,40 @@ justify-content: center;
   font-size: 14px;
   margin-right: 10px;
   transition: background-color 0.3s ease;
+  background-color: #4CAF50;
 }
+
 /* Change Password */
 .save-button:hover,
 .cancel-button:hover
 {
   background-color: #999; /* Change background color on hover */
 }
-/* Add this style to position the Backbutton */
-.Backbutton {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  border-radius: 100px;
-  background-color: #4caf50;
-}
+
+
 .Prof2-Backbutton {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background-color: rgb(76, 175, 80);
-  border-radius: 100px;
-  margin-top: 140px;
-  margin-left: 30px;
+  cursor: pointer;
+  display:flex;
+  padding: 10px;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  background-color:#126912; 
+  margin-top: 20px;
+  margin-left: 20px;
 }
 .Change-Backbutton {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background-color: rgb(76, 175, 80);
-  border-radius: 100px;
-  margin-top: 140px;
-  margin-left: 30px;
+  cursor: pointer;
+  display:flex;
+  padding: 10px;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  background-color:#126912; 
+  margin-top: 20px;
+  margin-left: 20px;
 }
 
 .Forgot-Backbutton {
@@ -1297,9 +1333,11 @@ justify-content: center;
   cursor: pointer;
   font-size: 14px;
   text-decoration: underline;
+  margin-top: 30px;
+  margin-bottom: 10px;
 }
 .resend:hover {
-  color: blue;
+  color:blue
 }
 
 /* Default styles for the back button */
@@ -1307,9 +1345,8 @@ justify-content: center;
   cursor: pointer;
   display: inline-block;
   padding: 10px;
-
-  color: #fff;
   background-color: #126912;
+  color: #fff;
   border: none;
   border-radius: 5px;
   transition: background-color 0.3s ease;
@@ -1338,13 +1375,16 @@ justify-content: center;
   display: inline-block;
   padding: 10px;
   color: #fff;
-  background-color: #126912;
   border: none;
   border-radius: 5px;
   transition: background-color 0.3s ease;
+  background-color:#126912; 
   position: absolute;
   top: 10px;
   left: 10px;
+}
+.wBackbutton:hover{
+background-color: gray;
 }
 
 
@@ -1371,14 +1411,9 @@ justify-content: center;
   text-align: center;
 }
 
-
-/*landing page nav bar*/
-
-
-
 .my-navigation {
-  background-color: #BCE8B1;
-  padding: 1em 2em;
+  background-color: #D9FFCF;
+  padding:0.5em 0.5em;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1408,27 +1443,33 @@ justify-content: center;
   font-weight: bold;
 }
 
-#register  {
+
+#register, #login, #logout, #profile {
   background-color: #126912;
   color: #fff;
-  padding: 10px 15px;
+  padding: 5px 10px;
   border: none;
-  border-radius: 150px;
-  cursor: pointer;
-}
-#login {
-  background-color: #126912;
-  color: #fff;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 150px;
+  border-radius: 5px;
   cursor: pointer;
   margin-left: 10px;
+  margin-right: 10px;
 }
 
-#register:hover, #login:hover {
+#register, #login, #logout, #profile {
+  background-color: #126912;
+  color: #fff;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#register:hover, #login:hover, #logout:hover, #profile:hover {
   background-color: gray;
 
+}
+#register{
+  margin-right: 10px;
 }
 
 .content-container {
@@ -1444,25 +1485,37 @@ justify-content: center;
   max-width: 50%;
   margin-bottom:120px ;
   margin-left: 100px;
-
+  font-family: 'Inter, sans-serif';
 }
 
-.text-container h1 {
-  font-size: 2em;
+/* .text-container h1 {
   margin-bottom: 1em;
+  font-weight: 900;
+
 }
 
-.image-container {
+.text-container h2 {
+  margin-bottom: 1em;
+  font-weight: 900;
+
+} */
+
+
+
+
+
+/* para hindi dumikit sa gilid */
+/* .image-container {
   flex: 1;
   text-align: right;
-}
+} */
 
 .image-container img {
   width: 400px;
   border-radius: 8px;
 }
 
-.footer {
+.TeamA_Footer{
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1470,37 +1523,29 @@ justify-content: center;
   bottom: 0;
   left: 0;
   right: 0;
-  
-  background-color: #BCE8B1; /* Add a background color for better visibility */
+  background-color: #BCE8B1;
+  height: 3rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
-.social-icons {
-  display: flex;
+.passstat {
+  height: 50px;
+  margin-top: 10px;
 }
 
-.social-icons img {
-  width: 30px;
-  height: auto;
-  margin-right: 10px;
-}
 
-.terms-conditions {
-  margin-left: auto;
-}
-
-.contact-number {
-  margin-right: 10px;
-}
 
 
 
 .TeamA-card-container {
   display: flex;
-  align-items: stretch; /* Make sure all cards have the same height */
+  align-items: stretch;
   justify-content: center;
   width: 100%;
   gap: 20px;
   
+
 }
 
 .TeamA-card {
@@ -1526,49 +1571,717 @@ justify-content: center;
   justify-content: center;
 }
 
-.All {
+/* .All {
   align-items:center;
   margin-left: 325px;
-}
+} */
 .photo-section {
-  flex:1;
   display: flex;
   justify-content: space-around; /* Adjust as needed */
   margin-top: 20px; /* Adjust as needed */
-  gap: 50px;
+  gap: 20px;
   width:auto;
-  text-align: center;
   font-size: medium;
+  flex-direction: row;
+  margin-left: 10px;
 }
 
 .photo-box {
-  flex:1;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  
   
 }
 
-.photo-box img {
-  width: 100%; /* Adjust as needed */
+.photo-box svg {
+  /* width: 100%; Adjust as needed */
+  display: flex;
+  margin: auto;
   height: auto;
   margin-bottom: 10px; /* Adjust as needed */
 }
 
 /*about container*/
 
-.TeamA-about-container {
-  text-align: center;
+.about-container {
+  text-align: center !important;
   font-family: 'Times New Roman', Times, serif;
   width: fit-content;
   font-size:medium;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+  margin: 0 px;
+
+}
+.about-mv{
+  text-align: center !important;
+  font-family: 'Times New Roman', Times, serif;
+  width: fit-content;
+  font-size:medium;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+  margin: 0 250px;
+}
+
+.about-container  p {
+  width:75%;
+  text-align: justify;
+}
+
+.about-container h1{
+  text-align: center;
+  font-family: 'Times New Roman', Times, serif;
+  font-weight: bold;
+  font-size: 2rem;
 
 }
 
-.Profile-picture {
-  width: 150px; /* Set the desired width */
-  height: 150px; /* Set the desired height */
-  border-radius: 50%; /* Optional: add a border-radius for a circular shape */
-  object-fit: cover; /* Optional: control how the image fills the specified dimensions */
+.home-button {
+  cursor: pointer;
+  color: #ffffff;
+  border-radius: 100px;
+  background-color: #126912;
+  border: 1px solid #126912;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.5);
+  width: 5rem;
+  height: 2rem;
+  display: flex;
+  position: absolute;
+  right: 60px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
 }
+.home-button:hover {
+  background-color: gray;
+}
+.Confirm-button{
+  margin: 10px 10px 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  color: #ffffff;
+  border-radius: 150px;
+  background-color: #126912;
+  border: 1px solid #126912;
+  margin-top: 50px;
+}
+.Confirm-button:hover{
+  background-color: gray;
+}
+.Show-button {
+  margin: 10px 10px 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  color: #ffffff;
+  border-radius: 150px;
+  background-color: #126912;
+  border: 1px solid #126912;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.5);
+  margin-top: 25px;
+}
+.nav-HOME-button  {
+  background-color: #126912;
+  color: #fff;
+  padding: 5px 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+.nav-HOME-button:hover{
+  background-color: gray;
+}
+.nav-LOGOUT-button {
+  background-color: #126912;
+  color: #fff;
+  padding: 5px 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+ .Show-button:hover,.nav-LOGOUT-button:hover  {
+color: gray;
+}
+
+.TeamA-courses {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px; /* Adjust the margin as needed */
+}
+
+.TeamA-courses {
+  display: flex;
+  justify-content: space-around; /* Center the squares */
+  margin-top: 20px;
+  overflow: hidden; /* Prevent any content overflow */
+}
+
+.TeamA-square {
+  width: 300px;
+  height: 400px;
+  background-color: #BCE8B1;
+  margin-right: 40px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center the content inside the square */
+}
+
+.TeamA-square svg {
+  width: 120px;
+  height: 120px;
+  color: #050404;
+  margin-top: 50px;
+}
+
+.TeamA-square h3,
+.TeamA-square h4,
+.TeamA-square h5,
+.TeamA-square h6 {
+  margin-top: 20px; /* Adjust as needed */
+  font-weight: bold;
+  font-size: x-large;
+}
+
+.data-validation {
+  display: flex;
+  height: 50px;
+  margin-top: 10px;
+}
+
+/*##############################NAVBAR CSS##################*/
+.btns{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.navbar_TeamD {
+  display: flex;
+  align-items: center;
+  padding: 0 18.33px 0 18.33px;
+  background-color: #D9FFCF;
+  height: 69px !important;
+  justify-content: space-between;
+}
+
+.teamDimg {
+  height: 50px;
+  width: auto;
+}
+
+#navbar {
+  margin-bottom: 0;
+}
+
+#navbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#navbar li {
+  list-style: none;
+  padding: 0 20px;
+  position: relative;
+}
+
+#navbar li a {
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 600;
+  color: black;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+#navbar li a:hover,
+#navbar li a:active {
+  color: #126912;
+}
+
+#navbar li a.active {
+  color: #126912; /* Change this to the desired color for the active link */
+}
+
+#mobile {
+  display: None;
+  align-items: center;
+}
+
+.profile_img {
+  border: 1.5px solid #126912;
+  border-radius: 50px;
+  width: 23px;
+  height: 23px;
+}
+
+.mobile_profile {
+  border: 2px solid #126912;
+  border-radius: 50px;
+  width: 40px;
+  height: 40px;
+}
+
+.button_profile {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: white !important;
+  color: #126912 !important;
+  font-weight: 600 !important;
+}
+
+.dropdown-menu.show {
+  background-color: #D9FFCF;
+}
+
+
+.dropdown-menu.show {
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400 !important;
+  line-height: normal;
+  left: 0 !important;
+  transform: translateX(-50%);
+}
+
+.dropdown-menu.show .dropdown-item {
+  text-align: start;
+  display: flex !important;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
+  margin-right: 50px;
+}
+
+.profile_side .dropdown-menu.show .dropdown-item:last-child {
+  color:#BF3131 !important;
+}
+
+.profile_side  .dropdown-menu.show .dropdown-item:last-child:hover,
+.profile_side  .dropdown-menu.show .dropdown-item:last-child:active {
+  color:#fd0f0f !important;
+}
+
+.dropdown-menu.show .dropdown-item:hover {
+  background-color: transparent;
+  color: #126912 !important;
+}
+
+.dropdown-menu.show .dropdown-item.active {
+  background-color: transparent;
+  color: #126912 !important;
+}
+
+.profile_info {
+  display: none;
+}
+
+.profile_link {
+  display: none;
+}
+
+
+@media screen and (max-width: 769px) {
+  .navbar_TeamD {
+      justify-content: space-between;
+  }
+  #navbar {
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      position: fixed;
+      top: 70px;
+      right: -350px;
+      width: 330px;
+      height: 100vh;
+      padding: 40px 0  0 10px;
+      background: rgba( 217, 255, 207, 0.65 );
+      box-shadow: 0 8px 32px -8px rgba( 31, 38, 135, 0.37 );
+      backdrop-filter: blur( 9px );
+      -webkit-backdrop-filter: blur( 9px );
+      border-bottom-left-radius: 25px;
+      border-bottom-right-radius: 25px;
+      border: 1px solid rgba( 255, 255, 255, 0.18 );
+      z-index: 1000;
+  }
+
+  #navbar.active {
+      right: 0;
+  }
+
+  #navbar li {
+      margin-bottom: 25px;
+  }
+
+  #navbar li a:hover,
+  #navbar li a:active {
+      color: #126912;
+  }
+
+  #navbar li a.active {
+      text-decoration: underline; /* You can customize this based on your design */
+      color: #126912; /* Change this to the desired color for the active link */
+  }
+
+  #mobile {
+      display: block;
+      color: white;
+  }
+
+  #mobile i {
+      font-size: 24px;
+      cursor: pointer;
+      color: #126912;
+  }
+
+  .profile_side {
+      display: none;
+  }
+
+  .mycourse_dd .dropdown-toggle.show {
+      margin-bottom: 50px;
+  }
+
+  .profile_info {
+      display: block;
+      width: 100%;
+      background-color: #BCE8B1;
+      padding: 10px !important;
+      border-radius: 25px;
+      margin-bottom: 10px !important;
+      text-shadow: transparent !important;
+  }
+  .profile_info img {
+      border: 2px solid #126912;
+      border-radius: 50px;
+      width: 50px;
+      height: 50px;
+  }
+
+ .profile_info_con {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+  }
+
+  .profile_info_name {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      line-height: 5px;
+      gap: 10px;
+  }
+
+  .profile_info_name p {
+      margin: 5px;
+  }
+
+  .profile_info_name .profile_fName {
+      font-weight: 600;
+  }
+
+  .profile_info_name .profile_email {
+      font-size: 14px !important;
+  }
+
+  .profile_divider {
+      height: 20px; /* Set the height of the divider as needed */
+      width: 1px;   /* Set the width of the divider as needed */
+      background-color: #126912; /* Set the color of the divider */
+      margin: 0 10px; /* Adjust the margin as needed for spacing */
+    }
+
+    #navbar .divider {
+      height: 2px;
+      background-color: #0e3b03; /* Adjust the color of the divider as needed */
+      margin: 0 auto; /* Adjust the margin as needed for spacing */
+      margin-bottom: 20px;
+      width: 80%;
+    }
+
+    .profile_link {
+      display: block;
+  }
+}
+
+
+/*##################BASE STYLE CSS###############*/
+.btn-view-course:hover {
+  background-color: #145304;
+}
+
+#c_dashboard_header {
+  background-color: #BCE8B1;
+}
+
+.c_chapter_cardmain:hover {
+  filter: drop-shadow(0 0 1em #484848);
+}
+
+.buttonReturn:hover .c_chapter_return {
+  transform: scale(1.1);
+}
+
+#c_course_itemcontainer:hover {
+  filter: drop-shadow(0 0 1em #126912);
+}
+
+  /* CARD POSITIONING */
+#c_cardpreview_cardouter {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  max-height: 100%;
+  box-sizing: border-box;
+}
+
+/* CARD SPACING */
+#c_cardpreview_cardcontainer {
+  margin: 10px;
+}
+
+#c_preview_headerTitle {
+  font-size: 2.5rem;
+}
+
+#c_preview_headerSub{
+  font-size: 2.3rem;
+}
+
+#c_preview_headerSub{
+  font-size: 1.5rem;
+}
+
+#enrollButton1,
+#enrollButton2,
+#enrollButton3 {
+  display: 'flex';
+  align-items: 'center';
+  justify-content: 'center';
+  height: '30px';
+}
+
+#c_course_maincontainer{
+  margin-left: 5rem;
+  margin-right: 5rem;
+}
+
+#c_course_tag{
+  margin-top: 0.5rem;
+  margin-right: 0.5rem; 
+  width: 7rem;
+  height: 4rem;
+  background-color: #BCE8B1; 
+  border-radius: 0.5rem;
+  border: 2px solid #126912;
+}
+
+#c_course_tagtext,
+#c_course_cardbody {
+  font-size: 1rem;
+} 
+
+#c_course_cardmain{
+  margin-top: 10px; 
+  will-change: filter; 
+  transition: filter 300ms; 
+  background-color: red; 
+  border-radius: 1rem;
+}
+
+#c_maincontent_maincontainer{
+  text-align: left;
+  align-items: left;
+  font-size: 2.5rem;
+  
+}
+
+#c_maincontent_textcontainer{
+  color: #0e3b03;
+  background-color: #D9FFCF;
+  text-align: center;
+  overflow: visible;
+  border: 2px solid;
+  border-color: #0e3b03;
+}
+
+#c_maincontent_textdesc{
+  font-size: 1.3rem;
+}
+
+#c_maincontent_mainlayout{
+  margin-top: 1.5rem; 
+  margin-left: 10rem; 
+  margin-right: 10rem;
+}
+
+#c_maincontent_buttoncontainer {
+  /* D-GRID */
+  display: grid;
+  gap: 0.5rem;
+  margin: 10px;
+  /* GAP-2 */
+  > * {
+      margin-top: 0.5rem;
+      margin-bottom: 0.5rem;
+  }
+
+  /* D-MD-FLEX */
+  display: flex;
+
+  /* JUSTIFY-CONTENT-MD-END */
+  justify-content: flex-end;
+}
+
+
+/* LARGE DESKTOP */
+@media only screen and (max-width: 1024px) {
+  
+  #c_course_cardbody{
+      background-color: #126912;
+      border-radius: 1rem;
+  }
+  #c_course_tagtext,
+  #c_course_cardbody {
+  font-size: 1rem;
+  } 
+  #c_course_tag{
+      width: 7rem;
+      height: 4rem;
+  }
+  #c_maincontent_textcontainer{
+      font-size: 18px;
+  }
+}
+
+/* TYPICAL LAPTOP */
+@media only screen and (max-width: 992px) {
+  #c_cardpreview_cardouter {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-height: 100%;
+  }
+  #c_course_cardbody{
+      background-color: #126912;
+      border-radius: 1rem;
+  }
+  #c_course_tagtext,
+  #c_course_cardbody {
+  font-size: 1rem;    
+  } 
+  #c_course_tag{
+      width: 7rem;
+      height: 4rem;
+  }
+}
+
+/* TYPICAL TABLET */
+@media only screen and (max-width: 768px) {
+  #c_cardpreview_cardouter {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-height: 100%;
+  }
+  #c_course_cardbody{
+      background-color: #126912;
+      border-radius: 1rem;
+  }
+  #c_course_tagtext,
+  #c_course_cardbody {
+  font-size: 0.8rem;
+  justify-content: center;
+  } 
+  #c_course_tag{
+      width: 7rem;
+      height: 4rem;
+  }
+  #c_maincontent_maincontainer{
+      text-align: center;
+      align-items: left;
+      font-size: 2.5rem;
+  }
+  
+}
+
+/* TYPICAL SMARTPHONE */
+@media only screen and (max-width: 480px) {
+  #c_cardpreview_cardouter {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-height: 100%;
+  }
+  #c_course_cardbody{
+      background-color: #126912;
+      border-radius: 1rem;
+  }
+  #c_course_tagtext,
+  #c_course_cardbody {
+  font-size: 0.5rem;
+  justify-content: center;
+  } 
+  #c_course_tag{
+      width: 4rem;
+      height: 2rem;
+  }
+  #c_maincontent_textcontainer{
+      width: 20rem;
+  }
+  #c_maincontent_maincontainer{
+      text-align: left;
+      font-size: 1.5rem;
+  }
+  #c_maincontent_mainlayout{
+      margin-top: 1.5rem; 
+      margin-left: 0rem; 
+      margin-right: 0rem;
+  }
+  #c_maincontent_buttoncontainer {
+      /* D-GRID */
+      display: center;
+      gap: 0.5rem;
+      margin: 10px;
+      /* GAP-2 */
+      > * {
+          margin-top: 0.5rem;
+          margin-bottom: 0.5rem;
+      }
+  
+      /* D-MD-FLEX */
+      display: flex;
+  
+      /* JUSTIFY-CONTENT-MD-END */
+      justify-content: flex-end;
+  }
+
+}  
+
+
+
+
+
+
+
+
+
+
 
 /* Auth.css */
 .template-form {

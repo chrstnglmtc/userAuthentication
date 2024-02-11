@@ -4,10 +4,10 @@ public enum Permissions {
     STUDENT_READ("student:read"),
     STUDENT_UPDATE("student:update"),
     STUDENT_DELETE("student:delete"),
-    ADMIN_READ("admin:read"),
-    ADMIN_UPDATE("admin:update"),
-    ADMIN_DELETE("admin:delete"),
-    ADMIN_CREATE("admin:create");
+    INSTRUCTOR_READ("INSTRUCTOR:read"),
+    INSTRUCTOR_UPDATE("INSTRUCTOR:update"),
+    INSTRUCTOR_DELETE("INSTRUCTOR:delete"),
+    INSTRUCTOR_CREATE("INSTRUCTOR:create");
 
     private final String permission;
 

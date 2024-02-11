@@ -34,7 +34,7 @@ public class AuthService implements UserDetailsService {
         }
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
-        User newUser = new User(data.email(), data.userName(), encryptedPassword, data.firstName(), data.lastName(), Role.STUDENT);
+        User newUser = new User(data.email(), data.userName(), encryptedPassword, data.firstName(), data.lastName(), data.role());
         userRepo.save(newUser);
 
         // Generate and return access token after successful sign-up

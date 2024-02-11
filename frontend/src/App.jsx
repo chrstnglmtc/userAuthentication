@@ -1,20 +1,23 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-prototype-builtins */
+/* eslint-disable no-undef */
 import React, { useState, useEffect } from 'react';
 import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './components/TeamA_AuthContext';
+import { AuthProvider, useAuth } from './components/AuthContext';
 
-import TeamA_Landing from './components/TeamA_Landing';
-import TeamA_Login from './components/TeamA_Login';
-import TeamA_Register from './components/TeamA_Register';
-import TeamA_Forgot from './components/TeamA_Forgot';
-import TeamA_Dashboard from './components/TeamA_Dashboard';
-import TeamA_Profile from './components/TeamA_Profile';
-import TeamA_Navigation from './components/TeamA_Navigation';
-import TeamA_ProfileEdit from './components/TeamA_ProfileEdit';
-import TeamA_Verification from './components/TeamA_Verification';
-import TeamA_ChangePassword from './components/TeamA_ChangePassword';
-import TeamA_About from './components/TeamA_About';
-import TeamA_Email from './components/TeamA_Email';
-import TeamA_NewPass from './components/TeamA_NewPass';
+import Landing from './components/Landing';
+import Login from './components/Login';
+import Register from './components/Register';
+import Forgot from './components/Forgot';
+import Dashboard from './components/Dashboard';
+import Profile from './components/Profile';
+import Navigation from './components/Navigation';
+import ProfileEdit from './components/ProfileEdit';
+import Verification from './components/Verification';
+import ChangePassword from './components/ChangePassword';
+import About from './components/About';
+import Email from './components/Email';
+import NewPass from './components/NewPass';
 
 import './index.css';
 import PropTypes from 'prop-types';
@@ -94,25 +97,25 @@ function App() {
   return (
     <AuthProvider>
     <Routes>
-      <Route path="/" element={<TeamA_Landing />} />
-      <Route path="/login" element={<TeamA_Login />} />
-      <Route path="/register" element={<TeamA_Register />} />
-      <Route path="/forgot" element={<TeamA_Forgot />} />
-      <Route path="/email" element={<TeamA_Email />} />
+      <Route path="/" element={<Landing />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/forgot" element={<Forgot />} />
+      <Route path="/email" element={<Email />} />
 
       {/* Protected Routes */}
-      <Route path="/dashboard" element={<PrivateRoute element={<TeamA_Dashboard />} />} />
-      <Route path="/profile" element={<PrivateRoute element={<TeamA_Profile />} />} />
-      <Route path="/update" element={<PrivateRoute element={<TeamA_ProfileEdit />} />} />
-      <Route path="/navigation" element={<PrivateRoute element={<TeamA_Navigation />} />} />
-      <Route path="/change" element={<PrivateRoute element={<TeamA_ChangePassword />} />} />
-      <Route path="/about" element={<PrivateRoute element={<TeamA_About />} />} />
-      <Route path="/new" element={<PrivateRoute element={<TeamA_NewPass />} />} />
+      <Route path="/dashboard" element={<PrivateRoute element={<Dashboard />} />} />
+      <Route path="/profile" element={<PrivateRoute element={<Profile />} />} />
+      <Route path="/update" element={<PrivateRoute element={<ProfileEdit />} />} />
+      <Route path="/navigation" element={<PrivateRoute element={<Navigation />} />} />
+      <Route path="/change" element={<PrivateRoute element={<ChangePassword />} />} />
+      <Route path="/about" element={<PrivateRoute element={<About />} />} />
+      <Route path="/new" element={<PrivateRoute element={<NewPass />} />} />
 
       {/* Verification Route */}
       <Route
         path="/verify"
-        element={<TeamA_Verification />}
+        element={<Verification />}
       />
     </Routes>
     </AuthProvider>
