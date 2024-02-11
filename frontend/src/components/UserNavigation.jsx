@@ -88,7 +88,7 @@ const UserNavigation = ({ onUserDataFetched, openModal }) => {
           } else {
             console.error(
               "Profile picture is undefined or null in user data"
-            );
+            );  
           }
         } else {
           console.error(
