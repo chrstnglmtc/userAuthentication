@@ -58,6 +58,8 @@ background-color: gray;
   margin: 0;
 }
 
+Modal .
+
 .left-container {
   display: flex;
   align-items: center;
@@ -180,7 +182,6 @@ background-color: gray;
 
 .label-container {
  display: flex;
- padding-bottom: 4rem;
  justify-content: center;
 
 } 
@@ -784,6 +785,7 @@ input::placeholder{
   color: #0e3b03;
   text-transform: uppercase;
   letter-spacing: 5px;
+  font-weight: 700;
 }
 .Prof1-info_data {
   display: flex;
@@ -802,7 +804,10 @@ input::placeholder{
 }
 
 
-
+.Prof1-info h4 {
+  color: #0e3b03;
+  font-weight: 700;
+}
 
 .Prof1-data h4 {
   color: #0e3b03;
@@ -1759,7 +1764,6 @@ color: gray;
   height: 50px;
   margin-top: 10px;
 }
-
 /*##############################NAVBAR CSS##################*/
 .btns{
   display: flex;
@@ -1775,6 +1779,12 @@ color: gray;
   height: 69px !important;
   justify-content: space-between;
 }
+
+.teamDimg {
+  height: 50px;
+  width: auto;
+}
+
 
 .teamDimg {
   height: 50px;
@@ -2272,11 +2282,3 @@ color: gray;
   }
 
 }  
-
-
-
-
-
-
-
-

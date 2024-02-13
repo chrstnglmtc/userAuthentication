@@ -1,12 +1,13 @@
 /* eslint-disable no-unused-vars */
 import React, {Fragment, useState} from "react";
 import "../Auth.css";
-import { enroll } from "../scripts/script";
 import { useAuth } from "./AuthContext"; // Make sure to import your auth context
 import UserNavigation from "./UserNavigation";
-import CoursePreview from "./CoursePreview";
 import Footer from "./Footer";
 import ProfileModal from "./ProfileModal";
+import { enroll } from "../scripts/script";
+import CoursePreview from "./CoursePreview";
+import { Modal } from "react-bootstrap";
 
 const Dashboard = () => {
   const { isLoggedIn, handleLogout } = useAuth();

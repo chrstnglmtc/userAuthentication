@@ -4,18 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 import '../Auth.css';
-// Function to get user image type
-// function getUserImageType(profilePicture) {
-//   // Check if profilePicture is defined and not null
-//   if (profilePicture && profilePicture.startsWith) {
-//     // Check the image type based on the data
-//     const isPNG = profilePicture.startsWith('data:image/png;base64,');
-//     return isPNG ? 'png' : 'jpeg';
-//   } else {
-//     // Return a default type or handle accordingly
-//     return 'png'; // You can change this to 'jpeg' or handle as needed
-//   }
-// }
+
 function ProfileEditForm({ handleClose }) {
   const navigate = useNavigate();
   const { handleLogout } = useAuth();
