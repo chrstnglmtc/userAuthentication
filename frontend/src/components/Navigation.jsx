@@ -31,18 +31,25 @@ const Navigation = () => {
       </ul>
        {/* Testing section */}
       <div className="testing">
+        {/* Conditional rendering based on login status */}
         {isLoggedIn ? (
+        // If user is logged in
           <>
+             {/* Link to the user's profile */}
           <Link to="/profile">
             <button id="profile">Profile</button>
           </Link>
+             {/* Logout button */}
           <button id="logout" onClick={handleLogout}>Logout</button>
         </>
         ) : (
+      // If user is not logged in
           <>
+              {/* Link to the registration page */}
             <Link to="/register">
               <button id="register">Register</button>
             </Link>
+                 {/* Link to the login page */}
             <Link to="/login">
               <button id="login">Log In</button>
             </Link>
