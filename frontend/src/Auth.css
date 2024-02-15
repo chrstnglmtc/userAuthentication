@@ -58,6 +58,8 @@ background-color: gray;
   margin: 0;
 }
 
+Modal .
+
 .left-container {
   display: flex;
   align-items: center;
@@ -180,7 +182,6 @@ background-color: gray;
 
 .label-container {
  display: flex;
- padding-bottom: 4rem;
  justify-content: center;
 
 } 
@@ -784,6 +785,7 @@ input::placeholder{
   color: #0e3b03;
   text-transform: uppercase;
   letter-spacing: 5px;
+  font-weight: 700;
 }
 .Prof1-info_data {
   display: flex;
@@ -802,7 +804,10 @@ input::placeholder{
 }
 
 
-
+.Prof1-info h4 {
+  color: #0e3b03;
+  font-weight: 700;
+}
 
 .Prof1-data h4 {
   color: #0e3b03;
@@ -1759,7 +1764,72 @@ color: gray;
   height: 50px;
   margin-top: 10px;
 }
+.TeamA-square:hover {
+  transform: scale(1.1);
+  transition: transform 0.3s ease-in-out; 
+  cursor: pointer;
+}
 
+.my-navigation a:hover, .my-navigation li:hover {
+  color: #4D9349; 
+  transform:scale(1.1) ;
+  transition: transform 0.3s ease-in-out; 
+  cursor: pointer;
+}
+
+.otp-button:hover,.home-button:hover, .TeamA-button:hover, .qBackbutton:hover, .wBackbutton:hover,
+.Confirm-button:hover,.Prof1-ChangeButton:hover, .Prof1-Editbuttons:hover, .submit-button:hover,.cancel-button:hover, .Change-Backbutton:hover, .login-button:hover, .Prof2-Backbutton:hover, .nav-HOME-button:hover {
+  transform: scale(1.1);
+  transition: transform 0.3s ease-in-out; 
+  cursor: pointer;
+}
+
+.menu-hide {
+  list-style: none;
+  display: flex;
+  gap: 20px; /* Adjust the space between items as needed */
+}
+
+.menu-hide li a {
+  text-decoration: none;
+  color: #000; /* Set your desired text color */
+  font-weight: bold;
+  font-size: 20px;
+}
+.email-input-field {
+  position: relative;
+}
+
+.forgot-otp-input-container {
+  position: relative;
+}
+
+input[type="text"] {
+  padding-right: 40px; /* Adjust the value based on your button's width */
+}
+
+.forgot-otp-button {
+  position: absolute;
+  top: 40%;
+  right: 1px; /* Adjust the value based on your design */
+  transform: translateY(-50%);
+  background-color: #126912;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 30px;
+  border-radius: 10px;
+  color: white;
+  padding: 10px 10px;
+  margin-bottom: 100px;
+  padding-right: 10px;
+}
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #f0f0f0;
+}
 /*##############################NAVBAR CSS##################*/
 .btns{
   display: flex;
@@ -1775,6 +1845,12 @@ color: gray;
   height: 69px !important;
   justify-content: space-between;
 }
+
+.teamDimg {
+  height: 50px;
+  width: auto;
+}
+
 
 .teamDimg {
   height: 50px;
@@ -2272,11 +2348,3 @@ color: gray;
   }
 
 }  
-
-
-
-
-
-
-
-

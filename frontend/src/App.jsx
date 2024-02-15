@@ -21,6 +21,7 @@ import NewPass from './components/NewPass';
 
 import './index.css';
 import PropTypes from 'prop-types';
+import Home from './components/Home';
 
 function PrivateRoute({ element, ...rest }) {
   const { isLoggedIn, isAuthReady } = useAuth();
@@ -97,7 +98,7 @@ function App() {
   return (
     <AuthProvider>
     <Routes>
-      <Route path="/" element={<Landing />} />
+      <Route path="/" element={<Home/>} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/forgot" element={<Forgot />} />

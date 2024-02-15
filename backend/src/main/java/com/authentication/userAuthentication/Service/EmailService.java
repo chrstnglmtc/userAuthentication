@@ -40,4 +40,23 @@ public interface EmailService {
     String generateVerificationCode();    
 
     String resendVerificationCode(String userEmail);
+
+    String generateAndStoreForgotCode(String userEmail);
+
+    void sendForgotCodeViaEmail(String userEmail, String forgotCode);
+
+    String generateAndStoreForgotCode(String userEmail, Long expirationTimeInMillis);
+    
+    boolean isForgotCodeValid(String userEmail, String enteredCode);
+
+    // Add these two methods with correct signatures
+    void resetPassword(String userEmail, String verificationCode, String newPassword);
+
+    String getStoredCode(String userEmail);
+
+    void initiateForgotPassword(String email);
+
+    
+
+
 }
