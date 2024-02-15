@@ -1,8 +1,12 @@
 package com.authentication.userAuthentication.Service.impl;
 
 import com.authentication.userAuthentication.Entity.EmailDetails;
+import com.authentication.userAuthentication.Entity.ForgotCodeEntity;
 import com.authentication.userAuthentication.Entity.User;
 import com.authentication.userAuthentication.Entity.VerificationCodeEntity;
+import com.authentication.userAuthentication.Exceptions.UserNotFoundException;
+import com.authentication.userAuthentication.Exceptions.VerificationCodeException;
+import com.authentication.userAuthentication.Repo.ForgotCodeRepo;
 import com.authentication.userAuthentication.Repo.UserRepo;
 import com.authentication.userAuthentication.Repo.VerificationCodeRepo;
 import com.authentication.userAuthentication.Service.AuthService;
@@ -44,6 +48,10 @@ public class EmailServiceImpl implements EmailService {
     private UserRepo userRepo;
 
     @Autowired
+    private ForgotCodeRepo forgotCodeRepo;
+
+
+    @Autowired
     private VerificationCodeRepo verificationCodeRepo; // Inject your VerificationCodeRepo
 
     @Value("${spring.mail.username}")
@@ -52,6 +60,8 @@ public class EmailServiceImpl implements EmailService {
     private final Map<String, String> generatedCodeStorage = new HashMap<>();
     private final Map<String, String> enteredCodeStorage = new HashMap<>();
     private final Map<String, VerificationCodeEntity> verificationCodeMap = new ConcurrentHashMap<>();
+    private final Map<String, String> passwordResetCodes = new ConcurrentHashMap<>();
+
 
     @Override
     public String sendSimpleMail(EmailDetails details) {
@@ -166,7 +176,21 @@ public class EmailServiceImpl implements EmailService {
 
         return false;
     }
-    
+
+    @Override
+    public void sendForgotCodeViaEmail(String userEmail, String forgotCode) {
+        // Implement the logic to send the forgot code via email
+        // You can use the injected JavaMailSender or any other email sending mechanism
+        // Include the user's email address, subject, and the generated forgot code in the email
+        // Example:
+        EmailDetails emailDetails = new EmailDetails();
+        emailDetails.setRecipient(userEmail);
+        emailDetails.setSubject("Forgot Code");
+        emailDetails.setMsgBody("Your forgot code is: " + forgotCode);
+
+        sendSimpleMail(emailDetails);
+    }
+
     @Override
     public boolean isVerificationCodeExpired(String email) {
         VerificationCodeEntity verificationCodeEntity = verificationCodeMap.get(email);
@@ -226,12 +250,14 @@ public class EmailServiceImpl implements EmailService {
         return generateRandomCode();
     }
 
-    @Override
-    public void storeEnteredCode(String verificationCode, String enteredCode) {
-        enteredCodeStorage.put(verificationCode, enteredCode);
-    }
+@Override
+public void storeEnteredCode(String verificationCode, String enteredCode) {
+    enteredCodeStorage.put(verificationCode, enteredCode);
+}
 
-    private String getStoredCode(String userEmail) {
+
+    @Override
+    public String getStoredCode(String userEmail) {
         return generatedCodeStorage.getOrDefault(userEmail, "");
     }
 
@@ -258,4 +284,105 @@ public class EmailServiceImpl implements EmailService {
         // For example, you might want to set the expiration time based on certain conditions
         // For now, you can leave it empty if not needed
     }
+
+    private String generateForgotCode() {
+        Random random = new Random();
+        return String.format("%06d", random.nextInt(999999));
+    }
+
+    public void initiateForgotPassword(String email) {
+        // Check if the user with the provided email exists
+        User user = userRepo.findByEmail(email);
+        if (user == null) {
+            // Handle the case where the user is not found
+            throw new UserNotFoundException("User not found for email: " + email);
+        }
+    
+        // Generate the forgot code
+        String forgotCode = generateForgotCode();
+    
+        // Create the forgot code entity
+        long expirationTimeInMillis = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+        ForgotCodeEntity forgotCodeEntity = new ForgotCodeEntity(user, forgotCode, expirationTimeInMillis);
+    
+        // Store the forgot code in memory
+        String userEmail = user.getEmail();
+        passwordResetCodes.put(userEmail, forgotCode);
+    
+        // Save the forgot code to the database
+        forgotCodeRepo.save(forgotCodeEntity);
+    
+        // Send the forgot code via email
+        sendForgotCodeViaEmail(userEmail, forgotCode);
+    }
+    
+    
+    @Override
+    @Transactional
+    public String generateAndStoreForgotCode(String userEmail) {
+        return generateAndStoreForgotCode(userEmail, getDefaultExpirationTimeInMillis());
+    }
+
+    @Override
+    @Transactional
+    public String generateAndStoreForgotCode(String userEmail, Long expirationTimeInMillis) {
+        User user = userRepo.findByEmail(userEmail);
+
+        if (user != null) {
+            String generatedCode = generateRandomCode();
+
+            if (expirationTimeInMillis == null) {
+                expirationTimeInMillis = getDefaultExpirationTimeInMillis();
+            }
+
+            ForgotCodeEntity forgotCodeEntity = new ForgotCodeEntity(user, generatedCode, expirationTimeInMillis);
+            forgotCodeRepo.save(forgotCodeEntity);
+
+            return generatedCode;
+        } else {
+            return "User not found";
+        }
+    }
+
+    @Override
+    @Transactional
+    public boolean isForgotCodeValid(String userEmail, String enteredCode) {
+        // Retrieve the stored code from the map
+        String storedCode = passwordResetCodes.get(userEmail);
+    
+        if (storedCode != null) {
+            // Check if the entered code matches the stored code
+            return enteredCode.equals(storedCode);
+        }
+    
+        return false;
+    }
+    
+    
+    @Override
+    @Transactional
+    public void resetPassword(String userEmail, String forgotCode, String newPassword) {
+        // Find the user by email
+        User user = userRepo.findByEmail(userEmail);
+    
+        if (user != null) {
+            // Find the ForgotCodeEntity associated with the user ID and the provided forgot code
+            Optional<ForgotCodeEntity> forgotCodeOptional = forgotCodeRepo.findByUserEmail(userEmail);
+            if (forgotCodeOptional.isPresent()) {
+                // Forgot code is valid, update the user's password
+                user.setPassword(newPassword);
+                userRepo.save(user);
+    
+                // Optionally, you may want to delete the used forgot code from the database
+                forgotCodeRepo.delete(forgotCodeOptional.get());
+            } else {
+                // Handle the case where the forgot code is invalid
+                throw new VerificationCodeException("Invalid forgot code");
+            }
+        } else {
+            // Handle the case where the user is not found
+            throw new UserNotFoundException("User not found for email: " + userEmail);
+        }
+    }
+    
 }

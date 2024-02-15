@@ -72,6 +72,10 @@ public class User implements UserDetails {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
+    private ForgotCodeEntity forgotCodeEntity;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private VerificationCodeEntity verificationCodeEntity;
 
     public User(String email, String userName, String password, String firstName, String lastName, Role role) {
@@ -139,5 +143,14 @@ public class User implements UserDetails {
 
     public void setImageType(String imageType) {
         this.imageType = imageType;
+    }
+
+    // Getter and setter for ForgotCodeEntity
+    public ForgotCodeEntity getForgotCodeEntity() {
+        return forgotCodeEntity;
+    }
+
+    public void setForgotCodeEntity(ForgotCodeEntity forgotCodeEntity) {
+        this.forgotCodeEntity = forgotCodeEntity;
     }
 }

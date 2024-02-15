@@ -1,8 +1,11 @@
 package com.authentication.userAuthentication.Controller;
 
+import com.authentication.userAuthentication.Dto.Request.ForgotPasswordRequest;
+import com.authentication.userAuthentication.Dto.Request.ResetPasswordRequest;
 import com.authentication.userAuthentication.Entity.EmailDetails;
 import com.authentication.userAuthentication.Entity.User;
 import com.authentication.userAuthentication.Entity.VerificationCodeEntity;
+import com.authentication.userAuthentication.Exceptions.UserNotFoundException;
 import com.authentication.userAuthentication.Service.AuthService;
 import com.authentication.userAuthentication.Service.EmailService;
 
@@ -126,5 +129,30 @@ public class EmailController {
         }
     }
     
+// <-----------FORGOT PASSWORD----------->    
 
+@PostMapping("/forgot-password")
+public ResponseEntity<String> initiateForgotPassword(@RequestBody ForgotPasswordRequest request) {
+    emailService.initiateForgotPassword(request.getEmail());
+    return ResponseEntity.ok("Reset link sent successfully.");
+}
+
+
+  @GetMapping("/verify-forgot-code")
+  public ResponseEntity<String> verifyForgotCode(
+          @RequestParam("email") String email,
+          @RequestParam("code") String code) {
+      if (emailService.isForgotCodeValid(email, code)) {
+          return ResponseEntity.ok("Code is valid.");
+      } else {
+          return ResponseEntity.badRequest().body("Invalid Code.");
+      }
+  }
+
+  @PostMapping("/reset-password")
+  public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequest request) {
+      emailService.resetPassword(request.getEmail(), request.getCode(), request.getNewPassword());
+      return ResponseEntity.ok("Password reset successfully.");
+  }
+  
 }
