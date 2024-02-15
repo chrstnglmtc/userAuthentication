@@ -385,4 +385,18 @@ public void storeEnteredCode(String verificationCode, String enteredCode) {
         }
     }
     
+    public void updatePassword(String userEmail, String newPassword) {
+        // Find the user by email
+        User user = userRepo.findByEmail(userEmail);
+    
+        if (user != null) {
+            // Update the user's password with the hashed password
+            user.setPassword(newPassword);
+            userRepo.save(user);
+        } else {
+            // Handle the case where the user is not found
+            throw new UserNotFoundException("User not found for email: " + userEmail);
+        }
+    }
+    
 }

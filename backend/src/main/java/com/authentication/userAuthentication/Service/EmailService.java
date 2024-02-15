@@ -56,6 +56,8 @@ public interface EmailService {
 
     void initiateForgotPassword(String email);
 
+    void updatePassword(String userEmail, String newPassword)
+
     
 
 
