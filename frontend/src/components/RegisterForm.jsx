@@ -10,9 +10,8 @@ function RegisterForm() {
   const [userName, setUserName] = useState('');
   const [role, setRole] = useState(''); // Default to 'STUDENT'
   const [error, setError] = useState('');
-  const [showError, setShowError] = useState(false); // State to control visibility of the error message
-  const [verificationCodeSent, setVerificationCodeSent] = useState(false); // New state variable
-
+  const [showError, setShowError] = useState(false);
+  const [verificationCodeSent, setVerificationCodeSent] = useState(false);
   const navigate = useNavigate();
 
   const validateEmail = (email) => {
@@ -23,9 +22,7 @@ function RegisterForm() {
   const validatePassword = (password) => {
     const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,}$/;
     const isValid = passwordRegex.test(password);
-
     setError(isValid ? '' : 'Password must be at least 8 characters with at least 1 uppercase, 1 numeric, and 1 symbol.');
-
     return isValid;
   };
 
@@ -40,32 +37,37 @@ function RegisterForm() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
-  
+
     if (!validateEmail(email) || !validatePassword(password)) {
       return;
     }
-  
+
     try {
-      // Map Role to corresponding role enum value
       const mappedRole = role === 'INSTRUCTOR' ? 'INSTRUCTOR' : 'STUDENT';
       console.log('Selected Role:', role);
       console.log('Mapped role:', mappedRole);
+
+      console.log('Email:', email);
+      console.log('Password:', password);
+      console.log('FirstName:', firstName);
+      console.log('LastName:', lastName);
+      console.log('UserName:', userName);
+      console.log('Role:', mappedRole);
+
       const response = await fetch('http://localhost:8085/api/v1/auth/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password, firstName, lastName, userName, role: mappedRole }), // Use the mapped role
+        body: JSON.stringify({ email, password, firstName, lastName, userName, role: mappedRole }),
       });
-  
+
       if (response.ok) {
         console.log('Registration successful');
-        // Store the email in local storage
         localStorage.setItem('email', email);
         setVerificationCodeSent(true);
-        navigate('/verify'); // Include email as a query parameter
+        navigate('/verify');
       } else {
-        // Handle error response
         const data = response.headers.get('Content-Type')?.includes('application/json') ? await response.json() : null;
         if (response.status === 409) {
           console.error('User already exists');
@@ -80,12 +82,73 @@ function RegisterForm() {
       setError('Registration failed. Please try again.');
     }
   };
-  
+
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       handleRegister(e);
     }
   };
+
+  const checkEmailAvailability = async () => {
+    try {
+      const response = await fetch('http://localhost:8085/api/v1/auth/check-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+  
+      if (response.ok) {
+        console.log('Email is available');
+        setError(''); // Reset error state
+        setShowError(false); // Reset showError state
+      } else if (response.status === 409) {
+        console.error('Email already exists');
+        setError('Email already exists');
+        setShowError(true);
+      } else {
+        console.error('Error checking email availability');
+        setError('Error checking email availability');
+        setShowError(true);
+      }
+    } catch (error) {
+      console.error('Error during email availability check:', error);
+      setError('Error during email availability check');
+      setShowError(true);
+    }
+  };
+  
+  const checkUsernameAvailability = async () => {
+    try {
+      const response = await fetch('http://localhost:8085/api/v1/auth/check-username', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username: userName }),
+      });
+  
+      if (response.ok) {
+        console.log('Username is available');
+        setError(''); // Reset error state
+        setShowError(false); // Reset showError state
+      } else if (response.status === 409) {
+        console.error('Username already exists');
+        setError('Username already exists');
+        setShowError(true);
+      } else {
+        console.error('Error checking username availability');
+        setError('Error checking username availability');
+        setShowError(true);
+      }
+    } catch (error) {
+      console.error('Error during username availability check:', error);
+      setError('Error during username availability check');
+      setShowError(true);
+    }
+  };
+  
 
   return (
     <form onSubmit={handleRegister} className="template-form">
@@ -105,6 +168,7 @@ function RegisterForm() {
           id="username"
           value={userName}
           onChange={(e) => setUserName(e.target.value)}
+          onBlur={checkUsernameAvailability}
           placeholder={`Username (${role === 'Admin' ? 'Admin' : role})`}
           required
         />
@@ -139,6 +203,7 @@ function RegisterForm() {
         id="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
+        onBlur={checkEmailAvailability}
         placeholder="Email Address"
         required
       />
@@ -147,17 +212,17 @@ function RegisterForm() {
         id="password"
         value={password}
         onChange={handlePasswordChange}
-        onKeyPress={handleKeyPress} 
+        onKeyPress={handleKeyPress}
         placeholder="Password"
         required
       />
-        <div className="data-validation">
-          {showError && (
-            <label style={{ color: 'red', fontSize: '15px', fontWeight: '700', transition: 'color 0.3s' }}>
-              {error}
-            </label>
-          )}
-        </div>
+      <div className="data-validation">
+        {showError && (
+          <label style={{ color: 'red', fontSize: '15px', fontWeight: '700', transition: 'color 0.3s' }}>
+            {error}
+          </label>
+        )}
+      </div>
       <div>
         <h3 style={{ fontSize: '15px' }}>By clicking Sign up you agree to our Terms of Use and our Privacy Policy.</h3>
       </div>

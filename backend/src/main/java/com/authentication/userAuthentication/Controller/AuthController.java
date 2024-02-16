@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.authentication.userAuthentication.Dto.Request.CheckAvailabilityRequest;
+import com.authentication.userAuthentication.Dto.Request.CheckAvailabilityRequest;
 import com.authentication.userAuthentication.Dto.Request.ForgotPasswordRequest;
 import com.authentication.userAuthentication.Dto.Request.JwtDto;
 import com.authentication.userAuthentication.Dto.Request.ResetPasswordRequest;
@@ -156,6 +158,48 @@ public ResponseEntity<User> getUserData() {
         List<User> users = userRepo.findAll();
         return ResponseEntity.ok(users);
     }
+
+// <-----------CHECK USERNAME IF AVAILABLE OR NOT----------->    
+@PostMapping("/check-username")
+    public ResponseEntity<Void> checkUsernameAvailability(@RequestBody CheckAvailabilityRequest request) {
+        try {
+            String username = request.getUsername();
+            System.out.println("Received username: " + username);
+
+            if (userRepo.existsByUserName(username)) {
+                System.out.println("Username already exists");
+                return ResponseEntity.status(HttpStatus.CONFLICT).build(); // Username already exists
+            } else {
+                System.out.println("Username is available");
+                return ResponseEntity.ok().build(); // Username is available
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+// <-----------CHECK EMAIL IF AVAILABLE OR NOT----------->  
+    @PostMapping("/check-email")
+    public ResponseEntity<Void> checkEmailAvailability(@RequestBody CheckAvailabilityRequest request) {
+        try {
+            String email = request.getEmail();
+            System.out.println("Received email: " + email);
+
+            if (userRepo.existsByEmail(email)) {
+                System.out.println("Email already exists");
+                return ResponseEntity.status(HttpStatus.CONFLICT).build(); // Email already exists
+            } else {
+                System.out.println("Email is available");
+                return ResponseEntity.ok().build(); // Email is available
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+
 
 // <-----------GET USER ENDPOINT----------->
     @GetMapping("/users/{userId}")

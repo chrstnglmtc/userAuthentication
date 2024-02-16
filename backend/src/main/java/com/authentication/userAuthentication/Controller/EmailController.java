@@ -142,7 +142,6 @@ public ResponseEntity<String> initiateForgotPassword(@RequestBody ForgotPassword
     return ResponseEntity.ok("Reset link sent successfully.");
 }
 
-
   @GetMapping("/verify-forgot-code")
   public ResponseEntity<String> verifyForgotCode(
           @RequestParam("email") String email,
