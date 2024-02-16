@@ -1,6 +1,4 @@
-/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import { useAuth } from "./AuthContext"; // Adjust the path accordingly
 import '../Auth.css';
 import Login from "./Login";
@@ -48,8 +46,9 @@ const CustomModal = ({ show, handleClose, children }) => {
     </>
   );
 };
+
 const Navigation = () => {
-  const { isLoggedIn, handleLogout } = useAuth();
+  const { isLoggedIn } = useAuth();
   const [loginModalIsOpen, setLoginModalIsOpen] = useState(false);
   const [registerModalIsOpen, setRegisterModalIsOpen] = useState(false);
 
@@ -65,26 +64,10 @@ const Navigation = () => {
         <div className="logo-container">
           <img
             src="/assets/images/companyLogo.png"
-           alt="Logo"
+            alt="Logo"
             className="logo"
           />
         </div>
-        {isLoggedIn && (
-          <nav>
-            <ul>
-              <li>
-                <Link to="/">
-                  <h3>Catalog</h3>
-                </Link>
-              </li>
-              <li>
-                <Link to="/">
-                  <h3>Activities</h3>
-                </Link>
-              </li>
-            </ul>
-          </nav>
-        )}
       </div>
       <div className="right-container">
         {!isLoggedIn && (
@@ -97,11 +80,7 @@ const Navigation = () => {
             </CustomModal>
           </>
         )}
-        {isLoggedIn ? (
-          <button className="TeamA-button" onClick={handleLogout}>
-            Logout
-          </button>
-        ) : (
+        {!isLoggedIn && (
           <>
             <button className="TeamA-button" onClick={openLoginModal}>
               Login
@@ -117,4 +96,3 @@ const Navigation = () => {
 };
 
 export default Navigation;
-

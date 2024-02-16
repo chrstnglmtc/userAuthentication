@@ -103,6 +103,7 @@ function App() {
       <Route path="/register" element={<Register />} />
       <Route path="/forgot" element={<Forgot />} />
       <Route path="/email" element={<Email />} />
+      <Route path="/new" element={<PrivateRoute element={<NewPass />} />} />
 
       {/* Protected Routes */}
       <Route path="/dashboard" element={<PrivateRoute element={<Dashboard />} />} />
@@ -111,7 +112,6 @@ function App() {
       <Route path="/navigation" element={<PrivateRoute element={<Navigation />} />} />
       <Route path="/change" element={<PrivateRoute element={<ChangePassword />} />} />
       <Route path="/about" element={<PrivateRoute element={<About />} />} />
-      <Route path="/new" element={<PrivateRoute element={<NewPass />} />} />
 
       {/* Verification Route */}
       <Route

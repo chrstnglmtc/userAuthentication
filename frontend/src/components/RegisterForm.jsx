@@ -12,8 +12,13 @@ function RegisterForm() {
   const [error, setError] = useState('');
   const [showError, setShowError] = useState(false); // State to control visibility of the error message
   const [verificationCodeSent, setVerificationCodeSent] = useState(false); // New state variable
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   const navigate = useNavigate();
+
+  const handleProceed = () => {
+    navigate('/verify');
+  };
 
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -63,7 +68,7 @@ function RegisterForm() {
         // Store the email in local storage
         localStorage.setItem('email', email);
         setVerificationCodeSent(true);
-        navigate('/verify'); // Include email as a query parameter
+        setShowSuccessMessage(true);
       } else {
         // Handle error response
         const data = response.headers.get('Content-Type')?.includes('application/json') ? await response.json() : null;
@@ -88,6 +93,7 @@ function RegisterForm() {
   };
 
   return (
+    <div className="register-form-container"> {/* Container for the entire form */}
     <form onSubmit={handleRegister} className="template-form">
       <Link to="/">
         <div className="qBackbutton">
@@ -161,11 +167,6 @@ function RegisterForm() {
       <div>
         <h3 style={{ fontSize: '15px' }}>By clicking Sign up you agree to our Terms of Use and our Privacy Policy.</h3>
       </div>
-      {verificationCodeSent && (
-        <div style={{ backgroundColor: 'lightgreen', padding: '10px', borderRadius: '5px', marginTop: '10px' }}>
-          <span style={{ color: 'green' }}>✓</span> Verification code has been sent to your email. Please check your inbox.
-        </div>
-      )}
       <Link to="/login">
         <div className="existing-account">
           Already have an account?
@@ -173,6 +174,17 @@ function RegisterForm() {
       </Link>
       <button className="TeamA-button" style={{ backgroundColor: '#126912' }}>Sign Up</button>
     </form>
+    {showSuccessMessage && (
+      <React.Fragment>
+        <div className="modal-overlay"></div>
+        <div className="success-popup">
+          <p>Registration Successful. Verification Code Sent to Email.</p>
+          <button onClick={handleProceed}>Proceed</button>
+        </div>
+      </React.Fragment>
+    )}
+  </div>
+
   );
 }
 

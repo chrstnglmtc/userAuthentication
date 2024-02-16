@@ -115,34 +115,50 @@ const handleInputChange = (e, isFile = false) => {
 };
   
 
-  const handleProfilePictureUpload = async () => {
-    try {
+const handleProfilePictureUpload = async () => {
+  try {
       const userId = localStorage.getItem('userId');
       const authToken = localStorage.getItem('authToken');
+
+      // Check if profile picture is selected
+      if (!updateData.profilePicture) {
+          console.error('No profile picture selected');
+          // Show an error message or handle it as needed
+          return;
+      }
+
+      // Check file size
+      const maxFileSize = 65 * 1024; // 65 KB in bytes
+      if (updateData.profilePicture.size > maxFileSize) {
+          console.error('File size exceeds the allowed limit (65 KB)');
+          // Show a pop-up message
+          alert('File is too large. Please select another picture.');
+          return;
+      }
 
       const formData = new FormData();
       formData.append('userId', userId);
       formData.append('file', updateData.profilePicture);
 
       const response = await fetch(`http://localhost:8085/api/v1/auth/upload-pp`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${authToken}`,
-        },
-        body: formData,
+          method: 'POST',
+          headers: {
+              'Authorization': `Bearer ${authToken}`,
+          },
+          body: formData,
       });
 
       if (response.ok) {
-        console.log('Profile picture uploaded successfully');
+          console.log('Profile picture uploaded successfully');
       } else {
-        console.error('Profile picture upload failed', response.status, response.statusText);
-        // Handle the error as needed
+          console.error('Profile picture upload failed', response.status, response.statusText);
+          // Handle the error as needed
       }
-    } catch (error) {
+  } catch (error) {
       console.error('Unexpected error during profile picture upload', error);
       // Handle unexpected errors
-    }
-  };
+  }
+};
 
   const handleUpdate = async () => {
     try {

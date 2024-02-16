@@ -1,8 +1,11 @@
 package com.authentication.userAuthentication.Controller;
 
+import com.authentication.userAuthentication.Dto.Request.ForgotPasswordRequest;
+import com.authentication.userAuthentication.Dto.Request.ResetPasswordRequest;
 import com.authentication.userAuthentication.Entity.EmailDetails;
 import com.authentication.userAuthentication.Entity.User;
 import com.authentication.userAuthentication.Entity.VerificationCodeEntity;
+import com.authentication.userAuthentication.Exceptions.UserNotFoundException;
 import com.authentication.userAuthentication.Service.AuthService;
 import com.authentication.userAuthentication.Service.EmailService;
 
@@ -13,6 +16,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +33,10 @@ public class EmailController {
 
     @Autowired
     private EmailService emailService;
+    
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @PostMapping("/sendMail")
     public String sendMail(@RequestBody EmailDetails details) {
@@ -126,5 +134,33 @@ public class EmailController {
         }
     }
     
+// <-----------FORGOT PASSWORD----------->    
 
+@PostMapping("/forgot-password")
+public ResponseEntity<String> initiateForgotPassword(@RequestBody ForgotPasswordRequest request) {
+    emailService.initiateForgotPassword(request.getEmail());
+    return ResponseEntity.ok("Reset link sent successfully.");
+}
+
+
+  @GetMapping("/verify-forgot-code")
+  public ResponseEntity<String> verifyForgotCode(
+          @RequestParam("email") String email,
+          @RequestParam("code") String code) {
+      if (emailService.isForgotCodeValid(email, code)) {
+          return ResponseEntity.ok("Code is valid.");
+      } else {
+          return ResponseEntity.badRequest().body("Invalid Code.");
+      }
+  }
+
+  @PostMapping("/reset-password")
+  public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequest request) {
+      emailService.resetPassword(request.getEmail(), request.getCode(), request.getNewPassword());
+      String hashedPassword = passwordEncoder.encode(request.getNewPassword());
+      emailService.updatePassword(request.getEmail(), hashedPassword);
+      return ResponseEntity.ok("Password reset successfully.");
+  }
+  
+  
 }
