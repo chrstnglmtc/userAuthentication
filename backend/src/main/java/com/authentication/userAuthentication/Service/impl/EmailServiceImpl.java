@@ -2,8 +2,12 @@ package com.authentication.userAuthentication.Service.impl;
 
 import com.authentication.userAuthentication.Entity.EmailDetails;
 import com.authentication.userAuthentication.Entity.ForgotCodeEntity;
+import com.authentication.userAuthentication.Entity.ForgotCodeEntity;
 import com.authentication.userAuthentication.Entity.User;
 import com.authentication.userAuthentication.Entity.VerificationCodeEntity;
+import com.authentication.userAuthentication.Exceptions.UserNotFoundException;
+import com.authentication.userAuthentication.Exceptions.VerificationCodeException;
+import com.authentication.userAuthentication.Repo.ForgotCodeRepo;
 import com.authentication.userAuthentication.Exceptions.UserNotFoundException;
 import com.authentication.userAuthentication.Exceptions.VerificationCodeException;
 import com.authentication.userAuthentication.Repo.ForgotCodeRepo;
@@ -27,13 +31,11 @@ import jakarta.transaction.Transactional;
 import java.io.File;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
-
 
 @Service
 public class EmailServiceImpl implements EmailService {
@@ -50,9 +52,8 @@ public class EmailServiceImpl implements EmailService {
     @Autowired
     private ForgotCodeRepo forgotCodeRepo;
 
-
     @Autowired
-    private VerificationCodeRepo verificationCodeRepo; // Inject your VerificationCodeRepo
+    private VerificationCodeRepo verificationCodeRepo;
 
     @Value("${spring.mail.username}")
     private String sender;
@@ -61,7 +62,6 @@ public class EmailServiceImpl implements EmailService {
     private final Map<String, String> enteredCodeStorage = new HashMap<>();
     private final Map<String, VerificationCodeEntity> verificationCodeMap = new ConcurrentHashMap<>();
     private final Map<String, String> passwordResetCodes = new ConcurrentHashMap<>();
-
 
     @Override
     public String sendSimpleMail(EmailDetails details) {
@@ -107,6 +107,7 @@ public class EmailServiceImpl implements EmailService {
     public String generateAndStoreVerificationCode(String userEmail) {
         return generateAndStoreVerificationCode(userEmail, getDefaultExpirationTimeInMillis());
     }
+
     @Override
     @Transactional
     public String generateAndStoreVerificationCode(String userEmail, Long expirationTimeInMillis) {
@@ -210,6 +211,7 @@ public class EmailServiceImpl implements EmailService {
     public String getEnteredCodeForUser(String verificationCode) {
         return enteredCodeStorage.getOrDefault(verificationCode, "");
     }
+
     @Override
     @Transactional
     public String resendVerificationCode(String userEmail) {
@@ -255,12 +257,12 @@ public void storeEnteredCode(String verificationCode, String enteredCode) {
     enteredCodeStorage.put(verificationCode, enteredCode);
 }
 
-
     @Override
     public String getStoredCode(String userEmail) {
         return generatedCodeStorage.getOrDefault(userEmail, "");
     }
 
+    @Override
     public void saveVerificationCode(VerificationCodeEntity verificationCodeEntity) {
         verificationCodeRepo.save(verificationCodeEntity);
     }
@@ -290,6 +292,7 @@ public void storeEnteredCode(String verificationCode, String enteredCode) {
         return String.format("%06d", random.nextInt(999999));
     }
 
+    @Override
     public void initiateForgotPassword(String email) {
         // Check if the user with the provided email exists
         User user = userRepo.findByEmail(email);
@@ -359,7 +362,7 @@ public void storeEnteredCode(String verificationCode, String enteredCode) {
     }
     
     
-    @Override
+   /*  @Override
     @Transactional
     public void resetPassword(String userEmail, String forgotCode, String newPassword) {
         // Find the user by email
@@ -383,8 +386,10 @@ public void storeEnteredCode(String verificationCode, String enteredCode) {
             // Handle the case where the user is not found
             throw new UserNotFoundException("User not found for email: " + userEmail);
         }
-    }
+    }*/
     
+    @Override
+    @Transactional
     public void updatePassword(String userEmail, String newPassword) {
         // Find the user by email
         User user = userRepo.findByEmail(userEmail);
@@ -398,5 +403,10 @@ public void storeEnteredCode(String verificationCode, String enteredCode) {
             throw new UserNotFoundException("User not found for email: " + userEmail);
         }
     }
-    
+
+    @Override
+    public void resetPassword(String userEmail, String verificationCode, String newPassword) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'resetPassword'");
+    }
 }

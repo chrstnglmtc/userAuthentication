@@ -11,8 +11,13 @@ function RegisterForm() {
   const [role, setRole] = useState(''); // Default to 'STUDENT'
   const [error, setError] = useState('');
   const [showError, setShowError] = useState(false);
-  const [verificationCodeSent, setVerificationCodeSent] = useState(false);
+  const [verificationCodeSent, setVerificationCodeSent] = useState(false);  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+
   const navigate = useNavigate();
+
+  const handleProceed = () => {
+    navigate('/verify');
+  };
 
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -151,6 +156,7 @@ function RegisterForm() {
   
 
   return (
+    <div className="register-form-container"> {/* Container for the entire form */}
     <form onSubmit={handleRegister} className="template-form">
       <Link to="/">
         <div className="qBackbutton">
@@ -226,11 +232,6 @@ function RegisterForm() {
       <div>
         <h3 style={{ fontSize: '15px' }}>By clicking Sign up you agree to our Terms of Use and our Privacy Policy.</h3>
       </div>
-      {verificationCodeSent && (
-        <div style={{ backgroundColor: 'lightgreen', padding: '10px', borderRadius: '5px', marginTop: '10px' }}>
-          <span style={{ color: 'green' }}>✓</span> Verification code has been sent to your email. Please check your inbox.
-        </div>
-      )}
       <Link to="/login">
         <div className="existing-account">
           Already have an account?
@@ -238,6 +239,17 @@ function RegisterForm() {
       </Link>
       <button className="TeamA-button" style={{ backgroundColor: '#126912' }}>Sign Up</button>
     </form>
+    {showSuccessMessage && (
+      <React.Fragment>
+        <div className="modal-overlay"></div>
+        <div className="success-popup">
+          <p>Registration Successful. Verification Code Sent to Email.</p>
+          <button onClick={handleProceed}>Proceed</button>
+        </div>
+      </React.Fragment>
+    )}
+  </div>
+
   );
 }
 

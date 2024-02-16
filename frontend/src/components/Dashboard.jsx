@@ -9,6 +9,7 @@ import { enroll } from "../scripts/script";
 import CoursePreview from "./CoursePreview";
 import { Modal } from "react-bootstrap";
 
+
 const Dashboard = () => {
   const { isLoggedIn, handleLogout } = useAuth();
   const [showModal, setShowModal] = useState(false);

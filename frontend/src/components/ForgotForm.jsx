@@ -60,10 +60,10 @@ function TeamA_ForgotForm() {
       });
   
       if (response.ok) {
-        setVerificationStatus('Verification code sent successfully');
+        setVerificationAttempted('Verification code sent successfully');
         setError('');
       } else {
-        setVerificationStatus('');
+        setVerificationAttempted('');
         setError('Failed to send verification code');
       }
     } catch (error) {
@@ -74,31 +74,27 @@ function TeamA_ForgotForm() {
   // Function to verify the provided OTP
   const verifyOtp = async () => {
     try {
-        // Make API call to verify OTP for forgot password
-        const response = await fetch(`http://localhost:8085/api/v1/auth/verify-forgot-password?email=${email}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email, otp }),
-        });
-
-        if (response.ok) {
-            // Verification successful
-            setResetStatus('Verification successful'); // Corrected function name
-            console.log('Verification successful');
-            navigate('/new');
-            setError('');
-            // Add navigation logic here or any other action upon successful verification
-        } else {
-            setResetStatus('');
-            console.log('Verification not successful');
-            setError('OTP Code Invalid');
-        }
+      // Make API call to verify OTP for forgot password
+      const response = await fetch(`http://localhost:8085/api/v1/auth/verify-forgot-code?email=${email}&code=${otp}`, {
+        method: 'GET', // Use GET method for verifying OTP
+      });
+  
+      if (response.ok) {
+        // Verification successful
+        setResetStatus('Verification successful');
+        console.log('Verification successful');
+        navigate('/new');
+        setError('');
+        // Add navigation logic here or any other action upon successful verification
+      } else {
+        setResetStatus('');
+        console.log('Verification not successful');
+        setError('OTP Code Invalid');
+      }
     } catch (error) {
-        console.error('Error verifying OTP:', error);
+      console.error('Error verifying OTP:', error);
     }
-};
+  };
   
 
   return (
@@ -149,12 +145,11 @@ function TeamA_ForgotForm() {
           </Link>
 
           {/* Replace the "Send to Email" button with "Verify" button */}
-          
-        </form>
-         {/* Verify OTP button */}
-        <button className="TeamA-button" onClick={verifyOtp}>
+          <button className="TeamA-button" onClick={verifyOtp}>
             Verify
           </button>
+        </form>
+        
       </div>
 
       <div className="forgot left-panel">

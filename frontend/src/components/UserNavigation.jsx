@@ -1,42 +1,42 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-undef */
 import React, { useState, useEffect } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom"; // Import useNavigate
 import "../Auth.css";
 import TsukidenLogo from "/assets/images/companyLogo.png";
 import Dropdown from "react-bootstrap/Dropdown";
 import { FaRegUserCircle } from "react-icons/fa";
 import { TbCertificate } from "react-icons/tb";
-import { FiLogOut } from "react-icons/fi";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { useAuth } from "./AuthContext"; // Import useAuth from your AuthContext
+import { FiLogOut } from "react-icons/fi";
 
 // Function to get user image type
 function getUserImageType(profilePicture) {
-    // Check if profilePicture is defined and not null
-    if (profilePicture && profilePicture.startsWith) {
-      // Check the image type based on the data
-      const isPNG = profilePicture.startsWith('data:image/png;base64,');
-      const isJPEG = profilePicture.startsWith('data:image/jpeg;base64,');
-      
-      if (isPNG) {
-        return 'png';
-      } else if (isJPEG) {
-        return 'jpeg';
-      } else {
-        // Return a default type or handle accordingly
-        return 'unknown'; // You can change this to 'jpeg' or handle as needed
-      }
+  // Check if profilePicture is defined and not null
+  if (profilePicture && profilePicture.startsWith) {
+    // Check the image type based on the data
+    const isPNG = profilePicture.startsWith('data:image/png;base64,');
+    const isJPEG = profilePicture.startsWith('data:image/jpeg;base64,');
+    
+    if (isPNG) {
+      return 'png';
+    } else if (isJPEG) {
+      return 'jpeg';
     } else {
       // Return a default type or handle accordingly
       return 'unknown'; // You can change this to 'jpeg' or handle as needed
     }
+  } else {
+    // Return a default type or handle accordingly
+    return 'unknown'; // You can change this to 'jpeg' or handle as needed
   }
+}
 
 const UserNavigation = ({ onUserDataFetched, openModal }) => {
   const { isLoggedIn, handleLogout } = useAuth();
   const [clicked, setClicked] = useState(false);
   const [userData, setUserData] = useState({});
+  const [showLogoutConfirmationModal, setShowLogoutConfirmationModal] = useState(false);
+  const navigate = useNavigate(); // Use useNavigate instead of useHistory
 
   const handleClick = () => {
     setClicked(!clicked);
@@ -116,6 +116,26 @@ const UserNavigation = ({ onUserDataFetched, openModal }) => {
       document.body.style.overflow = "";
     };
   }, [clicked]);
+
+  const openLogoutConfirmationModal = () => {
+    setShowLogoutConfirmationModal(true);
+  };
+
+  const handleConfirmLogout = () => {
+    handleLogout();
+    setShowLogoutConfirmationModal(false);
+    navigate("/"); // Use navigate function to redirect
+  };
+
+  const handleCloseLogoutConfirmationModal = () => {
+    setShowLogoutConfirmationModal(false);
+  };
+
+  const handleOverlayClick = (event) => {
+    if (event.target.classList.contains('logoutmodal-overlay')) {
+      setShowLogoutConfirmationModal(false);
+    }
+  };
 
   return (
     <>
@@ -226,7 +246,7 @@ const UserNavigation = ({ onUserDataFetched, openModal }) => {
                 >
                   <TbCertificate /> My Certificate
                 </Dropdown.Item>
-                <Dropdown.Item as={NavLink} to="/" onClick={handleLogout}>
+                <Dropdown.Item onClick={openLogoutConfirmationModal}>
                   <FiLogOut /> Log Out
                 </Dropdown.Item>
               </Dropdown.Menu>
@@ -243,6 +263,18 @@ const UserNavigation = ({ onUserDataFetched, openModal }) => {
           )}
         </div>
       </nav>
+      {showLogoutConfirmationModal && (
+        <div className="logoutmodal-overlay" onClick={handleOverlayClick}>
+          <div className="logoutmodal">
+            <h2>Logout Confirmation</h2>
+            <p>Are you sure you want to log out?</p>
+            <div>
+              <button onClick={handleConfirmLogout}>Yes</button>
+              <button onClick={handleCloseLogoutConfirmationModal}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

@@ -324,12 +324,12 @@ public ResponseEntity<User> updateUser(@PathVariable Long userId, @RequestBody U
 //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error during verification");
 //     }
 // }
+@GetMapping("/checkRegisteredEmail")
+public ResponseEntity<Boolean> checkRegisteredEmail(@RequestParam String email) {
+    boolean isEmailRegistered = userRepo.existsByEmail(email);
+    return ResponseEntity.ok(isEmailRegistered);
+}
 
-//     @GetMapping("/checkRegisteredEmail")
-//     public ResponseEntity<User> checkRegisteredEmail(@RequestParam String email) {
-//         User isEmailRegistered = userRepo.findByEmail(email);
-//         return ResponseEntity.ok(isEmailRegistered);
-//     }
 // <-----------OLD FORGOT PASSWORD----------->
 
 
