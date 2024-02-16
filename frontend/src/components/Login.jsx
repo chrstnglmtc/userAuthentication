@@ -8,43 +8,18 @@ import '../Auth.css';
  */
 function Login() {
 
+
   return (
-    <div className="auth-container">
-        {/* Header with company logo */}
-      <div className="home-header">
-        
-        <img
-          src="/assets/images/companyLogo.png" 
-          alt="Logo"
-          className="logo"
-        />
-      </div>
-      
-       {/* Navigation section */}
-      <div className="auth-navi">
-        <div className="home-button">
-            {/* Link to the Home page */}
-          <Link to="/">
-          
-            <button className='login-button'>Home</button>
-           
-          </Link>
-        </div>
-      </div>
-      {/* Main content container */}
-      <div style={{display: "flex", justifyContent: "center"}}>
-      <div style={{display: "flex", flexDirection: "column", alignItems: "start", }}>
-        
-         {/* Authentication label */}
-      <div>
+    
+    <div>
+      <div className="label-container">
+        <div className="container-under">
         <div className="auth-label">
           <h1>LOG IN</h1>
         </div>
-      </div>
-         {/* Authentication content */}
+     
       <div className="auth-content">
         <div className="auth-sign">
-          {/* LoginForm component */}
           <LoginForm />
         </div>
       </div>
