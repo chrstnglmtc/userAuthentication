@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-
+/**
+ * Functional component representing the 'Forgot Password' form for TeamA.
+ */
 function TeamA_ForgotForm() {
+   // State variables for email, reset status, OTP, verification attempt, and error handling
   const [email, setEmail] = useState('');
   const [resetStatus, setResetStatus] = useState('');
   const [otp, setOtp] = useState('');
@@ -44,7 +47,7 @@ function TeamA_ForgotForm() {
       setResetStatus('Error during email check. Please try again.');
     }
   };
-  
+  // Function to send OTP to the provided email
   const sendOtp = async () => {
     try {
       // Make API call to trigger sending OTP to email
@@ -67,7 +70,8 @@ function TeamA_ForgotForm() {
       console.error('Error sending OTP:', error);
     }
   };
-  
+
+  // Function to verify the provided OTP
   const verifyOtp = async () => {
     try {
       // Make API call to verify OTP for forgot password
@@ -95,8 +99,11 @@ function TeamA_ForgotForm() {
 
   return (
     <div className="forgot-container">
+      {/* Left panel for content (assuming the styles are defined in "left-panel" class) */}
       <div className="template-form-container">
+          {/* Form with forgot password functionality */}
         <form className="template-form" onSubmit={handleFormSubmit}>
+          {/* Back button linking to the login page */}
           <Link to="/login">
             <button className="wBackbutton">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-left" viewBox="0 0 16 16">
@@ -106,6 +113,7 @@ function TeamA_ForgotForm() {
           </Link>
           <h2 className="title">Forgot Password</h2>
           <p>Please enter your email address to reset your password.</p>
+           {/* Email input field */}
           <div className="email-input-field">
             <i className="fas fa-envelope"></i>
             <input
@@ -116,6 +124,7 @@ function TeamA_ForgotForm() {
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
+           {/* OTP input field and send button */}
           <div className="otp-input-field">
             <i className="fas fa-key"></i>
             <input

@@ -2,8 +2,12 @@ package com.authentication.userAuthentication.Service.impl;
 
 import com.authentication.userAuthentication.Entity.EmailDetails;
 import com.authentication.userAuthentication.Entity.ForgotCodeEntity;
+import com.authentication.userAuthentication.Entity.ForgotCodeEntity;
 import com.authentication.userAuthentication.Entity.User;
 import com.authentication.userAuthentication.Entity.VerificationCodeEntity;
+import com.authentication.userAuthentication.Exceptions.UserNotFoundException;
+import com.authentication.userAuthentication.Exceptions.VerificationCodeException;
+import com.authentication.userAuthentication.Repo.ForgotCodeRepo;
 import com.authentication.userAuthentication.Exceptions.UserNotFoundException;
 import com.authentication.userAuthentication.Exceptions.VerificationCodeException;
 import com.authentication.userAuthentication.Repo.ForgotCodeRepo;
@@ -44,6 +48,10 @@ public class EmailServiceImpl implements EmailService {
 
     @Autowired
     private UserRepo userRepo;
+
+
+    @Autowired
+    private ForgotCodeRepo forgotCodeRepo;
 
     @Autowired
     private ForgotCodeRepo forgotCodeRepo;
@@ -188,6 +196,21 @@ public class EmailServiceImpl implements EmailService {
         sendSimpleMail(emailDetails);
     }
 
+
+    @Override
+    public void sendForgotCodeViaEmail(String userEmail, String forgotCode) {
+        // Implement the logic to send the forgot code via email
+        // You can use the injected JavaMailSender or any other email sending mechanism
+        // Include the user's email address, subject, and the generated forgot code in the email
+        // Example:
+        EmailDetails emailDetails = new EmailDetails();
+        emailDetails.setRecipient(userEmail);
+        emailDetails.setSubject("Forgot Code");
+        emailDetails.setMsgBody("Your forgot code is: " + forgotCode);
+
+        sendSimpleMail(emailDetails);
+    }
+
     @Override
     public boolean isVerificationCodeExpired(String email) {
         VerificationCodeEntity verificationCodeEntity = verificationCodeMap.get(email);
@@ -248,10 +271,10 @@ public class EmailServiceImpl implements EmailService {
         return generateRandomCode();
     }
 
-    @Override
-    public void storeEnteredCode(String verificationCode, String enteredCode) {
-        enteredCodeStorage.put(verificationCode, enteredCode);
-    }
+@Override
+public void storeEnteredCode(String verificationCode, String enteredCode) {
+    enteredCodeStorage.put(verificationCode, enteredCode);
+}
 
     @Override
     public String getStoredCode(String userEmail) {
