@@ -103,7 +103,7 @@ function App() {
       <Route path="/register" element={<Register />} />
       <Route path="/forgot" element={<Forgot />} />
       <Route path="/email" element={<Email />} />
-      <Route path="/new" element={<PrivateRoute element={<NewPass />} />} />
+      <Route path="/new" element={<NewPass />}/>
 
       {/* Protected Routes */}
       <Route path="/dashboard" element={<PrivateRoute element={<Dashboard />} />} />

@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "./AuthContext"; // Adjust the path accordingly
 import '../Auth.css';
-
-/**
- * Navigation component.
- */
 import Login from "./Login";
 import Register from "./Register";
 
@@ -51,7 +47,6 @@ const CustomModal = ({ show, handleClose, children }) => {
   );
 };
 
-
 const Navigation = () => {
   const { isLoggedIn } = useAuth();
   const [loginModalIsOpen, setLoginModalIsOpen] = useState(false);
@@ -96,7 +91,7 @@ const Navigation = () => {
           </>
         )}
       </div>
-    </nav>
+    </div>
   );
 };
 
