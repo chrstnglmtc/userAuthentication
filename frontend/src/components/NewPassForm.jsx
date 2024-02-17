@@ -50,7 +50,7 @@ function NewPassForm() {
         <label htmlFor="newPassword">
           <i className="fas fa-envelope"></i>
         </label>
-        <div className="email-input-field">
+        <div className="pw-input-field">
           <input
             type={showPassword ? 'text' : 'password'}
             placeholder="Enter New Password here*"
@@ -62,10 +62,10 @@ function NewPassForm() {
             required
           />
           <button type="button" className="toggle-button" onClick={handleTogglePassword}>
-            {showPassword ? 'Hide' : 'Show'}
+            <i className={showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'}></i>
           </button>
         </div>
-        <div className="email-input-field">
+        <div className="pw-input-field">
           <input
             type={showPassword ? 'text' : 'password'}
             placeholder="Confirm New Password*"
