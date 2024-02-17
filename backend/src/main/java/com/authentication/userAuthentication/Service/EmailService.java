@@ -1,6 +1,7 @@
 package com.authentication.userAuthentication.Service;
 
 import com.authentication.userAuthentication.Entity.EmailDetails;
+import com.authentication.userAuthentication.Entity.User;
 import com.authentication.userAuthentication.Entity.VerificationCodeEntity;
 
 import java.time.LocalDateTime;
@@ -58,7 +59,7 @@ public interface EmailService {
 
     void updatePassword(String userEmail, String newPassword);
 
-    
+    void updateForgotCode(User user, String newForgotCode, Long forgotExpirationTimeInMillis);
 
 
 }

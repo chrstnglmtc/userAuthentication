@@ -23,17 +23,52 @@ function NewPassForm() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
+    // Retrieve email and verification code from local storage
+    const resetEmail = localStorage.getItem('resetEmail');
+    const verificationCode = localStorage.getItem('verificationCode');
+  
     // Perform your form submission here
-    if (newPassword === confirmPassword && newPassword.trim() !== '') {
+    if (newPassword === confirmPassword && newPassword.trim() !== '' && resetEmail && verificationCode) {
       console.log('Password match! Submitting...');
-      // Add your logic for form submission.
+  
+      try {
+        const response = await fetch('http://localhost:8085/api/v1/auth/reset-password', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: resetEmail,
+            code: verificationCode,
+            newPassword,
+          }),
+        });
+  
+        if (response.ok) {
+          const result = await response.json();
+          console.log(result);  // Log the result from the server
+  
+          // Clear the items from local storage after successful reset
+          localStorage.removeItem('resetEmail');
+          localStorage.removeItem('verificationCode');
+  
+          // Add logic for handling successful password reset if needed
+        } else {
+          console.error('Failed to reset password');
+          // Add logic for handling failed password reset if needed
+        }
+      } catch (error) {
+        console.error('Error during password reset:', error);
+        // Add logic for handling error during password reset if needed
+      }
     } else {
-      console.error('Passwords do not match or are empty. Please check.');
+      console.error('Passwords do not match or are empty, or resetEmail/verificationCode is missing. Please check.');
     }
   };
+  
 
   return (
     <div className="email-forms-container" style={{ fontFamily: 'sans-serif' }}>

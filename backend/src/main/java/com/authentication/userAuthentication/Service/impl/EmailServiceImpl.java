@@ -61,7 +61,9 @@ public class EmailServiceImpl implements EmailService {
     private final Map<String, String> generatedCodeStorage = new HashMap<>();
     private final Map<String, String> enteredCodeStorage = new HashMap<>();
     private final Map<String, VerificationCodeEntity> verificationCodeMap = new ConcurrentHashMap<>();
-    private final Map<String, String> passwordResetCodes = new ConcurrentHashMap<>();
+    private final Map<String, String> passwordResetCodes = new HashMap<>();
+
+
 
     @Override
     public String sendSimpleMail(EmailDetails details) {
@@ -293,6 +295,33 @@ public void storeEnteredCode(String verificationCode, String enteredCode) {
     }
 
     @Override
+    @Transactional
+    public void updateForgotCode(User user, String newForgotCode, Long forgotExpirationTimeInMillis) {
+        // Fetch the existing forgot code entity for the user
+        Optional<ForgotCodeEntity> existingForgotCodeOptional = forgotCodeRepo.findByUser(user);
+    
+        if (existingForgotCodeOptional.isPresent()) {
+            // Update the existing forgot code entity
+            ForgotCodeEntity existingForgotCode = existingForgotCodeOptional.get();
+            existingForgotCode.setForgotCode(newForgotCode);
+            existingForgotCode.setForgotExpirationTimeInMillis(forgotExpirationTimeInMillis);
+            forgotCodeRepo.save(existingForgotCode);
+        } else {
+            // Create a new forgot code entity and save it
+            ForgotCodeEntity newForgotCodeEntity = new ForgotCodeEntity(user, newForgotCode,forgotExpirationTimeInMillis);
+            forgotCodeRepo.save(newForgotCodeEntity);
+        }
+    }
+
+    private long getDefaultForgotCodeExpirationTimeInMillis() {
+        // Implement this method to provide a default expiration time for forgot codes
+        // This could be based on some configuration or constant value
+        return System.currentTimeMillis() + (24 * 60 * 60 * 1000); // Example: expiration time is 24 hours from now
+    }
+
+    
+    @Override
+    @Transactional
     public void initiateForgotPassword(String email) {
         // Check if the user with the provided email exists
         User user = userRepo.findByEmail(email);
@@ -301,24 +330,41 @@ public void storeEnteredCode(String verificationCode, String enteredCode) {
             throw new UserNotFoundException("User not found for email: " + email);
         }
     
-        // Generate the forgot code
-        String forgotCode = generateForgotCode();
+        // Check if there's an existing forgot code
+        Optional<ForgotCodeEntity> existingForgotCode = forgotCodeRepo.findByUser(user);
+
+        String forgotCode;
+        long forgotExpirationTimeInMillis; // Declare it here
+
+        if (existingForgotCode.isPresent()) {
+            // Use the existing forgot code from memory
+            forgotCode = generateForgotCode();
+            forgotExpirationTimeInMillis = existingForgotCode.get().getForgotExpirationTimeInMillis(); // Retrieve from existing entity
+        } else {
+            // Generate a new forgot code
+            forgotCode = generateForgotCode();
+
+            // Create the forgot code entity
+            forgotExpirationTimeInMillis = getDefaultForgotCodeExpirationTimeInMillis(); // Use your default expiration time logic here
+
+            ForgotCodeEntity forgotCodeEntity = new ForgotCodeEntity(user, forgotCode, forgotExpirationTimeInMillis);
+
+            // Save the forgot code to the database
+            forgotCodeRepo.save(forgotCodeEntity);
+        }
+
     
-        // Create the forgot code entity
-        long expirationTimeInMillis = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
-        ForgotCodeEntity forgotCodeEntity = new ForgotCodeEntity(user, forgotCode, expirationTimeInMillis);
+        // Update the forgot code in memory and in the database
+        Map<String, Object> forgotCodeInfo = new HashMap<>();
+        forgotCodeInfo.put("code", forgotCode);
+        forgotCodeInfo.put("expirationTime", forgotExpirationTimeInMillis);
     
-        // Store the forgot code in memory
-        String userEmail = user.getEmail();
-        passwordResetCodes.put(userEmail, forgotCode);
-    
-        // Save the forgot code to the database
-        forgotCodeRepo.save(forgotCodeEntity);
+        passwordResetCodes.put(user.getEmail(), forgotCode);
+        updateForgotCode(user, forgotCode, forgotExpirationTimeInMillis);
     
         // Send the forgot code via email
-        sendForgotCodeViaEmail(userEmail, forgotCode);
+        sendForgotCodeViaEmail(user.getEmail(), forgotCode);
     }
-    
     
     @Override
     @Transactional
@@ -330,37 +376,40 @@ public void storeEnteredCode(String verificationCode, String enteredCode) {
     @Transactional
     public String generateAndStoreForgotCode(String userEmail, Long expirationTimeInMillis) {
         User user = userRepo.findByEmail(userEmail);
-
+    
         if (user != null) {
+            // Generate a new forgot code
             String generatedCode = generateRandomCode();
-
+    
             if (expirationTimeInMillis == null) {
-                expirationTimeInMillis = getDefaultExpirationTimeInMillis();
+                expirationTimeInMillis = getDefaultForgotCodeExpirationTimeInMillis();
             }
-
-            ForgotCodeEntity forgotCodeEntity = new ForgotCodeEntity(user, generatedCode, expirationTimeInMillis);
-            forgotCodeRepo.save(forgotCodeEntity);
-
+    
+            // Create or update the forgot code entity
+            updateForgotCode(user, generatedCode, expirationTimeInMillis);
+    
+            // Update the forgot code in memory
+            passwordResetCodes.put(userEmail, generatedCode);
+    
             return generatedCode;
         } else {
             return "User not found";
         }
     }
-
+    
     @Override
     @Transactional
     public boolean isForgotCodeValid(String userEmail, String enteredCode) {
         // Retrieve the stored code from the map
         String storedCode = passwordResetCodes.get(userEmail);
-    
+
         if (storedCode != null) {
             // Check if the entered code matches the stored code
             return enteredCode.equals(storedCode);
         }
-    
+
         return false;
     }
-    
     
    /*  @Override
     @Transactional
