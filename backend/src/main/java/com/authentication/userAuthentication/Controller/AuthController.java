@@ -326,9 +326,16 @@ public ResponseEntity<User> updateUser(@PathVariable Long userId, @RequestBody U
 // }
 @GetMapping("/checkRegisteredEmail")
 public ResponseEntity<Boolean> checkRegisteredEmail(@RequestParam String email) {
-    boolean isEmailRegistered = userRepo.existsByEmail(email);
-    return ResponseEntity.ok(isEmailRegistered);
+    try {
+        boolean isEmailRegistered = userRepo.existsByEmail(email);
+        return ResponseEntity.ok(isEmailRegistered);
+    } catch (Exception e) {
+        // Log the exception for debugging purposes
+        e.printStackTrace();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
 }
+
 
 // <-----------OLD FORGOT PASSWORD----------->
 
