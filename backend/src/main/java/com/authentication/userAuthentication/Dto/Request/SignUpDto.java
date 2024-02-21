@@ -4,9 +4,9 @@ import com.authentication.userAuthentication.Entity.Enums.Role;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import org.springframework.web.multipart.MultipartFile;
 
 public record SignUpDto(
         @Email String email,
@@ -14,16 +14,12 @@ public record SignUpDto(
         @NotBlank String firstName,
         @NotBlank String lastName,
         @NotBlank String userName,
-        Role role,
-        MultipartFile profilePicture
+        @NotBlank @Pattern(regexp = "09\\d{9}") String phoneNumber,
+        Role role
 ) {
     // Add a getter for email
     public String getEmail() {
         return email;
-    }
-
-    public MultipartFile getProfilePicture() {
-        return profilePicture;
     }
 
     public String getUserName() {
@@ -32,5 +28,9 @@ public record SignUpDto(
 
     public Role getRole() {
         return role;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 }

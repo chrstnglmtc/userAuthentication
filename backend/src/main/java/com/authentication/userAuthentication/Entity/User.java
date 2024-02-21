@@ -47,6 +47,9 @@ public class User implements UserDetails {
     @Column(unique = true) // Make sure emails are unique
     private String email;
 
+    @Column(unique = true) // Make sure phone numbers are unique
+    private String phoneNumber;
+
     @Column(unique = true) // Make sure usernames are unique
     private String userName;
 
@@ -59,6 +62,10 @@ public class User implements UserDetails {
     @Lob
     @Column(name = "profile_picture", columnDefinition = "BLOB")
     private byte[] profilePicture;
+
+    @Lob
+    @Column(name = "signature_data", columnDefinition = "BLOB")
+    private byte[] signatureData;    
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -77,12 +84,13 @@ public class User implements UserDetails {
     @JsonIgnore
     private VerificationCodeEntity verificationCodeEntity;
 
-    public User(String email, String userName, String password, String firstName, String lastName, Role role) {
+    public User(String email, String userName, String password, String firstName, String lastName, String phoneNumber, Role role) {
         this.email = email;
         this.userName = userName;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
         this.role = role;
         this.isVerified = false; // Newly registered users are not verified by default
     }

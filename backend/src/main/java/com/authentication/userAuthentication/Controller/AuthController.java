@@ -76,13 +76,19 @@ public ResponseEntity<JwtDto> signUp(@RequestBody @Valid SignUpDto data) {
         if (userRepo.existsByUserName(data.getUserName())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(null); // Username already exists
         }
-    
-        // System.out.println("Received Role: " + data.getRole());
+
+        // Check if the phone number already exists
+        if (userRepo.existsByPhoneNumber(data.getPhoneNumber())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null); // Phone number already exists
+        }
+
         // Perform user registration and get the user details
         System.out.println("Received user data:");
         System.out.println("Email: " + data.getEmail());
         System.out.println("UserName: " + data.getUserName());
+        System.out.println("PhoneNumber: " + data.getPhoneNumber());
         System.out.println("Role: " + data.getRole());
+        
         String accessToken = service.signUp(data);
 
         // Generate and store the verification code
@@ -122,7 +128,8 @@ public ResponseEntity<JwtDto> signIn(@RequestBody @Valid SignInDto data) {
                 user.getUsername(),
                 user.getFirstName(),
                 user.getLastName(),
-                user.getEmail()
+                user.getEmail(),
+                user.getPhoneNumber()
             );
 
             return ResponseEntity.ok(jwtDto);

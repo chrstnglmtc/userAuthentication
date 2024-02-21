@@ -8,9 +8,11 @@ function RegisterForm() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [userName, setUserName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [role, setRole] = useState(''); // Default to 'STUDENT'
   const [error, setError] = useState('');
   const [showError, setShowError] = useState(false);
+  const [phoneNumberError, setPhoneNumberError] = useState('');
   const [verificationCodeSent, setVerificationCodeSent] = useState(false);  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   const navigate = useNavigate();
@@ -29,6 +31,19 @@ function RegisterForm() {
     const isValid = passwordRegex.test(password);
     setError(isValid ? '' : 'Password must be at least 8 characters with at least 1 uppercase, 1 numeric, and 1 symbol.');
     return isValid;
+  };
+
+  const handlePhoneNumberChange = (e) => {
+    const enteredPhoneNumber = e.target.value;
+    setPhoneNumber(enteredPhoneNumber);
+
+    // Validate the phone number format
+    const phoneNumberRegex = /^09\d{9}$/;
+    const isValidPhoneNumber = phoneNumberRegex.test(enteredPhoneNumber);
+
+    setPhoneNumberError(
+      isValidPhoneNumber ? '' : 'Please enter a valid 11-digit phone number starting with "09".'
+    );
   };
 
   const handleRoleChange = (e) => {
@@ -57,14 +72,21 @@ function RegisterForm() {
       console.log('FirstName:', firstName);
       console.log('LastName:', lastName);
       console.log('UserName:', userName);
-      console.log('Role:', mappedRole);
+      console.log('PhoneNumber:', phoneNumber);
 
       const response = await fetch('http://localhost:8085/api/v1/auth/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password, firstName, lastName, userName, role: mappedRole }),
+        body: JSON.stringify({ 
+          email, 
+          password, 
+          firstName, 
+          lastName, 
+          userName, 
+          phoneNumber, 
+          role: mappedRole }),
       });
 
       if (response.ok) {
@@ -214,6 +236,14 @@ function RegisterForm() {
         required
       />
       <input
+        type="tel"
+        id="phoneNumber"
+        value={phoneNumber}
+        onChange={handlePhoneNumberChange}
+        placeholder="Phone Number"
+        required
+      />
+      <input
         type="password"
         id="password"
         value={password}
@@ -226,6 +256,11 @@ function RegisterForm() {
         {showError && (
           <label style={{ color: 'red', fontSize: '15px', fontWeight: '700', transition: 'color 0.3s' }}>
             {error}
+          </label>
+        )}
+        {phoneNumberError && (
+          <label style={{ color: 'red', fontSize: '15px', fontWeight: '700', transition: 'color 0.3s' }}>
+            {phoneNumberError}
           </label>
         )}
       </div>
