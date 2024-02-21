@@ -25,17 +25,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.authentication.userAuthentication.Dto.Request.CheckAvailabilityRequest;
-import com.authentication.userAuthentication.Dto.Request.CheckAvailabilityRequest;
-import com.authentication.userAuthentication.Dto.Request.ForgotPasswordRequest;
 import com.authentication.userAuthentication.Dto.Request.JwtDto;
-import com.authentication.userAuthentication.Dto.Request.ResetPasswordRequest;
 import com.authentication.userAuthentication.Dto.Request.SignInDto;
 import com.authentication.userAuthentication.Dto.Request.SignUpDto;
 import com.authentication.userAuthentication.Dto.Request.UpdateUserDto;
 import com.authentication.userAuthentication.Dto.Request.UserDto;
 import com.authentication.userAuthentication.Entity.EmailDetails;
 import com.authentication.userAuthentication.Entity.User;
-import com.authentication.userAuthentication.Entity.Enums.Role;
 import com.authentication.userAuthentication.Exceptions.InvalidJwtException;
 import com.authentication.userAuthentication.Repo.UserRepo;
 import com.authentication.userAuthentication.Service.AuthService;
@@ -48,6 +44,7 @@ import jakarta.servlet.http.HttpServletRequest;
 @RequestMapping("/api/v1/auth")
 public class AuthController {
 
+    @SuppressWarnings("unused")
     @Autowired
     private AuthenticationManager authenticationManager;
 

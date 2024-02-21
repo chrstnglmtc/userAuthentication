@@ -2,14 +2,9 @@ package com.authentication.userAuthentication.Service.impl;
 
 import com.authentication.userAuthentication.Entity.EmailDetails;
 import com.authentication.userAuthentication.Entity.ForgotCodeEntity;
-import com.authentication.userAuthentication.Entity.ForgotCodeEntity;
 import com.authentication.userAuthentication.Entity.User;
 import com.authentication.userAuthentication.Entity.VerificationCodeEntity;
 import com.authentication.userAuthentication.Exceptions.UserNotFoundException;
-import com.authentication.userAuthentication.Exceptions.VerificationCodeException;
-import com.authentication.userAuthentication.Repo.ForgotCodeRepo;
-import com.authentication.userAuthentication.Exceptions.UserNotFoundException;
-import com.authentication.userAuthentication.Exceptions.VerificationCodeException;
 import com.authentication.userAuthentication.Repo.ForgotCodeRepo;
 import com.authentication.userAuthentication.Repo.UserRepo;
 import com.authentication.userAuthentication.Repo.VerificationCodeRepo;
@@ -455,7 +450,6 @@ public void storeEnteredCode(String verificationCode, String enteredCode) {
 
     @Override
     public void resetPassword(String userEmail, String verificationCode, String newPassword) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'resetPassword'");
     }
 }

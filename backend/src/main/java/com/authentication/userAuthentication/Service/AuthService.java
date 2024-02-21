@@ -1,8 +1,5 @@
 package com.authentication.userAuthentication.Service;
 
-import java.time.Instant;
-import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -10,11 +7,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.authentication.userAuthentication.Dto.Request.SignUpDto;
-import com.authentication.userAuthentication.Entity.ForgotCodeEntity;
 import com.authentication.userAuthentication.Entity.User;
-import com.authentication.userAuthentication.Entity.Enums.Role;
 import com.authentication.userAuthentication.Exceptions.InvalidJwtException;
-import com.authentication.userAuthentication.Exceptions.UserNotFoundException;
 import com.authentication.userAuthentication.Repo.ForgotCodeRepo;
 import com.authentication.userAuthentication.Repo.UserRepo;
 
@@ -27,6 +21,7 @@ public class AuthService implements UserDetailsService {
     @Autowired
     private TokenProvider tokenProvider;
 
+    @SuppressWarnings("unused")
     @Autowired
     private ForgotCodeRepo forgotCodeRepo;
 
