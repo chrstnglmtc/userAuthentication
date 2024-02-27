@@ -138,9 +138,16 @@ public class EmailController {
 
 @PostMapping("/forgot-password")
 public ResponseEntity<String> initiateForgotPassword(@RequestBody ForgotPasswordRequest request) {
-    emailService.initiateForgotPassword(request.getEmail());
-    return ResponseEntity.ok("Reset link sent successfully.");
+    try {
+        emailService.initiateForgotPassword(request.getEmail());
+        return ResponseEntity.ok("Reset link sent successfully.");
+    } catch (UserNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found for email: " + request.getEmail());
+    } catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal server error");
+    }
 }
+
 
   @GetMapping("/verify-forgot-code")
   public ResponseEntity<String> verifyForgotCode(

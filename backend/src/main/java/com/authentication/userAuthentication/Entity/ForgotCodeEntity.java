@@ -20,7 +20,7 @@ public class ForgotCodeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "forgot_code", unique = true)
+    @Column(name = "forgot_code")
     private String forgotCode;
 
     @Column(name = "forgot_expiration_time_in_millis")

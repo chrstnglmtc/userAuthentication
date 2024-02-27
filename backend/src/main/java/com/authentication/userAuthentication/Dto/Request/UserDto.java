@@ -27,6 +27,9 @@ public class UserDto {
     @Email
     private String email;
 
+    @NotEmpty(message = "Phone number should not be empty")
+    private String phoneNumber;
+
     @NotEmpty(message = "Password should not be empty")
     private String password;
 
@@ -35,6 +38,8 @@ public class UserDto {
     private Role role;
 
     private byte[] profilePicture;
+
+    private byte[] signatureData;
 
     private boolean isVerified; // Add the isVerified field
 
@@ -54,6 +59,14 @@ public class UserDto {
         return username;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String setPhoneNumber() {
+        return phoneNumber;
+    }
+    
     public void setUsername(String username) {
         this.username = username;
     }

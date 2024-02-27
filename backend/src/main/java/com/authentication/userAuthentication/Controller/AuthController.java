@@ -25,17 +25,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.authentication.userAuthentication.Dto.Request.CheckAvailabilityRequest;
-import com.authentication.userAuthentication.Dto.Request.CheckAvailabilityRequest;
-import com.authentication.userAuthentication.Dto.Request.ForgotPasswordRequest;
 import com.authentication.userAuthentication.Dto.Request.JwtDto;
-import com.authentication.userAuthentication.Dto.Request.ResetPasswordRequest;
 import com.authentication.userAuthentication.Dto.Request.SignInDto;
 import com.authentication.userAuthentication.Dto.Request.SignUpDto;
 import com.authentication.userAuthentication.Dto.Request.UpdateUserDto;
 import com.authentication.userAuthentication.Dto.Request.UserDto;
 import com.authentication.userAuthentication.Entity.EmailDetails;
 import com.authentication.userAuthentication.Entity.User;
-import com.authentication.userAuthentication.Entity.Enums.Role;
 import com.authentication.userAuthentication.Exceptions.InvalidJwtException;
 import com.authentication.userAuthentication.Repo.UserRepo;
 import com.authentication.userAuthentication.Service.AuthService;
@@ -48,6 +44,7 @@ import jakarta.servlet.http.HttpServletRequest;
 @RequestMapping("/api/v1/auth")
 public class AuthController {
 
+    @SuppressWarnings("unused")
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -79,13 +76,19 @@ public ResponseEntity<JwtDto> signUp(@RequestBody @Valid SignUpDto data) {
         if (userRepo.existsByUserName(data.getUserName())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(null); // Username already exists
         }
-    
-        // System.out.println("Received Role: " + data.getRole());
+
+        // Check if the phone number already exists
+        if (userRepo.existsByPhoneNumber(data.getPhoneNumber())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null); // Phone number already exists
+        }
+
         // Perform user registration and get the user details
         System.out.println("Received user data:");
         System.out.println("Email: " + data.getEmail());
         System.out.println("UserName: " + data.getUserName());
+        System.out.println("PhoneNumber: " + data.getPhoneNumber());
         System.out.println("Role: " + data.getRole());
+        
         String accessToken = service.signUp(data);
 
         // Generate and store the verification code
@@ -125,7 +128,8 @@ public ResponseEntity<JwtDto> signIn(@RequestBody @Valid SignInDto data) {
                 user.getUsername(),
                 user.getFirstName(),
                 user.getLastName(),
-                user.getEmail()
+                user.getEmail(),
+                user.getPhoneNumber()
             );
 
             return ResponseEntity.ok(jwtDto);
