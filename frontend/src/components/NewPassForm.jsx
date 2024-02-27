@@ -26,12 +26,12 @@ function NewPassForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
   
-    // Retrieve email and verification code from local storage
-    const resetEmail = localStorage.getItem('resetEmail');
-    const verificationCode = localStorage.getItem('verificationCode');
+    // Retrieve ForgotEmail and ForgotCode from local storage
+    const forgotEmail = localStorage.getItem('forgotEmail');
+    const forgotCode = localStorage.getItem('forgotCode');
   
     // Perform your form submission here
-    if (newPassword === confirmPassword && newPassword.trim() !== '' && resetEmail && verificationCode) {
+    if (newPassword === confirmPassword && newPassword.trim() !== '') {
       console.log('Password match! Submitting...');
   
       try {
@@ -41,31 +41,29 @@ function NewPassForm() {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            email: resetEmail,
-            code: verificationCode,
-            newPassword,
+            email: forgotEmail,
+            code: forgotCode,
+            newPassword: newPassword,
           }),
         });
   
         if (response.ok) {
-          const result = await response.json();
-          console.log(result);  // Log the result from the server
-  
-          // Clear the items from local storage after successful reset
-          localStorage.removeItem('resetEmail');
-          localStorage.removeItem('verificationCode');
-  
-          // Add logic for handling successful password reset if needed
+          console.log('Password reset successfully.');
+          // Clear local storage after successful password reset
+          localStorage.removeItem('forgotEmail');
+          localStorage.removeItem('forgotCode');
+          // Add your logic for successful password reset, e.g., redirect to login page
         } else {
-          console.error('Failed to reset password');
-          // Add logic for handling failed password reset if needed
+          console.error('Failed to reset password.');
+          // Add your logic for failed password reset
         }
       } catch (error) {
-        console.error('Error during password reset:', error);
-        // Add logic for handling error during password reset if needed
+        console.error('Error resetting password:', error);
+        // Add your logic for handling errors
       }
     } else {
-      console.error('Passwords do not match or are empty, or resetEmail/verificationCode is missing. Please check.');
+      console.error('Passwords do not match or are empty. Please check.');
+      // Add your logic for passwords mismatch or empty fields
     }
   };
   
@@ -85,7 +83,7 @@ function NewPassForm() {
         <label htmlFor="newPassword">
           <i className="fas fa-envelope"></i>
         </label>
-        <div className="pw-input-field">
+        <div className="email-input-field">
           <input
             type={showPassword ? 'text' : 'password'}
             placeholder="Enter New Password here*"
@@ -97,10 +95,10 @@ function NewPassForm() {
             required
           />
           <button type="button" className="toggle-button" onClick={handleTogglePassword}>
-            <i className={showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'}></i>
+            {showPassword ? 'Hide' : 'Show'}
           </button>
         </div>
-        <div className="pw-input-field">
+        <div className="email-input-field">
           <input
             type={showPassword ? 'text' : 'password'}
             placeholder="Confirm New Password*"

@@ -1,46 +1,18 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-function TeamA_ForgotForm() {
+function ForgotForm() {
   const [email, setEmail] = useState('');
   const [resetStatus, setResetStatus] = useState('');
   const [otp, setOtp] = useState('');
   const [verificationAttempted, setVerificationAttempted] = useState(false);
   const [error, setError] = useState('');
   const [emailSubmitted, setEmailSubmitted] = useState(false);
+  const [continueButtonDisabled, setContinueButtonDisabled] = useState(false); // State to track button disabled status
 
   const navigate = useNavigate();
 
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      const checkEmailResponse = await fetch(`http://localhost:8085/api/v1/auth/checkRegisteredEmail?email=${email}`, {
-        method: 'GET',
-      });
-
-      if (checkEmailResponse.ok) {
-        const isEmailRegistered = await checkEmailResponse.json();
-
-        if (isEmailRegistered) {
-          setError('Email is Registered. Please check your Email.');
-          console.log('Email is Registered. Please check your Email.');
-          setEmailSubmitted(true);
-          sendOtp(); // Send OTP once email is verified
-        } else {
-          setError('Email is not registered. Please sign up.');
-          console.log('Email is not registered. Please sign-up.');
-        }
-      } else {
-        setError('Error: Unable to check the email registration status.');
-      }
-    } catch (error) {
-      console.error('Error during email check:', error);
-      setError('Error during email check. Please try again.');
-    }
-  };
-
-  const sendOtp = async () => {
+  const sendForgotCode = async () => {
     try {
       const response = await fetch(`http://localhost:8085/api/v1/auth/forgot-password?email=${email}`, {
         method: 'POST',
@@ -51,35 +23,42 @@ function TeamA_ForgotForm() {
       });
 
       if (response.ok) {
-        setVerificationAttempted('Verification code sent successfully');
-        setError('');
+        console.log('Email is registered. Please check your email.')
+        setEmailSubmitted(true);
       } else {
-        setVerificationAttempted('');
         setError('Failed to send verification code');
+        console.log('Email is invalid. Please Sign-up.')
       }
     } catch (error) {
       console.error('Error sending OTP:', error);
+      setError('Error sending OTP. Please try again.');
     }
   };
 
-  const verifyOtp = async () => {
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+  };
+
+  const verifyOtp = async (otp) => {
     try {
       const response = await fetch(`http://localhost:8085/api/v1/auth/verify-forgot-code?email=${email}&code=${otp}`, {
         method: 'GET',
       });
-
+  
       if (response.ok) {
-        setResetStatus('Verification successful');
         console.log('Verification successful');
+        // Store ForgotCode and ForgotEmail in local storage
+        localStorage.setItem('forgotCode', otp);
+        localStorage.setItem('forgotEmail', email);
         navigate('/new');
         setError('');
       } else {
-        setResetStatus('');
         console.log('Verification not successful');
         setError('OTP Code Invalid');
       }
     } catch (error) {
       console.error('Error verifying OTP:', error);
+      setError('Error verifying OTP. Please try again.');
     }
   };
 
@@ -108,7 +87,7 @@ function TeamA_ForgotForm() {
                   onChange={(e) => setOtp(e.target.value)}
                 />
               </div>
-              <button className="TeamA-button" onClick={verifyOtp}>
+              <button className="TeamA-button" onClick={() => verifyOtp(otp)}>
                 Verify
               </button>
             </>
@@ -128,7 +107,7 @@ function TeamA_ForgotForm() {
                 <p className="error-message">{error}</p>
               )}
               </div>
-              <button className="TeamA-button" onClick={handleFormSubmit}>
+              <button className="TeamA-button" onClick={sendForgotCode}>
                 Continue
               </button>
             </>
@@ -143,4 +122,8 @@ function TeamA_ForgotForm() {
   );
 }
 
-export default TeamA_ForgotForm;
+export default ForgotForm;
+
+
+
+
