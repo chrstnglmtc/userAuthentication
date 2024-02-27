@@ -1,5 +1,6 @@
 package com.authentication.userAuthentication.Entity;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -73,6 +74,15 @@ public class User implements UserDetails {
     @Column(name = "is_verified")
     private boolean isVerified;
 
+    @Column(name = "failed_login_attempts")
+    private int failedLoginAttempts;
+
+    @Column(name = "last_failed_login")
+    private LocalDateTime lastFailedLogin;
+
+    @Column(name = "account_locked_until")
+    private LocalDateTime accountLockedUntil;
+
     @Transient // Mark the field as transient to exclude it from database mapping
     private String imageType;
 
@@ -121,8 +131,9 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return accountLockedUntil == null || LocalDateTime.now().isAfter(accountLockedUntil);
     }
+    
 
     @Override
     public boolean isCredentialsNonExpired() {
