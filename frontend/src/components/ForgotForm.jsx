@@ -23,11 +23,12 @@ function ForgotForm() {
       });
 
       if (response.ok) {
-        console.log('Email is registered. Please check your email.')
+        console.log('Email is registered. Please check your email.');
         setEmailSubmitted(true);
       } else {
-        setError('Failed to send verification code');
-        console.log('Email is invalid. Please Sign-up.')
+        const responseData = await response.json();
+        setError(responseData.message || 'Failed to send verification code');
+        console.log('Email is invalid. Please Sign-up.');
       }
     } catch (error) {
       console.error('Error sending OTP:', error);
@@ -53,15 +54,16 @@ function ForgotForm() {
         navigate('/new');
         setError('');
       } else {
+        const responseData = await response.json();
         console.log('Verification not successful');
-        setError('OTP Code Invalid');
+        setError(responseData.message);
       }
     } catch (error) {
       console.error('Error verifying OTP:', error);
       setError('Error verifying OTP. Please try again.');
     }
   };
-
+  
   return (
     <div className="forgot-container">
       <div className="template-form-container">

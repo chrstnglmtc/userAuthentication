@@ -162,11 +162,15 @@ public ResponseEntity<String> initiateForgotPassword(@RequestBody ForgotPassword
 
   @PostMapping("/reset-password")
   public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequest request) {
-      emailService.resetPassword(request.getEmail(), request.getCode(), request.getNewPassword());
-      String hashedPassword = passwordEncoder.encode(request.getNewPassword());
-      emailService.updatePassword(request.getEmail(), hashedPassword);
-      return ResponseEntity.ok("Password reset successfully.");
-  }
-  
-  
+      try {
+          emailService.resetPassword(request.getEmail(), request.getCode(), request.getNewPassword());
+          String hashedPassword = passwordEncoder.encode(request.getNewPassword());
+          emailService.updatePassword(request.getEmail(), hashedPassword);
+          return ResponseEntity.ok("Password reset successfully.");
+      } catch (Exception e) {
+          // Log the exception
+          e.printStackTrace();
+          return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to reset password.");
+      }
+    }
 }

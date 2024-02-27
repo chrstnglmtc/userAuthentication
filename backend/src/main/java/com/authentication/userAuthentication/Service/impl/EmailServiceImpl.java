@@ -5,6 +5,7 @@ import com.authentication.userAuthentication.Entity.ForgotCodeEntity;
 import com.authentication.userAuthentication.Entity.User;
 import com.authentication.userAuthentication.Entity.VerificationCodeEntity;
 import com.authentication.userAuthentication.Exceptions.UserNotFoundException;
+import com.authentication.userAuthentication.Exceptions.VerificationCodeException;
 import com.authentication.userAuthentication.Repo.ForgotCodeRepo;
 import com.authentication.userAuthentication.Repo.UserRepo;
 import com.authentication.userAuthentication.Repo.VerificationCodeRepo;
@@ -448,8 +449,30 @@ public void storeEnteredCode(String verificationCode, String enteredCode) {
         }
     }
 
-    @Override
-    public void resetPassword(String userEmail, String verificationCode, String newPassword) {
-        throw new UnsupportedOperationException("Unimplemented method 'resetPassword'");
+@Override
+@Transactional
+public void resetPassword(String userEmail, String verificationCode, String newPassword) {
+    // Find the user by email
+    User user = userRepo.findByEmail(userEmail);
+
+    if (user != null) {
+        // Find the VerificationCodeEntity associated with the user ID and the provided verification code
+        Optional<VerificationCodeEntity> verificationCodeOptional = verificationCodeRepo.findByUserEmail(userEmail);
+        if (verificationCodeOptional.isPresent()) {
+            // Verification code is valid, update the user's password
+            user.setPassword(newPassword);
+            userRepo.save(user);
+
+            // Optionally, you may want to delete the used verification code from the database
+            verificationCodeRepo.delete(verificationCodeOptional.get());
+        } else {
+            // Handle the case where the verification code is invalid
+            throw new VerificationCodeException("Invalid verification code");
+        }
+    } else {
+        // Handle the case where the user is not found
+        throw new UserNotFoundException("User not found for email: " + userEmail);
     }
+}
+
 }

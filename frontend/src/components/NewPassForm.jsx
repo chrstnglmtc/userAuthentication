@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
+
 function NewPassForm() {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -25,15 +26,15 @@ function NewPassForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     // Retrieve ForgotEmail and ForgotCode from local storage
     const forgotEmail = localStorage.getItem('forgotEmail');
     const forgotCode = localStorage.getItem('forgotCode');
-  
+
     // Perform your form submission here
     if (newPassword === confirmPassword && newPassword.trim() !== '') {
       console.log('Password match! Submitting...');
-  
+
       try {
         const response = await fetch('http://localhost:8085/api/v1/auth/reset-password', {
           method: 'POST',
@@ -46,7 +47,7 @@ function NewPassForm() {
             newPassword: newPassword,
           }),
         });
-  
+
         if (response.ok) {
           console.log('Password reset successfully.');
           // Clear local storage after successful password reset
@@ -66,8 +67,6 @@ function NewPassForm() {
       // Add your logic for passwords mismatch or empty fields
     }
   };
-  
-
   return (
     <div className="email-forms-container" style={{ fontFamily: 'sans-serif' }}>
       <form className="template-form" onSubmit={handleSubmit}>
