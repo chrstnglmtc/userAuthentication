@@ -9,6 +9,9 @@ function ForgotForm() {
   const [error, setError] = useState('');
   const [emailSubmitted, setEmailSubmitted] = useState(false);
   const [continueButtonDisabled, setContinueButtonDisabled] = useState(false); // State to track button disabled status
+  const [resendStatus, setResendStatus] = useState('');
+  const [resending, setResending] = useState(false);
+
 
   const navigate = useNavigate();
 
@@ -40,6 +43,30 @@ function ForgotForm() {
     e.preventDefault();
   };
 
+  const resendForgotCode = async () => {
+    try {
+      const response = await fetch(`http://localhost:8085/api/v1/auth/resendCode`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      if (response.ok) {
+        console.log('Resent verification code. Please check your email.');
+        setError(''); // Clear previous errors when successfully resending code
+      } else {
+        const responseData = await response.json();
+        setError(responseData.message || 'Failed to resend verification code');
+      }
+    } catch (error) {
+      console.error('Error resending verification code:', error);
+      setError('Error resending verification code. Please try again.');
+    }
+  };
+
+
   const verifyOtp = async (otp) => {
     try {
       const response = await fetch(`http://localhost:8085/api/v1/auth/verify-forgot-code?email=${email}&code=${otp}`, {
@@ -61,6 +88,12 @@ function ForgotForm() {
     } catch (error) {
       console.error('Error verifying OTP:', error);
       setError('Error verifying OTP. Please try again.');
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleFormSubmit(e);
     }
   };
   
@@ -87,11 +120,13 @@ function ForgotForm() {
                   placeholder="Enter OTP code"
                   value={otp}
                   onChange={(e) => setOtp(e.target.value)}
+                  onKeyPress={handleKeyPress} 
                 />
               </div>
               <button className="TeamA-button" onClick={() => verifyOtp(otp)}>
                 Verify
               </button>
+              {resendStatus && <p className="error-message">{resendStatus}</p>}
             </>
           ) : (
             <>
@@ -104,14 +139,23 @@ function ForgotForm() {
                   placeholder="Email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  onKeyPress={handleKeyPress} 
                 />
-              {error && (
-                <p className="error-message">{error}</p>
-              )}
+                {error && (
+                  <p className="error-message">{error}</p>
+                )}
               </div>
               <button className="TeamA-button" onClick={sendForgotCode}>
                 Continue
               </button>
+              {resendStatus && <p className="error-message">{resendStatus}</p>}
+              <p>
+                {resending ? 'Resending verification code...' : (
+                  <a href="#" className="resend-link" onClick={resendForgotCode}>
+                    Resend Code
+                  </a>
+                )}
+              </p>
             </>
           )}
         </form>

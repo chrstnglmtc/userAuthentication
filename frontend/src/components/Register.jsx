@@ -3,7 +3,7 @@ import RegisterForm from './RegisterForm';
 import { Link } from "react-router-dom";
 import '../Auth.css';
 
-function Register({ onNavigateHome }) {
+function Register({ openLoginModal, closeRegisterModal }) {
 
   return (
     
@@ -16,7 +16,7 @@ function Register({ onNavigateHome }) {
      
       <div className="auth-content">
         <div className="auth-sign">
-          <RegisterForm />
+        <RegisterForm openLoginModal={openLoginModal} closeRegisterModal={closeRegisterModal}/>
         </div>
       </div>
       </div>

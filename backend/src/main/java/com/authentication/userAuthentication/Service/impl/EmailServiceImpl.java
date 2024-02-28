@@ -315,6 +315,7 @@ public void storeEnteredCode(String verificationCode, String enteredCode) {
         return System.currentTimeMillis() + (24 * 60 * 60 * 1000); // Example: expiration time is 24 hours from now
     }
 
+    private static final long FORGOT_CODE_EXPIRATION_TIME_MILLIS = 30 * 60 * 1000;    
     
     @Override
     @Transactional
@@ -330,7 +331,7 @@ public void storeEnteredCode(String verificationCode, String enteredCode) {
         Optional<ForgotCodeEntity> existingForgotCode = forgotCodeRepo.findByUser(user);
 
         String forgotCode;
-        long forgotExpirationTimeInMillis; // Declare it here
+        long forgotExpirationTimeInMillis = FORGOT_CODE_EXPIRATION_TIME_MILLIS; // Declare it here
 
         if (existingForgotCode.isPresent()) {
             // Use the existing forgot code from memory
@@ -406,32 +407,39 @@ public void storeEnteredCode(String verificationCode, String enteredCode) {
 
         return false;
     }
-    
-   /*  @Override
+
+    @Override
     @Transactional
-    public void resetPassword(String userEmail, String forgotCode, String newPassword) {
-        // Find the user by email
+    public String resendForgotCode(String userEmail) {
         User user = userRepo.findByEmail(userEmail);
     
         if (user != null) {
-            // Find the ForgotCodeEntity associated with the user ID and the provided forgot code
-            Optional<ForgotCodeEntity> forgotCodeOptional = forgotCodeRepo.findByUserEmail(userEmail);
-            if (forgotCodeOptional.isPresent()) {
-                // Forgot code is valid, update the user's password
-                user.setPassword(newPassword);
-                userRepo.save(user);
+            // Check if there's an existing forgot code
+            Optional<ForgotCodeEntity> existingForgotCode = forgotCodeRepo.findByUser(user);
     
-                // Optionally, you may want to delete the used forgot code from the database
-                forgotCodeRepo.delete(forgotCodeOptional.get());
+            if (existingForgotCode.isPresent()) {
+                // Use the existing forgot code and update its expiration time
+                ForgotCodeEntity forgotCodeEntity = existingForgotCode.get();
+                forgotCodeEntity.setForgotExpirationTimeInMillis(getDefaultForgotCodeExpirationTimeInMillis());
+                forgotCodeRepo.save(forgotCodeEntity);
+    
+                // You can send the code by email or any other communication method
+                return forgotCodeEntity.getForgotCode();
             } else {
-                // Handle the case where the forgot code is invalid
-                throw new VerificationCodeException("Invalid forgot code");
+                // Generate a new forgot code and store it
+                String generatedCode = generateForgotCode();
+                long expirationTimeInMillis = FORGOT_CODE_EXPIRATION_TIME_MILLIS;
+    
+                ForgotCodeEntity newForgotCodeEntity = new ForgotCodeEntity(user, generatedCode, expirationTimeInMillis);
+                forgotCodeRepo.save(newForgotCodeEntity);
+    
+                // You can send the code by email or any other communication method
+                return generatedCode;
             }
         } else {
-            // Handle the case where the user is not found
             throw new UserNotFoundException("User not found for email: " + userEmail);
         }
-    }*/
+    }
     
     @Override
     @Transactional

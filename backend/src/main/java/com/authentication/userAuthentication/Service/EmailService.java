@@ -59,6 +59,8 @@ public interface EmailService {
 
     void updatePassword(String userEmail, String newPassword);
 
+    String resendForgotCode(String userEmail);
+
     void updateForgotCode(User user, String newForgotCode, Long forgotExpirationTimeInMillis);
 
 

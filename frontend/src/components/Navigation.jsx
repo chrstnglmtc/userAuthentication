@@ -76,7 +76,7 @@ const Navigation = () => {
               Register
             </button>
             <CustomModal show={registerModalIsOpen} handleClose={closeRegisterModal}>
-              <Register />
+              <Register openLoginModal={openLoginModal} closeRegisterModal={closeRegisterModal}/> {/* Pass openLoginModal function */}
             </CustomModal>
           </>
         )}

@@ -1,8 +1,7 @@
-/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-function RegisterForm() {
+function RegisterForm({ openLoginModal, closeRegisterModal }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState('');
@@ -13,7 +12,8 @@ function RegisterForm() {
   const [error, setError] = useState('');
   const [showError, setShowError] = useState(false);
   const [phoneNumberError, setPhoneNumberError] = useState('');
-  const [verificationCodeSent, setVerificationCodeSent] = useState(false);  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [verificationCodeSent, setVerificationCodeSent] = useState(false);  
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   const navigate = useNavigate();
 
@@ -267,11 +267,12 @@ function RegisterForm() {
       <div>
         <h3 style={{ fontSize: '15px' }}>By clicking Sign up you agree to our Terms of Use and our Privacy Policy.</h3>
       </div>
-      <Link to="/login">
-        <div className="existing-account">
-          Already have an account?
-        </div>
-      </Link>
+      <div className="existing-account" onClick={() => {
+          openLoginModal(); // Open login modal
+          closeRegisterModal(); // Close register modal
+        }}> {/* Using openLoginModal function */}
+        Already have an account?
+      </div>
       <button className="TeamA-button" style={{ backgroundColor: '#126912' }}>Sign Up</button>
     </form>
     {showSuccessMessage && (
